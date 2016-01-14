@@ -1,0 +1,47 @@
+DOEL: Composable User Interfaces
+--------------------------------
+
+Interface beschrijvingen zijn templates in JSON-formaat.
+Templates worden on-demand geladen door de template registry.
+
+Views zijn **composable**. Om dit te bereiken kunnen subtemplates
+worden geladen met keyword "include" De werking van een (sub)view
+hangt niet af van de manier waarop deze geladen is: het maakt voor
+een adres-view niet uit of deze onderdeel uitmaakt van een patiënt-
+of een verzekeraarscherm.
+
+Elke view wordt bestuurd door een controller. Controllers kunnen
+subcontrollers hebben om composable views mogelijk te maken.
+
+Views zijn **extendable**. Met het keyword "extend" kan een
+template aangeven welke template moet worden uitgebreid
+en voor (keyword "before") of na (keyword "after") welk element
+het moet worden ingevoegd.
+
+Views zijn **modifiable**. Met het keyword "modify" kan een
+template aangeven welke template gewijzigd moet worden.
+
+Klassen
+-------
+
+Registry
+- Verzorgt het laden van templates. Bevat de logica voor
+    "include", "extend" en "modify".
+
+View
+- Metaclass. Definieert de interface voor view implementaties
+    (wx, qt, ...)
+
+Template
+- Representatie van een template
+
+Controller
+- De logica van een view; handelt berichten af en verzorgt
+    het laden van een view.
+
+Binder
+- Koppeling tussen template en view. Weet hoe een view moet
+  worden geladen met data op basis van een template
+  en met behulp van een Loader
+  Subklassen:
+  - SQLBinder

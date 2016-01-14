@@ -1,0 +1,15 @@
+{
+  "kind": "CONTAINER",
+  "name": "meting",
+  "title": "Meting",
+  "orientation": "VERTICAL",
+  "display": "INLINE",
+  "background_colour": "#d6bfcf",
+  "items": [
+    {
+      "kind": "TEXT",
+      "name": "datum",
+      "title": "Datum meting"
+    }
+  ]
+}

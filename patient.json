@@ -1,0 +1,83 @@
+{
+  "kind": "CONTAINER",
+  "name": "patient",
+  "title": "patient {key}",
+  "orientation": "VERTICAL",
+  "display": "INLINE",
+  "background_colour": "#e6e5a8",
+  "items": [
+    {
+      "kind": "TEXT",
+      "name": "naam",
+      "title": "Naam",
+      "value": ""
+    },
+    {
+      "kind": "TEXT",
+      "name": "voornaam",
+      "title": "Voornaam"
+    },
+    {
+      "kind": "LABEL",
+      "name": "opmerkingen",
+      "title": "Opmerkingen"
+    },
+    {
+      "kind": "CONTAINER",
+      "orientation": "HORIZONTAL",
+      "display": "INLINE",
+      "items": [
+        {
+          "kind": "TEXT",
+          "name": "postcode",
+          "title": "Postcode"
+        },
+        {
+          "kind": "TEXT",
+          "name": "woonplaats",
+          "title": "Woonplaats"
+        }
+      ]
+    },
+    {
+      "kind": "BUTTON",
+      "name": "opslaan",
+      "title": "Opslaan"
+    },
+    {
+      "kind": "CONTAINER",
+      "name": "behandelingen",
+      "title": "Zorgtraject",
+      "orientation": "VERTICAL",
+      "display": "RIGHT",
+      "background_colour": "#c8e6be",
+      "items": [
+        {
+          "kind": "TEXT",
+          "name": "verwijzer",
+          "title": "Verwijzer"
+        },
+        {
+          "kind": "CONTAINER",
+          "name": "behandeldagen",
+          "title": "Bezoek",
+          "orientation": "VERTICAL",
+          "display": "RIGHT",
+          "background_colour": "#d6bfcf",
+          "items": [
+            {
+              "kind": "TEXT",
+              "name": "datum",
+              "title": "Datum"
+            }
+          ]
+        },
+        {
+          "include": "meting",
+          "name": "metingen",
+          "display": "RIGHT"
+        }
+      ]
+    }
+  ]
+}
