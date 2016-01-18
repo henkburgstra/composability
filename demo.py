@@ -1,6 +1,8 @@
-import copy
 import wx
-from view import Controller, Loader, Binder, SQLBinder, Registry
+from .controller import Controller
+from .loader import Loader
+from .binder import Binder, SQLBinder
+from .registry import Registry
 from wx_view import BoxPanel
 
 
