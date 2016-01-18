@@ -1,6 +1,9 @@
 import abc
 
 class View(object):
+    """
+    View defines the interface for View classes.
+    """
     __metaclass__ = abc.ABCMeta
 
     # def on_change(self):
