@@ -1,9 +1,9 @@
 import wx
-from .controller import Controller
-from .loader import Loader
-from .binder import Binder, SQLBinder
-from .registry import Registry
-from wx_view import BoxPanel
+from composability.controller import Controller
+from composability.loader import Loader
+from composability.binder import Binder, SQLBinder
+from composability.registry import Registry
+from composability.wx_view import BoxPanel
 
 
 class PatientBinder(SQLBinder):
@@ -98,7 +98,7 @@ class TestBinder(Binder):
 
 
 if __name__ == "__main__":
-    from view import Or, Select
+    from composability.view import Or, Select
     view_registry = Registry("d:/projecten/python/validaties")
     app = wx.App(redirect=False)
     frame = wx.Frame(None, title="Template Test", size=(600, 400))

@@ -6,9 +6,11 @@ class Binder(object):
     def load(self, template, selection=None, path=None, data=None):
         if path is None:
             path = template.name
-        t = copy.copy(template)
         if data is None:
+            t= copy.copy(template)
             data = self.load_item(t, path, selection)
+        else:
+            t = template
 
         items = copy.copy(t.items)
         t.clear()
