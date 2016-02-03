@@ -3,31 +3,21 @@ import copy
 from template import Template
 
 class Binder(object):
-    def load(self, template, selection=None, path=None, data=None):
-        if path is None:
-            path = template.name
-        t = copy.copy(template)
-        if data is None:
-            data = self.load_item(t, path, selection)
 
-        items = copy.copy(t.items)
-        t.clear()
-        for item in items:
-            if item.kind == template.VK_CONTAINER:
-                if not item.name:
-                    # visuele groepering, niet een subtemplate
-                    item = self.load(item, selection=selection, path=path, data=data)
-                else:
-                    item = self.load(item, None, "%s/%s" % (t.name, item.name))
-            else:
-                item.value = data.get(item.name)
-            t.add(item)
-        return t
+    def __init__(self, template, loader):
+        self.template = template
+        self.loader = loader
+        self.loader.set_name(self.template.name)
+        self.loader.set_fields(self.get_fields(self.template))
+        self.selection = None       #  Select or Connective instance
 
-    def load_item(self, template, path, selection):
-        return {}
+    def select(self, selection):
+        self.selection = selection     #  Select or Connective instance
+        self.loader.select(selection)
 
-
+    def load(self):
+        self.loader.load()
+        return self.get(copy.copy(self.template), loader=self.loader)
 
     def get_visual_container(self, template, parent=None, data=None):
         for item in template.items:

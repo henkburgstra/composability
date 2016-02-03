@@ -1,74 +1,103 @@
 import copy
 
-from template import Template
+class Template(object):
+    # view kinds
+    VK_UNDEFINED = "UNDEFINED"
+    VK_CONTAINER = "CONTAINER"
+    VK_LABEL = "LABEL"
+    VK_HYPERLINK = "HYPERLINK"
+    VK_TEXT = "TEXT"
+    VK_BUTTON = "BUTTON"
 
-class Binder(object):
-    def load(self, template, selection=None, path=None, data=None):
-        if path is None:
-            path = template.name
-        t = copy.copy(template)
-        if data is None:
-            data = self.load_item(t, path, selection)
+    DISP_GROUP = "GROUP"
+    DISP_INLINE = "INLINE"
+    DISP_UNDER = "UNDER"
+    DISP_RIGHT = "RIGHT"
 
-        items = copy.copy(t.items)
-        t.clear()
-        for item in items:
-            if item.kind == template.VK_CONTAINER:
-                if not item.name:
-                    # visuele groepering, niet een subtemplate
-                    item = self.load(item, selection=selection, path=path, data=data)
-                else:
-                    item = self.load(item, None, "%s/%s" % (t.name, item.name))
-            else:
-                item.value = data.get(item.name)
-            t.add(item)
-        return t
+    ORI_HORIZONTAL = "HORIZONTAL"
+    ORI_VERTICAL = "VERTICAL"
 
-    def load_item(self, template, path, selection):
-        return {}
+    def __init__(self, kind, name, value=None, title="", orientation=None, display=None,
+                 background_colour=None):
+        self.parent = None
+        self.kind = kind
+        self.name = name
+        self.value = value
+        self.title = title
+        self.visible = True
+        self.orientation = Template.ORI_HORIZONTAL if orientation is None else orientation
+        self.display = Template.DISP_INLINE if display is None else display
+        self.background_colour = background_colour
+        self.items = []  #  child views
+        self.items_dict = {}
 
+    def __str__(self):
+        return "%s: %s <%s>" % (self.kind, self.name, "Empty" if self.value == "" else self.value)
 
+    def add(self, template):
+        if template.background_colour is None:
+            template.background_colour = self.background_colour
+        template.parent = self
+        self.items += [template]
+        self.items_dict[template.name] = template
 
-    def get_visual_container(self, template, parent=None, data=None):
-        for item in template.items:
+    def delete(self, template):
+        if template.name in self.items_dict.keys():
+            del self.items_dict[template.name]
+            self.items.remove(template)
+
+    def clear(self):
+        self.items = []
+        self.items_dict = []
+
+    def set_orientation(self, orientation):
+        self.orientation = orientation
+
+    def load(self):
+        self.loader.load()
+        return self.get(copy.copy(self.template), loader=self.loader)
+
+    def get_visual_container(self, parent=None, data=None):
+        for item in self.items:
             if item.kind == Template.VK_CONTAINER and not item.name:
                 item_data = data
             else:
                 item_data = data.get(item.name.split("/").pop())
             self.get(item, parent=parent, loader=item_data)
 
-    def get_template_container(self, template, parent=None, data=None):
+    def get_template_container(self, parent=None, data=None):
         for item_data in data.get("items", []):
-            template_item = copy.deepcopy(template)
+            template_item = copy.deepcopy(self)
             self.get(template_item, parent=parent, loader=item_data)
             if template_item is not None:
                 parent.add(template_item)
         #parent.delete(template)
-        template.visible = False  # template  blijft in het model vanwege relatie-eigenschappen zoals start, limit...
+        self.visible = False  # template  blijft in het model vanwege relatie-eigenschappen zoals start, limit...
         return parent
 
-    def get_container(self, template, parent=None, data=None):
-        for item in copy.copy(template.items):
+    def get_container(self, parent=None, data=None):
+        for item in copy.copy(self.items):
             if item.kind == Template.VK_CONTAINER and not item.name:
                 item_data = data
             else:
                 item_name = item.name.split("/").pop()
                 item_data = data.get(item_name)
-            self.get(item, parent=template, loader=item_data)
-        return template
+            self.get(item, parent=self, loader=item_data)
+        return self # TODO: ????
 
-    def get(self, template, parent=None, loader=None):
+    def get(self, parent=None, loader=None):
         #  Er is altijd een hoofd entiteit met een natuurlijke key. Bij de fiatteer widget
         #  is de medewerker de hoofd entiteit met daaraan gekoppeld de behandeldagen / verrichtingen
         #  die gefiatteerd moeten worden.
-        if template.kind == Template.VK_CONTAINER:
+        template = self
+        if self.kind == Template.VK_CONTAINER:
             if loader is None:
                 template = None
             #  Er zijn drie soorten containers:
             #  (1) Container zonder naam. Dit zijn visueel gegroepeerde velden van dezelfde
             #      entiteit als de parent.
-            elif not template.name:
-                template = self.get_visual_container(template, parent=parent, data=loader)
+            elif not self.name:
+                template = self.get_visual_container(self, parent=parent, data=loader)
             #  (2) Container met key. Dit is een enkel item uit een relatie, bijvoorbeeld
             #      patient(1)/behandelingen(1)
             elif loader.get("key"):
@@ -106,40 +135,3 @@ class Binder(object):
                     fields += [item.name] # TODO virtuele velden etc. uitsluiten
 
         return fields
-
-class SQLBinder(Binder):
-    def __init__(self, template):
-        super(SQLBinder, self).__init__(template)
-        self.sql = None
-
-    def get_fields(self, template):
-        fields = []
-        for item in template.items:
-            if item.kind == Template.VK_CONTAINER:
-                # container is een visuele groep, velden doen mee voor deze tabel.
-                if not item.name:
-                    fields += self.get_fields(item)
-            else:
-                if item.kind not in (Template.VK_BUTTON,):
-                    fields += [item.name] # TODO virtuele velden etc. uitsluiten
-
-        return fields
-
-    def create_sql(self, template):
-        table = template.name
-        fields = self.get_fields(template)
-        if self.selection:
-            where = "WHERE %s" % str(self.selection)
-        else:
-            where = ""
-        sql = """SELECT %s
-        FROM %s
-        %s
-        """ % (", ".join(fields), table, where)
-        return sql
-
-    def get_data(self):
-        if self.sql is None:
-            self.sql = self.create_sql(self.template)
-        print(self.sql)
-

@@ -46,7 +46,7 @@ class Template(object):
 
     def clear(self):
         self.items = []
-        self.items_dict = []
+        self.items_dict = {}
 
     def set_orientation(self, orientation):
         self.orientation = orientation

@@ -26,6 +26,7 @@
       "kind": "CONTAINER",
       "orientation": "HORIZONTAL",
       "display": "INLINE",
+      "title": "Adres",
       "items": [
         {
           "kind": "TEXT",

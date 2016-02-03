@@ -74,7 +74,7 @@ class Registry(object):
         return template
 
     def load_template(self, name):
-        with open(os.path.join(self.def_path, "%s.json" % name), "rb") as f:
+        with open(os.path.join(self.def_path, "%s.json" % name), "r") as f:
             d = json.load(f)
             template = self.load_def_item(d)
         return template
