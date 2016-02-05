@@ -1,30 +1,58 @@
 import copy
 
-from template import Template
+from .template import Template
 
 class Binder(object):
-    def load(self, template, selection=None, path=None, data=None):
-        if path is None:
-            path = template.name
+    def __init__(self, template):
+        self.template = template
+        self.selection = None
+
+    def load(self):
+        t = self.load_template(self.template, selection=self.selection, data=None)
+        return t
+
+    def load_template(self, template, selection=None, data=None, anonymous=False):
         if data is None:
-            t= copy.copy(template)
-            data = self.load_item(t, path, selection)
+            t = copy.copy(template)
+            data = self.load_data(template, selection=selection)
+            t.name = "%s(%s)" % (t.name, data.get("key", "x"))  # TODO: uuid i.p.v. x
         else:
             t = template
 
         items = copy.copy(t.items)
         t.clear()
-        for item in items:
-            if item.kind == template.VK_CONTAINER:
-                if not item.name:
-                    # visuele groepering, niet een subtemplate
-                    item = self.load(item, selection=selection, path=path, data=data)
-                else:
-                    item = self.load(item, None, "%s/%s" % (t.name, item.name))
-            else:
-                item.value = data.get(item.name)
-            t.add(item)
+        self.load_template_items(t, items, selection=selection, data=data)
+        if anonymous:
+            t.name = "anon_"  # TODO: +uuid
         return t
+
+    def load_template_items(self, template, items, selection=None, data=None):
+        for item in items:
+            item_t = copy.copy(item)
+            if item_t.kind == Template.VK_CONTAINER:
+                if item_t.name:
+                    data_items = self.load_relationship_data(item_t, data)
+                    for data_item in data_items:
+                        item_t_copy = copy.copy(item_t)
+                        item_t_copy.name = "%s/%s(%s)" % (template.name, item_t_copy.name, data_item.get("key", "x")) # TODO: uuid
+                        rel_t = self.load_template(item_t_copy, data=data_item)
+                        template.add(rel_t)
+                    continue
+                else:
+                    item_t.name = template.name
+                    item_t = self.load_template(item_t, selection=selection, data=data, anonymous=True)
+            else:
+                item_t.value = data.get(item_t.name)
+            item_t.name = "%s/%s" % (template.name, item_t.name)
+            template.add(item_t)
+
+
+    def load_data(self, template, selection=None):
+        return {}
+
+    def load_relationship_data(self, template, parent_data):
+        return []
+
 
     def load_item(self, template, path, selection):
         return {}

@@ -7,6 +7,7 @@ class MockPatientBinder(Binder):
         super(MockPatientBinder, self).load_item(template, path, selection)
         if path == "patient":
             return dict(
+                key="1",
                 naam="Burgstra",
                 voornaam="Henk",
                 opmerkingen="Geen",

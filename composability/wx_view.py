@@ -2,7 +2,8 @@
 #  -*- coding: utf-8 -*-
 
 import wx
-from view import Message, Template
+from composability.template import Template
+from composability.controller import Message
 
 class ItemPanel(wx.Panel):
     def __init__(self, parent):
@@ -205,7 +206,8 @@ class BoxPanel(WxView):
         else:
             return  #  TODO: exception
         wx_view = None
-        label = wx.StaticText(panel, wx.ID_ANY, template.title, name=template.name)
+        if template.kind not in [Template.VK_BUTTON]:
+            label = wx.StaticText(panel, wx.ID_ANY, template.title, name=template.name)
         if template.kind == Template.VK_LABEL:
             panel.add(label, colspan=2)
         elif template.kind == Template.VK_BUTTON:

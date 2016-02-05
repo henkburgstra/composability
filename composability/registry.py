@@ -2,7 +2,7 @@ import copy
 import json
 import os
 
-from template import Template
+from .template import Template
 
 class Registry(object):
     def __init__(self, def_path):
