@@ -1,5 +1,6 @@
 import wx
 from composability.binder import Binder
+from composability.controller import Controller
 from composability.registry import Registry
 from composability.select import Or, Select
 from composability.template import Template
@@ -26,6 +27,13 @@ class MockPatientBinder(Binder):
         return []
 
 
+class PatientController(Controller):
+    def view_left_clicked(self, src, msg):
+        value = msg.data["view"].get_value("patient(1)/behandelingen(2)/behandeldagen(1)/datum")
+        print(value)
+        msg.data["view"].set_value("patient(1)/behandelingen(2)/behandeldagen(1)/datum", "05-02-2016")
+
+
 r = Registry(".")
 b = MockPatientBinder(r.load_template("patient"))
 t = b.load()
@@ -35,9 +43,10 @@ sizer = wx.BoxSizer()
 frame.SetSizer(sizer)
 # ---
 view = BoxPanel(frame, name="patient")
-view.set_template(t)
-view.render()
+controller = PatientController(view, b)
+controller.load_view()
+# view.set_template(t)
+# view.render()
 sizer.Add(view)
 frame.Show()
-#view.set_value("patient(1)/behandelingen(1)/begin", "11-11-2011")
 app.MainLoop()
