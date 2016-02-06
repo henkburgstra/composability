@@ -41,7 +41,47 @@ Controller
 
 Binder
 - Koppeling tussen template en view. Weet hoe een view moet
-  worden geladen met data op basis van een template
-  en met behulp van een Loader
+  worden geladen met data op basis van een template.
   Subklassen:
   - SQLBinder
+
+We gaan van:
+{
+    kind: CONTAINER
+    name: patient
+    items: [
+        {
+            kind: CONTAINER,
+            name: behandelingen,
+            items: [
+                {
+                    kind: DATE,
+                    name: begin
+                },
+                {
+                    kind: DATE,
+                    name: eind
+                }
+            ]
+        }
+}
+naar:
+{
+    kind: CONTAINER
+    name: patient(ACH-013434)
+    items: [
+        {
+            kind: CONTAINER,
+            name: patient(ACH-013434)/behandelingen(2),
+            items: [
+                {
+                    kind: DATE,
+                    name: begin
+                },
+                {
+                    kind: DATE,
+                    name: eind
+                }
+            ]
+        }
+}
