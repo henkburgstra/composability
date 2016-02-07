@@ -79,6 +79,21 @@
           "display": "RIGHT"
         }
       ]
+    },
+    {
+      "kind": "CONTAINER",
+      "name": "pager",
+      "title": "Pager",
+      "orientation": "VERTICAL",
+      "display": "RIGHT",
+      "background_colour": "#ffffff",
+      "items": [
+        {
+          "kind": "BUTTON",
+          "name": "bijladen",
+          "title": "Bijladen"
+        }
+      ]
     }
   ]
 }

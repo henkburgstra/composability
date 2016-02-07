@@ -2,6 +2,7 @@ import wx
 from composability.binder import Binder
 from composability.controller import Controller
 from composability.registry import Registry
+from composability.util import strip_key
 from composability.select import Or, Select
 from composability.template import Template
 from composability.wx_view import BoxPanel
@@ -24,14 +25,29 @@ class MockPatientBinder(Binder):
             return [dict(key="1", verwijzer="verwijzer #1"), dict(key="2", verwijzer="verwijzer #2")]
         if template.name == "behandeldagen":
             return [dict(key="1", datum="22-08-1965"), dict(key="2", datum="28-04-1971")]
+        if template.name == "pager":
+            return [{}] # teruggeven van data zorgt ervoor dat de "pager" afgebeeld wordt.
         return []
 
 
 class PatientController(Controller):
     def view_left_clicked(self, src, msg):
-        value = msg.data["view"].get_value("patient(1)/behandelingen(2)/behandeldagen(1)/datum")
-        print(value)
-        msg.data["view"].set_value("patient(1)/behandelingen(2)/behandeldagen(1)/datum", "05-02-2016")
+        a_path = strip_key(src)
+        if a_path == "patient/opslaan":
+            value = msg.data["view"].get_value("patient(1)/behandelingen(2)/behandeldagen(1)/datum")
+            print(value)
+            msg.data["view"].set_value("patient(1)/behandelingen(2)/behandeldagen(1)/datum", "05-02-2016")
+        elif a_path == "patient/pager/bijladen":
+            print(src)
+            self.load_behandelingen()
+
+    def load_behandelingen(self):
+        behandelingen_t = self.binder.get_template("behandelingen")
+        if behandelingen_t is None:
+            return
+        for t in self.binder.load_relationship_items(behandelingen_t, "patient(1)", {}):
+            if t is not None:
+                self.view.add(t)
 
 
 r = Registry(".")

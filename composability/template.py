@@ -39,6 +39,9 @@ class Template(object):
         self.items += [template]
         self.items_dict[template.name] = template
 
+    def get(self, name):
+        return self.items_dict.get(name)
+
     def delete(self, template):
         if template.name in self.items_dict.keys():
             del self.items_dict[template.name]
