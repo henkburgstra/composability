@@ -8,7 +8,8 @@ from composability.template import Template
 from composability.wx_view import BoxPanel
 
 class MockPatientBinder(Binder):
-
+    b = -1
+    d = -1
     def load_data(self, template, selection=None):
         if template.name == "patient":
             return dict(
@@ -22,9 +23,11 @@ class MockPatientBinder(Binder):
 
     def load_relationship_data(self, template, parent_data):
         if template.name == "behandelingen":
-            return [dict(key="1", verwijzer="verwijzer #1"), dict(key="2", verwijzer="verwijzer #2")]
+            self.b += 2
+            return [dict(key=str(self.b), verwijzer="verwijzer #1"), dict(key=str(self.b+1), verwijzer="verwijzer #2")]
         if template.name == "behandeldagen":
-            return [dict(key="1", datum="22-08-1965"), dict(key="2", datum="28-04-1971")]
+            self.d += 2
+            return [dict(key=str(self.d), datum="22-08-1965"), dict(key=str(self.d+1), datum="28-04-1971")]
         if template.name == "pager":
             return [{}] # teruggeven van data zorgt ervoor dat de "pager" afgebeeld wordt.
         return []
@@ -34,9 +37,9 @@ class PatientController(Controller):
     def view_left_clicked(self, src, msg):
         a_path = strip_key(src)
         if a_path == "patient/opslaan":
-            value = msg.data["view"].get_value("patient(1)/behandelingen(2)/behandeldagen(1)/datum")
+            value = msg.data["view"].get_value("patient(1)/behandelingen(2)/behandeldagen(2)/datum")
             print(value)
-            msg.data["view"].set_value("patient(1)/behandelingen(2)/behandeldagen(1)/datum", "05-02-2016")
+            msg.data["view"].set_value("patient(1)/behandelingen(1)/behandeldagen(1)/datum", "05-02-2016")
         elif a_path == "patient/pager/bijladen":
             print(src)
             self.load_behandelingen()
