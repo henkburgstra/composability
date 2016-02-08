@@ -43,6 +43,8 @@ class PatientController(Controller):
         elif a_path == "patient/pager/bijladen":
             print(src)
             self.load_behandelingen()
+        elif a_path == "patient/behandelingen/verwijderen":
+            self.view.remove(msg.data["view"].Name)
 
     def load_behandelingen(self):
         behandelingen_t = self.binder.get_template("behandelingen")

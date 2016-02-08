@@ -59,6 +59,11 @@
           "title": "Verwijzer"
         },
         {
+          "kind": "BUTTON",
+          "name": "verwijderen",
+          "title": "Verwijderen"
+        },
+        {
           "kind": "CONTAINER",
           "name": "behandeldagen",
           "title": "Bezoek",
