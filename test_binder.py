@@ -37,9 +37,7 @@ class PatientController(Controller):
     def view_left_clicked(self, src, msg):
         a_path = strip_key(src)
         if a_path == "patient/opslaan":
-            value = msg.data["view"].get_value("patient(1)/behandelingen(2)/behandeldagen(2)/datum")
-            print(value)
-            msg.data["view"].set_value("patient(1)/behandelingen(1)/behandeldagen(1)/datum", "05-02-2016")
+            pass
         elif a_path == "patient/pager/bijladen":
             print(src)
             self.load_behandelingen()

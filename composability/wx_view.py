@@ -102,6 +102,7 @@ class WxView(wx.Panel):
     def add(self, template):
         if not template.visible:
             return
+        self.Freeze()
         parent = None
         if template.parent:
             parent = wx.FindWindowByName(template.parent.name)
@@ -116,6 +117,7 @@ class WxView(wx.Panel):
         sizer = parent.GetSizer()
         sizer.Layout()
         sizer.Fit(parent)
+        self.Thaw()
 
     def remove(self, name):
         widget = wx.FindWindowByName(name)
