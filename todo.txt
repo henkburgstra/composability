@@ -1,4 +1,5 @@
-* bijladen van gedeeltelijk geladen collecties (binder houdt count, limit, offset bij)
-* transformatie van en naar view prestentatie (datums etc.)
-* datamodel in de binder, o.a. voor datatransformatie en dirty checks
-* sorteren ongelijksoortige collecties
+[x] bijladen van gedeeltelijk geladen collecties (binder houdt count, limit, offset bij)
+[ ] verwijderen van containers
+[ ] transformatie van en naar view prestentatie (datums etc.)
+[ ] datamodel in de binder, o.a. voor datatransformatie en dirty checks
+[ ] sorteren ongelijksoortige collecties
