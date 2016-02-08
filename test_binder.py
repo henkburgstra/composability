@@ -39,7 +39,6 @@ class PatientController(Controller):
         if a_path == "patient/opslaan":
             pass
         elif a_path == "patient/pager/bijladen":
-            print(src)
             self.load_behandelingen()
         elif a_path == "patient/behandelingen/verwijderen":
             self.view.remove(msg.data["view"].Name)
