@@ -4,6 +4,7 @@
 import wx
 from composability.template import Template
 from composability.controller import Message
+from composability.view import View
 
 class ItemPanel(wx.Panel):
     def __init__(self, parent):
@@ -108,7 +109,7 @@ class WxView(wx.Panel):
             parent = wx.FindWindowByName(template.parent.name)
         if parent is None:
             parent = self  # TODO: dit is verkeerd. recursief add aanroepen met template.parent
-        if template.kind == Template.VK_CONTAINER:
+        if template.kind == View.VK_CONTAINER:
             self.add_container(parent, template)
 
         else:
@@ -208,18 +209,18 @@ class BoxPanel(WxView):
         else:
             return  #  TODO: exception
         wx_view = None
-        if template.kind not in [Template.VK_BUTTON]:
+        if template.kind not in [View.VK_BUTTON]:
             label = wx.StaticText(panel, wx.ID_ANY, template.title, name=template.name)
-        if template.kind == Template.VK_LABEL:
+        if template.kind == View.VK_LABEL:
             panel.add(label, colspan=2)
-        elif template.kind == Template.VK_BUTTON:
+        elif template.kind == View.VK_BUTTON:
             wx_view = wx.Button(panel, wx.ID_ANY, template.title, name=template.name)
             wx_view.Bind(wx.EVT_BUTTON, self.on_button, source=wx_view)
             panel.add(wx_view)
         else:
             panel.add(label)
             label.SetName("label-%s" % template.name)
-            if template.kind == Template.VK_TEXT:
+            if template.kind == View.VK_TEXT:
                 wx_view = wx.TextCtrl(panel, wx.ID_ANY,
                     template.value if template.value is not None else "", name=template.name)
                 wx_view.Bind(wx.EVT_TEXT, self.on_text, source=wx_view)

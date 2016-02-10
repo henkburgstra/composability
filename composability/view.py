@@ -5,6 +5,14 @@ class View(object):
     View defines the interface for View classes.
     """
     __metaclass__ = abc.ABCMeta
+    # view kinds
+    VK_UNDEFINED = "UNDEFINED"
+    VK_CONTAINER = "CONTAINER"
+    VK_LABEL = "LABEL"
+    VK_HYPERLINK = "HYPERLINK"
+    VK_TEXT = "TEXT"
+    VK_DATE = "DATE"
+    VK_BUTTON = "BUTTON"
 
     # def on_change(self):
     #     self.controller.view_changed(self)
@@ -17,9 +25,41 @@ class View(object):
     def add(self, template):
         pass
 
+
+class Transform(object):
+    def __init__(self, value, **kwargs):
+        self._value = value
+        for k, v in kwargs.items():
+            self.k = v
+
+    def display(self):
+        if self._value is None:
+            return ""
+        return self._value
+
+    def store(self):
+        return self._value
+
+
+class TransformDate(Transform):
+    def display(self):
+        if self._value is None:
+            return ""
+        # TODO: robuuster maken
+        y, m, d = self._value.split("-")
+        return "-".join[d, m, y]
+
+    def store(self):
+        # TODO: robuuster maken
+        d, m, y = self._value.split("-")
+        return "-". join[y, m, d]
+
+
 class ViewBuffer(object):
-    def __init__(self, key):
+    def __init__(self, key, kind=View.VK_TEXT, transform=Transform):
         self.key = key
+        self.kind = kind
+        self.transform = transform
         self._original = None
         self._value = None
 
@@ -30,6 +70,12 @@ class ViewBuffer(object):
 
     def get(self):
         return self._value
+
+    def get_display(self):
+        return self.transform(self._value).display()
+
+    def set_display(self, value):
+        self.set(self.transform(value).store())
 
     def revert(self):
         self._value = self._original
@@ -61,7 +107,13 @@ class BufferList(object):
         if buf is not None:
             return buf.get()
 
-    def set_value(self, key, value):
-        buf = self._buffers.get(key, ViewBuffer(key))
+    def get_display(self, key):
+        buf = self._buffers.get(key)
+        if buf is None:
+            return ""
+        return buf.get_display()
+
+    def set_value(self, key, value, kind=View.VK_TEXT):
+        buf = self._buffers.get(key, ViewBuffer(key, kind=kind))
         buf.set(value)
         self._buffers[key] = buf

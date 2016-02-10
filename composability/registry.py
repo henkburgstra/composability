@@ -3,6 +3,7 @@ import json
 import os
 
 from .template import Template
+from .view import View
 
 class Registry(object):
     def __init__(self, def_path):
@@ -55,7 +56,7 @@ class Registry(object):
         display = d.get("display")
         if include is None:
             template = Template(
-                d.get("kind", Template.VK_TEXT),
+                d.get("kind", View.VK_TEXT),
                 name,
                 title=title,
                 orientation=d.get("orientation"),

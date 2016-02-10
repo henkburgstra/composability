@@ -2,11 +2,13 @@ import copy
 import uuid
 
 from .template import Template
+from .view import BufferList, View
 
 class Binder(object):
     def __init__(self, template):
         self.template = template
         self.selection = None
+        self.buffers = BufferList()
 
     def get_template(self, name=None):
         if name is None:
@@ -37,7 +39,8 @@ class Binder(object):
         items = self.filter_template_items(template, items, selection=selection, data=data)
         for item in items:
             item_t = copy.copy(item)
-            if item_t.kind == Template.VK_CONTAINER:
+            value = None
+            if item_t.kind == View.VK_CONTAINER:
                 if item_t.name:
                     for rel_t in self.load_relationship_items(item_t, template.name, data):
                         template.add(rel_t)
@@ -46,8 +49,11 @@ class Binder(object):
                     item_t.name = template.name
                     item_t = self.load_template(item_t, selection=selection, data=data, anonymous=True)
             else:
-                item_t.value = data.get(item_t.name)
+                value = data.get(item_t.name)
             item_t.name = "%s/%s" % (template.name, item_t.name)
+            if item_t.kind != View.VK_CONTAINER:
+                self.buffers.set_value(item_t.name, value)
+                item_t.value = self.buffers.get_display(item_t.name)
             template.add(item_t)
         self.after_load_template_items(template, items, selection=selection, data=data)
 
@@ -76,12 +82,12 @@ class Binder(object):
     def get_fields(self, template):
         fields = []
         for item in template.items:
-            if item.kind == Template.VK_CONTAINER:
+            if item.kind == View.VK_CONTAINER:
                 # container is een visuele groep, velden doen mee voor deze tabel.
                 if not item.name:
                     fields += self.get_fields(item)
             else:
-                if item.kind not in (Template.VK_BUTTON,):
+                if item.kind not in (View.VK_BUTTON,):
                     fields += [item.name] # TODO virtuele velden etc. uitsluiten
 
         return fields
@@ -95,12 +101,12 @@ class SQLBinder(Binder):
     def get_fields(self, template):
         fields = []
         for item in template.items:
-            if item.kind == Template.VK_CONTAINER:
+            if item.kind == View.VK_CONTAINER:
                 # container is een visuele groep, velden doen mee voor deze tabel.
                 if not item.name:
                     fields += self.get_fields(item)
             else:
-                if item.kind not in (Template.VK_BUTTON,):
+                if item.kind not in (View.VK_BUTTON,):
                     fields += [item.name] # TODO virtuele velden etc. uitsluiten
 
         return fields

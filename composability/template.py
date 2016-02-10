@@ -1,12 +1,4 @@
 class Template(object):
-    # view kinds
-    VK_UNDEFINED = "UNDEFINED"
-    VK_CONTAINER = "CONTAINER"
-    VK_LABEL = "LABEL"
-    VK_HYPERLINK = "HYPERLINK"
-    VK_TEXT = "TEXT"
-    VK_BUTTON = "BUTTON"
-
     DISP_GROUP = "GROUP"
     DISP_INLINE = "INLINE"
     DISP_UNDER = "UNDER"
