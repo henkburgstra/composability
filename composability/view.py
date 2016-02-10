@@ -94,6 +94,9 @@ class BufferList(object):
                 return True
         return False
 
+    def clear(self):
+        self._buffers = dict()
+
     def revert(self):
         for buf in self._buffers.values():
             buf.revert()
