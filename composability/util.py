@@ -39,12 +39,13 @@ class PathInfo(object):
         elif tail:
             parts += [tail]
 
+        parts.reverse()
         while parts:
             part = parts.pop()
             m = self.re_item_key.match(part)
             if m:
                 item = m.group(1)
-                key = m.group(2)
+                key = m.group(3)
                 self.items += [item]
                 self.keys[item] = key
 
