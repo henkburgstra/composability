@@ -121,29 +121,3 @@ class BufferList(object):
         buf.set(value)
         self._buffers[key] = buf
 
-    def padlijst_naar_dict(padlijst):
-        d = {}
-
-        for pad in padlijst:
-            els = pad.split("/")
-            x = d
-            for el in els:
-                y = x.get(el)
-                if not y:
-                    y = {}
-                    x[el] = y
-                x = y
-
-        return d
-
-    def to_dict(self):
-        pathlist = self._buffers.keys()
-        pathlist.sort()
-        d = {}
-        for path in pathlist:
-            parts = path.split("/")
-            x = d
-            for part in parts:
-                pass
-
-
