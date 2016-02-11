@@ -50,3 +50,7 @@ class PathInfo(object):
                 self.keys[item] = key
 
 
+class DotDict(dict):
+    def __init__(self, **kwds):
+        self.update(kwds)
+        self.__dict__ = self
