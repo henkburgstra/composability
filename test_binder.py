@@ -52,17 +52,20 @@ class PatientController(Controller):
                 self.view.add(t)
 
 
-r = Registry(".")
-b = MockPatientBinder(r.load_template("patient"))
-t = b.load()
 app = wx.App(redirect=False)
-frame = wx.Frame(None, title="Template Test", size=(600, 400))
+frame = wx.Frame(None, title="Template Test", size=(800, 600))
 sizer = wx.BoxSizer()
 frame.SetSizer(sizer)
-# ---
+
+######################################################################
+r = Registry(".")
 view = BoxPanel(frame, name="patient")
+b = MockPatientBinder(r.load_template("patient"))
+t = b.load()
 controller = PatientController(view, b)
 controller.load_view()
+######################################################################
+
 # view.set_template(t)
 # view.render()
 sizer.Add(view)
