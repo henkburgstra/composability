@@ -34,6 +34,10 @@ class MockPatientBinder(Binder):
 
 
 class PatientController(Controller):
+    @property
+    def patient(self):
+        return self.binder.buffers.data
+
     def view_left_clicked(self, src, msg):
         a_path = strip_key(src)
         if a_path == "patient/opslaan":
@@ -61,13 +65,16 @@ frame.SetSizer(sizer)
 r = Registry(".")
 view = BoxPanel(frame, name="patient")
 b = MockPatientBinder(r.load_template("patient"))
-t = b.load()
 controller = PatientController(view, b)
 controller.load_view()
 ######################################################################
 
-# view.set_template(t)
-# view.render()
+patient = controller.patient
+for behandeling in patient.behandelingen.values():
+    for behandeldag in behandeling.behandeldagen.values():
+        print(behandeldag.datum.get_display())
+        print(behandeldag.datum)  # bij gratie van __str__
+
 sizer.Add(view)
 frame.Show()
 app.MainLoop()

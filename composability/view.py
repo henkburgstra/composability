@@ -1,4 +1,6 @@
 import abc
+from composability.util import DotDict, PathInfo
+
 
 class View(object):
     """
@@ -83,10 +85,37 @@ class ViewBuffer(object):
     def flush(self):
         self._original = self._value = None
 
+    def __str__(self):
+        return self.get_display()
+
 
 class BufferList(object):
     def __init__(self):
         self._buffers = dict()
+        self.data = DotDict()
+
+    def pathinfo_to_dict(self, p):
+        d = self.data
+        for item in p.items[1:]:
+            x = d.get(item, DotDict())
+            key = p.keys[item]
+            y = x.get(key, DotDict())
+            x[key] = y
+            d[item] = x
+            d = y
+        return d
+
+    def set_data_item(self, pad, item):
+        p = PathInfo(pad)
+        d = self.pathinfo_to_dict(p)
+        if p.field:
+            d[p.field] = item
+
+    def get_data_item(self, pad):
+        p = PathInfo(pad)
+        d = self.pathinfo_to_dict(p)
+        if p.field:
+            return d.get(p.field)
 
     def is_dirty(self):
         for buf in self._buffers.values():
@@ -96,6 +125,7 @@ class BufferList(object):
 
     def clear(self):
         self._buffers = dict()
+        self.data = DotDict()
 
     def revert(self):
         for buf in self._buffers.values():
@@ -120,4 +150,5 @@ class BufferList(object):
         buf = self._buffers.get(key, ViewBuffer(key, kind=kind))
         buf.set(value)
         self._buffers[key] = buf
+        self.set_data_item(key, buf)
 
