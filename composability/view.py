@@ -152,3 +152,9 @@ class BufferList(object):
         self._buffers[key] = buf
         self.set_data_item(key, buf)
 
+    def set_display(self, key, value, kind=View.VK_TEXT):
+        buf = self._buffers.get(key, ViewBuffer(key, kind=kind))
+        buf.set_display(value)
+        self._buffers[key] = buf
+        self.set_data_item(key, buf)
+

@@ -78,3 +78,8 @@ for behandeling in patient.behandelingen.values():
 sizer.Add(view)
 frame.Show()
 app.MainLoop()
+
+for behandeling in patient.behandelingen.values():
+    for behandeldag in behandeling.behandeldagen.values():
+        print(behandeldag.datum.get_display())
+        print(behandeldag.datum)  # bij gratie van __str__

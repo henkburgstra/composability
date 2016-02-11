@@ -60,9 +60,7 @@ class Controller(object):
             controller.view_changed(src, msg)
 
     def view_changed(self, src, msg):
-        #self.controller(view).buffer.update(view.name, view.value)
-        print("src: %s" % src)
-        print("value: %s" % msg.get("value"))
+        self.binder.buffers.set_display(src, msg.get("value"))
 
     def view_focused(self, view):
         pass
@@ -75,8 +73,7 @@ class Controller(object):
             self.view_left_clicked(src, msg)
 
     def view_left_clicked(self, src, msg):
-        print("src: %s" % src)
-        print("left clicked")
+        pass
 
     def view_right_clicked(self, src, msg):
         pass

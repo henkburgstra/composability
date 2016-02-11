@@ -52,7 +52,7 @@ class Binder(object):
                 value = data.get(item_t.name)
             item_t.name = "%s/%s" % (template.name, item_t.name)
             if item_t.kind != View.VK_CONTAINER:
-                self.buffers.set_value(item_t.name, value)
+                self.buffers.set_value(item_t.name, value, item_t.kind)
                 item_t.value = self.buffers.get_display(item_t.name)
             template.add(item_t)
         self.after_load_template_items(template, items, selection=selection, data=data)
