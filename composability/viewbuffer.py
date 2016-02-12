@@ -1,5 +1,6 @@
 from composability.util import DotDict, PathInfo
-from composability.view import View, Transform
+from composability.view import View
+from composability.transformers import Transform
 
 
 class ViewBuffer(object):
