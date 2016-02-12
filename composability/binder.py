@@ -5,6 +5,9 @@ from .template import Template
 from .view import BufferList, View
 
 class Binder(object):
+    """
+    Binder binds data to a template
+    """
     def __init__(self, template):
         self.template = template
         self.selection = None
@@ -17,6 +20,10 @@ class Binder(object):
             return self.template.get(name)
 
     def load(self):
+        """
+        Load data and bind it to a template.
+        :return: a Template instance filled with data.
+        """
         t = self.load_template(self.template, selection=self.selection, data=None)
         return t
 
