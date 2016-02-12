@@ -3,4 +3,5 @@
 [x] model voor datatransformatie van en naar template. Klasse per type?
 [x] datamodel in de binder, o.a. voor datatransformatie en dirty checks
 [x] transformatie van en naar view prestentatie (datums etc.)
+[ ] kijk of signal/slots gebruikt kunnen worden voor het verbinden van view events en controller methods.
 [ ] sorteren ongelijksoortige collecties
