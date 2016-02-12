@@ -2,7 +2,9 @@ import copy
 import uuid
 
 from .template import Template
-from .view import BufferList, View
+from .view import View
+from composability.viewbuffer import BufferList
+
 
 class Binder(object):
     """
