@@ -1,7 +1,6 @@
 import copy
 import uuid
 
-from .template import Template
 from .view import View
 from composability.viewbuffer import BufferList
 
