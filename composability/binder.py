@@ -40,7 +40,10 @@ class Binder(object):
         if data is None:
             t = copy.copy(template)
             data = self.load_data(template, selection=selection)
-            t.name = "%s(%s)" % (t.name, data.get("key", str(uuid.uuid1())))
+            key_value = self.data_get_key_value(t, data)
+            if not key_value:
+                key_value = str(uuid.uuid1())
+            t.name = "%s(%s)" % (t.name, key_value)
         else:
             t = template
 
@@ -65,7 +68,8 @@ class Binder(object):
                     item_t.name = template.name
                     item_t = self.load_template(item_t, selection=selection, data=data, anonymous=True)
             else:
-                value = data.get(item_t.name)
+                value = self.data_get_value(item_t, data)
+
             item_t.name = "%s/%s" % (template.name, item_t.name)
             if item_t.kind != View.VK_CONTAINER:
                 self.buffers.set_value(item_t.name, value, item_t.kind)
@@ -86,14 +90,38 @@ class Binder(object):
         items = []
         for data in self.load_relationship_data(template, parent_data):
             t_copy = copy.copy(template)
-            t_copy.name = "%s/%s(%s)" % (parent_name, t_copy.name,
-                                              data.get("key", str(uuid.uuid1())))
+            key_value = self.data_get_key_value(t_copy, data)
+            if not key_value:
+                key_value = str(uuid.uuid1())
+            t_copy.name = "%s/%s(%s)" % (parent_name, t_copy.name, key_value)
             t = self.load_template(t_copy, data=data)
             items += [t]
         return items
 
     def load_relationship_data(self, template, parent_data):
         return []
+
+    def data_get_value(self, template, data):
+        """
+        Get a single value from data. The default implementation assumes that @param data is a dictionary-like
+        object, Override this method if @param data is not dictionary-like
+        @param template: Template instance
+        @param data: data to get the value from
+        @return: value
+        """
+        return data.get(template.name)
+
+    def data_get_key_value(self, template, data):
+        """
+        Get the key value from @param data. The default implementation assumes that @param data is a dictionary-like
+        object and that the key name is "key". Override this method if @param data is not dictionary-like
+        or if the key name is different from "key".
+        @param template: Template instance
+        @param data: data to get the key value from
+        @return: key value
+        """
+        return data.get("key")
+
 
     def get_fields(self, template):
         fields = []
