@@ -14,7 +14,7 @@ class View(object):
     VK_TEXT = "TEXT"
     VK_DATE = "DATE"
     VK_BUTTON = "BUTTON"
-    VD_COMBO = "COMBO"
+    VK_COMBO = "COMBO"
 
     # def on_change(self):
     #     self.controller.view_changed(self)
