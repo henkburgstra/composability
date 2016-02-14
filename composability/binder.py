@@ -22,13 +22,21 @@ class Binder(object):
 
     def load(self):
         """
-        Load data and bind it to a template.
+        Call load_template to load data and bind it to a template.
         :return: a Template instance filled with data.
         """
         t = self.load_template(self.template, selection=self.selection, data=None)
         return t
 
     def load_template(self, template, selection=None, data=None, anonymous=False):
+        """
+        Load data and bind it to a template
+        @param template: Template instance to fill
+        @param selection: Select instance used to select data
+        @param data:data to bind to template
+        @param anonymous:specified that the template is anonymous: a nameless container to visually group elements
+        @return: a Template instance filled with data
+        """
         if data is None:
             t = copy.copy(template)
             data = self.load_data(template, selection=selection)
