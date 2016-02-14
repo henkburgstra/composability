@@ -18,6 +18,11 @@
       "title": "Voornaam"
     },
     {
+      "kind": "COMBO",
+      "name": "huisarts",
+      "title": "Huisarts"
+    },
+    {
       "kind": "LABEL",
       "name": "opmerkingen",
       "title": "Opmerkingen"
@@ -37,10 +42,6 @@
           "kind": "TEXT",
           "name": "woonplaats",
           "title": "Woonplaats"
-        },
-        {
-          "kind": "COMBO",
-          "name": "huisarts"
         }
       ]
     },

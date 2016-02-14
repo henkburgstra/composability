@@ -16,6 +16,7 @@ class MockPatientBinder(Binder):
                 key="1",
                 naam="Burgstra",
                 voornaam="Henk",
+                huisarts="2",
                 opmerkingen="Geen",
                 postcode="1000 AA",
                 woonplaats="Amsterdam"
@@ -31,6 +32,10 @@ class MockPatientBinder(Binder):
         if template.name == "pager":
             return [{}] # teruggeven van data zorgt ervoor dat de "pager" afgebeeld wordt.
         return []
+
+    def load_combo_values(self, template, data):
+        if template.name.endswith("huisarts"):
+            return [("1", "Jansen"), ("2", "Pietersen"), ("3", "Klaasen")]
 
 
 class PatientController(Controller):

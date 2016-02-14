@@ -224,6 +224,10 @@ class BoxPanel(WxView):
                 wx_view = wx.TextCtrl(panel, wx.ID_ANY,
                     template.value if template.value is not None else "", name=template.name)
                 wx_view.Bind(wx.EVT_TEXT, self.on_text, source=wx_view)
+            elif template.kind == View.VK_COMBO:
+                wx_view = wx.ComboBox(panel, wx.ID_ANY)
+                for key, value in template.values:
+                    wx_view.Append(value, key)
             if wx_view is not None:
                 panel.add(wx_view)
 
