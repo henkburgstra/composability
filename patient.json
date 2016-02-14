@@ -37,6 +37,10 @@
           "kind": "TEXT",
           "name": "woonplaats",
           "title": "Woonplaats"
+        },
+        {
+          "kind": "COMBO",
+          "name": "huisarts"
         }
       ]
     },

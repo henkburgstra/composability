@@ -69,12 +69,20 @@ class Binder(object):
                     item_t = self.load_template(item_t, selection=selection, data=data, anonymous=True)
             else:
                 value = self.data_get_value(item_t, data)
+                if item_t.kind == View.VK_COMBO:
+                    combo_values = self.load_combo_values(item_t, data)
+                    if combo_values is None:
+                        combo_values = []
+                    item_t.values = combo_values
 
             item_t.name = "%s/%s" % (template.name, item_t.name)
+
             if item_t.kind != View.VK_CONTAINER:
                 self.buffers.set_value(item_t.name, value, item_t.kind)
                 item_t.value = self.buffers.get_display(item_t.name)
+
             template.add(item_t)
+
         self.after_load_template_items(template, items, selection=selection, data=data)
 
     def filter_template_items(self, template, items, selection=None, data=None):
@@ -99,6 +107,16 @@ class Binder(object):
         return items
 
     def load_relationship_data(self, template, parent_data):
+        return []
+
+    def load_combo_values(self, template, data):
+        """
+        Load the values for a combobox.
+        @param template: Template instance
+        @param data: data instance
+        @return: overridden methods should return a list of tuples. The tuples should contain a key and description:
+        [("T", "Tomato"), ("P", "Potato")]
+        """
         return []
 
     def data_get_value(self, template, data):
