@@ -24,6 +24,30 @@
       "placeholder": "Selecteer een huisarts"
     },
     {
+      "kind": "CONTAINER",
+      "display": "INLINE",
+      "title": "Bestanden",
+      "items": [
+        {
+          "kind": "CONTAINER",
+          "display": "INLINE",
+          "name": "bestanden",
+          "items": [
+            {
+              "kind": "LABEL",
+              "name": "naam"
+            }
+          ]
+        },
+        {
+          "kind": "COMBO",
+          "name": "sjabloon",
+          "title": "Sjabloon",
+          "placeholder": "Selecteer een sjabloon"
+        }
+      ]
+    },
+    {
       "kind": "LABEL",
       "name": "opmerkingen",
       "title": "Opmerkingen"

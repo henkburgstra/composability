@@ -36,6 +36,8 @@ class MockPatientBinder(Binder):
     def load_combo_options(self, template, data):
         if template.name.endswith("huisarts"):
             return [("1", "Jansen"), ("2", "Pietersen"), ("3", "Klaasen")]
+        elif template.name.endswith("sjabloon"):
+            return [("A", "Sjabloon A"), ("B", "Sjabloon B")]
 
 
 class PatientController(Controller):
