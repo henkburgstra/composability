@@ -20,7 +20,8 @@
     {
       "kind": "COMBO",
       "name": "huisarts",
-      "title": "Huisarts"
+      "title": "Huisarts",
+      "placeholder": "Selecteer een huisarts"
     },
     {
       "kind": "LABEL",

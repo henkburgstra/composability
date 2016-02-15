@@ -147,6 +147,13 @@ class WxView(wx.Panel):
         vw_msg.set("value", ctrl.GetValue())
         self.controller.view_message(ctrl.GetName(), vw_msg)
 
+    def on_combobox(self, msg):
+        vw_msg = Message(Message.CHANGE)
+        vw_msg.set("view", self)
+        ctrl = msg.GetEventObject()
+        vw_msg.set("value", ctrl.GetClientData(ctrl.GetCurrentSelection))
+        self.controller.view_message(ctrl.GetName(), vw_msg)
+
 
 class BoxPanel(WxView):
     """
@@ -226,8 +233,16 @@ class BoxPanel(WxView):
                 wx_view.Bind(wx.EVT_TEXT, self.on_text, source=wx_view)
             elif template.kind == View.VK_COMBO:
                 wx_view = wx.ComboBox(panel, wx.ID_ANY)
+                i = 0
+                selected = -1
                 for key, value in template.values:
                     wx_view.Append(value, key)
+                    if key == template.value:
+                        selected = i
+                    i += 1
+                if selected != -1:
+                    wx_view.SetSelection(selected)
+                wx.view.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=wx_view)
             if wx_view is not None:
                 panel.add(wx_view)
 

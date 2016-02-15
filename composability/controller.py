@@ -4,6 +4,7 @@ class Message(object):
     CLICK = "CLICK"
     FOCUS = "FOCUS"
     LOST_FOCUS = "LOST_FOCUS"
+    SELECT = "SELECT"
 
     def __init__(self, kind):
         self.kind = kind

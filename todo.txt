@@ -6,6 +6,6 @@
 [ ] kijk of signal/slots gebruikt kunnen worden voor het verbinden van view events en controller methods.
 [ ] kijk of signal/slots gebruikt kunnen worden voor het verbinden van viewmodel wijzigingen aan controller methods.
 [ ] sorteren ongelijksoortige collecties
-[ ] model voor o.a. comboboxen. Data in template [["code1", "omschrijving"], ["code2", "omschrijving"]]
+[x] model voor o.a. comboboxen. Data in template [["code1", "omschrijving"], ["code2", "omschrijving"]]
     i.p.v. een verzameling volledig geëxpandeerde template items
 [ ] adresseren van een enkel view element om daar iets naast te plaatse o.i.d.
