@@ -8,4 +8,7 @@
 [ ] sorteren ongelijksoortige collecties
 [x] model voor o.a. comboboxen. Data in template [["code1", "omschrijving"], ["code2", "omschrijving"]]
     i.p.v. een verzameling volledig geëxpandeerde template items
-[ ] adresseren van een enkel view element om daar iets naast te plaatse o.i.d.
+[ ] model voor many-to-many relaties zoals patient.bestanden, behandeldag.verrichtingen. Dit lijkt denk
+    ik erg op het combobox model.
+[ ] adresseren van een enkel view element om er iets naast te plaatsen o.i.d.
+
