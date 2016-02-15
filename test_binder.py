@@ -54,6 +54,8 @@ class PatientController(Controller):
 
     def view_changed(self, src, msg):
         super(PatientController, self).view_changed(src, msg)
+        if src.endswith(")/huisarts"):
+            print(msg.data.get("value"))
 
     def load_behandelingen(self):
         behandelingen_t = self.binder.get_template("behandelingen")
