@@ -232,7 +232,7 @@ class BoxPanel(WxView):
                     template.value if template.value is not None else "", name=template.name)
                 wx_view.Bind(wx.EVT_TEXT, self.on_text, source=wx_view)
             elif template.kind == View.VK_COMBO:
-                wx_view = wx.ComboBox(panel, wx.ID_ANY)
+                wx_view = wx.ComboBox(panel, wx.ID_ANY, name=template.name)
                 i = 0
                 selected = -1
                 for key, value in template.values:
@@ -242,7 +242,7 @@ class BoxPanel(WxView):
                     i += 1
                 if selected != -1:
                     wx_view.SetSelection(selected)
-                wx_view.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=wx_view, name=template.name)
+                wx_view.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=wx_view)
             if wx_view is not None:
                 panel.add(wx_view)
 
