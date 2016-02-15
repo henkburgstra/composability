@@ -242,7 +242,7 @@ class BoxPanel(WxView):
                     i += 1
                 if selected != -1:
                     wx_view.SetSelection(selected)
-                wx_view.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=wx_view)
+                wx_view.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=wx_view, name=template.name)
             if wx_view is not None:
                 panel.add(wx_view)
 
