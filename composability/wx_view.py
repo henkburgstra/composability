@@ -151,7 +151,7 @@ class WxView(wx.Panel):
         vw_msg = Message(Message.CHANGE)
         vw_msg.set("view", self)
         ctrl = msg.GetEventObject()
-        vw_msg.set("value", ctrl.GetClientData(ctrl.GetCurrentSelection))
+        vw_msg.set("value", ctrl.GetClientData(ctrl.GetSelection()))
         self.controller.view_message(ctrl.GetName(), vw_msg)
 
 
