@@ -33,7 +33,7 @@ class MockPatientBinder(Binder):
             return [{}] # teruggeven van data zorgt ervoor dat de "pager" afgebeeld wordt.
         return []
 
-    def load_combo_values(self, template, data):
+    def load_combo_options(self, template, data):
         if template.name.endswith("huisarts"):
             return [("1", "Jansen"), ("2", "Pietersen"), ("3", "Klaasen")]
 

@@ -70,10 +70,10 @@ class Binder(object):
             else:
                 value = self.data_get_value(item_t, data)
                 if item_t.kind == View.VK_COMBO:
-                    combo_values = self.load_combo_values(item_t, data)
-                    if combo_values is None:
-                        combo_values = []
-                    item_t.values = combo_values
+                    combo_options = self.load_combo_options(item_t, data)
+                    if combo_options is None:
+                        combo_options = []
+                    item_t.options = combo_options
 
             item_t.name = "%s/%s" % (template.name, item_t.name)
 
@@ -109,9 +109,9 @@ class Binder(object):
     def load_relationship_data(self, template, parent_data):
         return []
 
-    def load_combo_values(self, template, data):
+    def load_combo_options(self, template, data):
         """
-        Load the values for a combobox.
+        Load the options for a combobox.
         @param template: Template instance
         @param data: data instance
         @return: overridden methods should return a list of tuples. The tuples should contain a key and description:

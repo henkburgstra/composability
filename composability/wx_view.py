@@ -235,8 +235,8 @@ class BoxPanel(WxView):
                 wx_view = wx.ComboBox(panel, wx.ID_ANY, name=template.name)
                 i = 0
                 selected = -1
-                for key, value in template.values:
-                    wx_view.Append(value, key)
+                for key, option in template.options:
+                    wx_view.Append(option, key)
                     if key == template.value:
                         selected = i
                     i += 1
