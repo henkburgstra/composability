@@ -52,6 +52,9 @@ class PatientController(Controller):
         elif a_path == "patient/behandelingen/verwijderen":
             self.view.remove(msg.data["view"].Name)
 
+    def view_changed(self, src, msg):
+        super(PatientController, self).view_changed(src, msg)
+
     def load_behandelingen(self):
         behandelingen_t = self.binder.get_template("behandelingen")
         if behandelingen_t is None:
