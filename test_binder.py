@@ -68,6 +68,20 @@ class PatientController(Controller):
                 self.view.add(t)
 
 
+class MockMetingBinder(Binder):
+    def load_data(self, template, selection=None):
+        return {}
+
+
+class MetingController(Controller):
+    @property
+    def meting(self):
+        return self.binder.buffers.data
+
+    def view_changed(self, src, msg):
+        print("meting gewijzigd")
+
+
 app = wx.App(redirect=False)
 frame = wx.Frame(None, title="Template Test", size=(800, 600))
 sizer = wx.BoxSizer()
