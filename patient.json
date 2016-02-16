@@ -25,11 +25,13 @@
     },
     {
       "kind": "CONTAINER",
+      "orientation": "VERTICAL",
       "display": "INLINE",
       "title": "Bestanden",
       "items": [
         {
           "kind": "CONTAINER",
+          "orientation": "VERTICAL",
           "display": "INLINE",
           "name": "bestanden",
           "items": [
