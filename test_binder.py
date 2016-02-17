@@ -92,8 +92,9 @@ r = Registry(".")
 view = BoxPanel(frame, name="patient")
 b = MockPatientBinder(r.load_template("patient"))
 mb = MockMetingBinder(r.load_template("meting"))
-controller = PatientController(view, b)
-m_controller = MetingController(view, mb)
+controller = PatientController(b, view=view)
+m_controller = MetingController(mb)
+controller.register_controller("path/behandelingen/metingen", m_controller)
 controller.load_view()
 ######################################################################
 

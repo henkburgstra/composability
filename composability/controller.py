@@ -18,8 +18,9 @@ class Message(object):
 
 
 class Controller(object):
-    def __init__(self, view, binder):
-        self.set_view(view)  #  root view
+    def __init__(self, binder, view=None):
+        if view is not None:
+            self.set_view(view)  # root view
         self.binder = binder
         self.controllers = {}  # sub controllers
 
