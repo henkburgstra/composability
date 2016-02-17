@@ -90,11 +90,11 @@ frame.SetSizer(sizer)
 ######################################################################
 r = Registry(".")
 view = BoxPanel(frame, name="patient")
-b = MockPatientBinder(r.load_template("patient"))
-mb = MockMetingBinder(r.load_template("meting"))
+b = MockPatientBinder(r.get_template("patient"))
+mb = MockMetingBinder(r.get_template("meting"))
 controller = PatientController(b, view=view)
 m_controller = MetingController(mb)
-controller.register_controller("path/behandelingen/metingen", m_controller)
+controller.register_controller("patient/behandelingen/metingen", m_controller)
 controller.load_view()
 ######################################################################
 
