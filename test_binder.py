@@ -72,6 +72,12 @@ class MockMetingBinder(Binder):
     def load_data(self, template, selection=None):
         return {}
 
+    def load_data(self, template, selection=None):
+        return {}
+
+    def load_relationship_data(self, template, parent_data):
+        return []
+
 
 class MetingController(Controller):
     @property

@@ -47,6 +47,7 @@ class Controller(object):
 
     def register_controller(self, path, controller):
         self.controllers[path] = controller
+        controller.binder.register_binder(path, controller.binder)
 
     def controller(self, view):
         return self

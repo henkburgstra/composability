@@ -13,12 +13,16 @@ class Binder(object):
         self.template = template
         self.selection = None
         self.buffers = BufferList()
+        self.binders = dict()  # sub binders
 
     def get_template(self, name=None):
         if name is None:
             return self.template
         else:
             return self.template.get(name)
+
+    def register_binder(self, path, binder):
+        self.binders[path] = binder
 
     def load(self):
         """
