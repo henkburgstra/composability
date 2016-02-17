@@ -2,6 +2,7 @@ import copy
 import uuid
 
 from .view import View
+from composability.util import strip_key
 from composability.viewbuffer import BufferList
 
 
@@ -23,6 +24,9 @@ class Binder(object):
 
     def register_binder(self, path, binder):
         self.binders[path] = binder
+
+    def binder(self, path):
+        return self.binders.get(strip_key(path), self)
 
     def load(self):
         """
@@ -65,7 +69,9 @@ class Binder(object):
             value = None
             if item_t.kind == View.VK_CONTAINER:
                 if item_t.name:
-                    for rel_t in self.load_relationship_items(item_t, template.name, data):
+                    path = "%s/%s" % (template.name, item_t.name)
+                    binder = self.binder(path)
+                    for rel_t in binder.load_relationship_items(item_t, template.name, data):
                         template.add(rel_t)
                     continue
                 else:

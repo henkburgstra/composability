@@ -1,3 +1,4 @@
+import uuid
 import wx
 from composability.binder import Binder
 from composability.controller import Controller
@@ -8,8 +9,6 @@ from composability.template import Template
 from composability.wx_view import BoxPanel
 
 class MockPatientBinder(Binder):
-    b = -1
-    d = -1
     def load_data(self, template, selection=None):
         if template.name == "patient":
             return dict(
@@ -24,11 +23,9 @@ class MockPatientBinder(Binder):
 
     def load_relationship_data(self, template, parent_data):
         if template.name == "behandelingen":
-            self.b += 2
-            return [dict(key=str(self.b), verwijzer="verwijzer #1"), dict(key=str(self.b+1), verwijzer="verwijzer #2")]
+            return [dict(key=str(uuid.uuid1()), verwijzer="verwijzer #1"), dict(key=str(uuid.uuid1()), verwijzer="verwijzer #2")]
         if template.name == "behandeldagen":
-            self.d += 2
-            return [dict(key=str(self.d), datum="22-08-1965"), dict(key=str(self.d+1), datum="28-04-1971")]
+            return [dict(key=str(uuid.uuid1()), datum="22-08-1965"), dict(key=str(uuid.uuid1()), datum="28-04-1971")]
         if template.name == "pager":
             return [{}] # teruggeven van data zorgt ervoor dat de "pager" afgebeeld wordt.
         return []
@@ -76,7 +73,7 @@ class MockMetingBinder(Binder):
         return {}
 
     def load_relationship_data(self, template, parent_data):
-        return []
+        return [dict(key=str(uuid.uuid1()), datum="22-08-1965"), dict(key=str(uuid.uuid1()), datum="28-04-1971")]
 
 
 class MetingController(Controller):

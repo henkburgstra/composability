@@ -1,3 +1,6 @@
+from composability.util import strip_key
+
+
 class Message(object):
     ADD = "ADD"
     CHANGE = "CHANGE"
@@ -47,16 +50,16 @@ class Controller(object):
 
     def register_controller(self, path, controller):
         self.controllers[path] = controller
-        controller.binder.register_binder(path, controller.binder)
+        self.binder.register_binder(path, controller.binder)
 
-    def controller(self, view):
-        return self
+    def controller(self, path):
+        return self.controllers.get(strip_key(path), self)
 
     def view_message(self, src, msg):
         vw = msg.get("view")
         if vw is None:
             return
-        controller = self.controller(vw)
+        controller = self.controller(vw.Name)
         if msg.kind == Message.CLICK:
             controller.view_clicked(src, msg)
         elif msg.kind == Message.CHANGE:
