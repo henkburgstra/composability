@@ -6,6 +6,7 @@ class Template(object):
 
     ORI_HORIZONTAL = "HORIZONTAL"
     ORI_VERTICAL = "VERTICAL"
+    ORI_GRID = "GRID"
 
     def __init__(self, kind, name="", value=None, title="", orientation=None, display=None,
                  background_colour=None):
