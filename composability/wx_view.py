@@ -45,7 +45,7 @@ class WxView(wx.Panel):
         label = None
         widget = None
 
-        if template.kind not in [View.VK_BUTTON]:
+        if template.kind not in [View.VK_BUTTON, View.VK_LABEL]:
             label = wx.StaticText(parent, wx.ID_ANY, template.title, name="label-%s" % template.name)
 
         if template.kind == View.VK_LABEL:
