@@ -6,64 +6,6 @@ from composability.template import Template
 from composability.controller import Message
 from composability.view import View
 
-class ItemPanel(wx.Panel):
-    def __init__(self, parent):
-        wx.Panel.__init__(self, parent, wx.ID_ANY)
-        self.SetSizer(wx.GridBagSizer())
-        self.row = 0
-        self.col = 0
-        self.items = []
-
-    def set_orientation(self, orientation):
-        self.orientation = orientation
-
-    def add(self, item, rowspan=1, colspan=1):
-        self.items += [item]
-        sizer = self.GetSizer()
-        sizer.Add(item, pos=(self.row, self.col), span=(rowspan, colspan))
-        if self.orientation == Template.ORI_VERTICAL:
-            # verticaal is steeds een label en een invoerveld naast elkaar
-            self.col += colspan
-            if self.col == 2:
-                self.col = 0
-                self.row += 1
-        else:
-            # horizontaal is steeds een label en een invoerveld boven elkaar
-            self.row += rowspan
-            if self.row == 2:
-                self.row = 0
-                self.col += 1
-
-    def remove(self, item):
-        if item in self.items:
-            self.items.remove(item)
-            sizer = self.GetSizer()
-            sizer.Detach(item)
-            item.Destroy()
-            sizer.Layout()
-            sizer.Fit(self)
-
-
-class SubBoxPanel(wx.Panel):
-    def __init__(self, parent):
-        wx.Panel.__init__(self, parent, wx.ID_ANY)
-        self.SetSizer(wx.BoxSizer(wx.VERTICAL))
-        self.items = []
-
-    def add(self, box):
-        self.items += [box]
-        sizer = self.GetSizer()
-        sizer.Add(box, 0, wx.ALL | wx.EXPAND, 2)
-
-    def remove(self, item):
-        if item in self.items:
-            self.items.remove(item)
-            sizer = self.GetSizer()
-            sizer.Detach(item)
-            item.Destroy()
-            sizer.Layout()
-            sizer.Fit(self)
-
 
 class WxView(wx.Panel):
     """
@@ -92,12 +34,45 @@ class WxView(wx.Panel):
             widget.SetValue(value)
 
     def set_template(self, template):
+        orientation = template.orientation if template.orientation else Template.ORI_VERTICAL
+        self.orientation = orientation
         self.template = template
 
     def add_container(self, parent, template):
         pass
 
-    def add_item(self, parent, template):
+    def create_widget(self, parent, template):
+        label = None
+        widget = None
+
+        if template.kind not in [View.VK_BUTTON]:
+            label = wx.StaticText(parent, wx.ID_ANY, template.title, name="label-%s" % template.name)
+
+        if template.kind == View.VK_LABEL:
+            widget = wx.StaticText(parent, wx.ID_ANY, template.title, name=template.name)
+        elif template.kind == View.VK_BUTTON:
+            widget = wx.Button(parent, wx.ID_ANY, template.title, name=template.name)
+            widget.Bind(wx.EVT_BUTTON, self.on_button, source=widget)
+        elif template.kind == View.VK_TEXT:
+            widget = wx.TextCtrl(parent, wx.ID_ANY,
+                template.value if template.value is not None else "", name=template.name)
+            widget.Bind(wx.EVT_TEXT, self.on_text, source=widget)
+        elif template.kind == View.VK_COMBO:
+            widget = wx.ComboBox(parent, wx.ID_ANY, name=template.name)
+            i = 0
+            selected = -1
+            for key, option in template.options:
+                widget.Append(option, key)
+                if key == template.value:
+                    selected = i
+                i += 1
+            if selected != -1:
+                widget.SetSelection(selected)
+            widget.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=widget)
+
+        return label, widget
+
+    def add_widget(self, parent, template):
         pass
 
     def add(self, template):
@@ -105,15 +80,16 @@ class WxView(wx.Panel):
             return
         self.Freeze()
         parent = None
+
         if template.parent:
             parent = wx.FindWindowByName(template.parent.name)
         if parent is None:
             parent = self  # TODO: dit is verkeerd. recursief add aanroepen met template.parent
+
         if template.kind == View.VK_CONTAINER:
             self.add_container(parent, template)
-
         else:
-            self.add_item(parent, template)
+            self.add_widget(parent, template)
 
         sizer = parent.GetSizer()
         sizer.Layout()
@@ -184,9 +160,7 @@ class BoxPanel(WxView):
 
     def set_template(self, template):
         super(BoxPanel, self).set_template(template)
-        orientation = template.orientation if template.orientation else Template.ORI_VERTICAL
-        self.orientation = orientation
-        self.item_panel.set_orientation(orientation)
+        self.item_panel.set_orientation(self.orientation)
         self.item_panel.SetBackgroundColour(template.background_colour)
 
     def add_container(self, parent, template):
@@ -208,41 +182,77 @@ class BoxPanel(WxView):
             parent.item_sizer.Add(box, 0, wx.BOTTOM | wx.EXPAND, 2)
         box.render()
 
-    def add_item(self, parent, template):
+    def add_widget(self, parent, template):
         if isinstance(parent, ItemPanel):
             panel = parent
         elif isinstance(parent, BoxPanel):
             panel = parent.item_panel
         else:
             return  #  TODO: exception
-        wx_view = None
-        if template.kind not in [View.VK_BUTTON]:
-            label = wx.StaticText(panel, wx.ID_ANY, template.title, name=template.name)
-        if template.kind == View.VK_LABEL:
-            panel.add(label, colspan=2)
-        elif template.kind == View.VK_BUTTON:
-            wx_view = wx.Button(panel, wx.ID_ANY, template.title, name=template.name)
-            wx_view.Bind(wx.EVT_BUTTON, self.on_button, source=wx_view)
-            panel.add(wx_view)
-        else:
+        colspan = 1
+        label, widget = self.create_widget(panel, template)
+        if label and template.kind not in (View.VK_LABEL, View.VK_BUTTON):
             panel.add(label)
-            label.SetName("label-%s" % template.name)
-            if template.kind == View.VK_TEXT:
-                wx_view = wx.TextCtrl(panel, wx.ID_ANY,
-                    template.value if template.value is not None else "", name=template.name)
-                wx_view.Bind(wx.EVT_TEXT, self.on_text, source=wx_view)
-            elif template.kind == View.VK_COMBO:
-                wx_view = wx.ComboBox(panel, wx.ID_ANY, name=template.name)
-                i = 0
-                selected = -1
-                for key, option in template.options:
-                    wx_view.Append(option, key)
-                    if key == template.value:
-                        selected = i
-                    i += 1
-                if selected != -1:
-                    wx_view.SetSelection(selected)
-                wx_view.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=wx_view)
-            if wx_view is not None:
-                panel.add(wx_view)
+        if template.kind == View.VK_LABEL:
+            colspan = 2
+        if widget:
+            panel.add(widget, colspan=colspan)
 
+
+class ItemPanel(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent, wx.ID_ANY)
+        self.SetSizer(wx.GridBagSizer())
+        self.row = 0
+        self.col = 0
+        self.items = []
+
+    def set_orientation(self, orientation):
+        self.orientation = orientation
+
+    def add(self, item, rowspan=1, colspan=1):
+        self.items += [item]
+        sizer = self.GetSizer()
+        sizer.Add(item, pos=(self.row, self.col), span=(rowspan, colspan))
+        if self.orientation == Template.ORI_VERTICAL:
+            # verticaal is steeds een label en een invoerveld naast elkaar
+            self.col += colspan
+            if self.col == 2:
+                self.col = 0
+                self.row += 1
+        else:
+            # horizontaal is steeds een label en een invoerveld boven elkaar
+            self.row += rowspan
+            if self.row == 2:
+                self.row = 0
+                self.col += 1
+
+    def remove(self, item):
+        if item in self.items:
+            self.items.remove(item)
+            sizer = self.GetSizer()
+            sizer.Detach(item)
+            item.Destroy()
+            sizer.Layout()
+            sizer.Fit(self)
+
+
+class SubBoxPanel(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent, wx.ID_ANY)
+        self.SetSizer(wx.BoxSizer(wx.VERTICAL))
+        self.items = []
+
+    def add(self, box):
+        self.items += [box]
+        sizer = self.GetSizer()
+        sizer.Add(box, 0, wx.ALL | wx.EXPAND, 2)
+
+    def remove(self, item):
+        if item in self.items:
+            self.items.remove(item)
+            sizer = self.GetSizer()
+            sizer.Detach(item)
+            item.Destroy()
+            sizer.Layout()
+            sizer.Fit(self)
