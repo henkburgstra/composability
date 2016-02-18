@@ -7,9 +7,27 @@
   "background_colour": "#e6e5a8",
   "items": [
     {
+      "kind": "CONTAINER",
+      "orientation": "HORIZONTAL",
+      "display": "INLINE",
+      "items": [
+        {
+          "kind": "TEXT",
+          "name": "naam",
+          "title": "Naam"
+        },
+        {
+          "kind": "TEXT",
+          "name": "geboortedaum",
+          "title": "Geboortedatum"
+        }
+
+      ]
+    },
+    {
       "kind": "TEXT",
-      "name": "naam",
-      "title": "Naam",
+      "name": "geslacht",
+      "title": "Geslacht",
       "value": ""
     },
     {
