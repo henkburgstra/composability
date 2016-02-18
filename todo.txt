@@ -12,4 +12,5 @@
     ik erg op het combobox model: hernoem combo "values" naar "options", dan zijn values van many-to-many
     de geselecteerde items en options de te selecteren items.
 [ ] adresseren van een enkel view element om er iets naast te plaatsen o.i.d.
+[ ] refactoring wx view implementatie
 
