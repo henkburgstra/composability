@@ -61,6 +61,7 @@ class Registry(object):
                 title=title,
                 orientation=d.get("orientation"),
                 display=display,
+                colcount=d.get("colcount", -1),
                 background_colour=d.get("background_colour")
             )
             items = d.get("items", [])

@@ -161,6 +161,7 @@ class BoxPanel(WxView):
     def set_template(self, template):
         super(BoxPanel, self).set_template(template)
         self.item_panel.set_orientation(self.orientation)
+        self.item_panel.set_colcount(template.colcount)
         self.item_panel.SetBackgroundColour(template.background_colour)
 
     def add_container(self, parent, template):
@@ -201,27 +202,33 @@ class ItemPanel(wx.Panel):
         self.SetSizer(wx.GridBagSizer())
         self.row = 0
         self.col = 0
+        self.colcount = -1
         self.items = []
 
     def set_orientation(self, orientation):
         self.orientation = orientation
+        if self.orientation == Template.ORI_VERTICAL:
+            self.colcount = 2
+
+    def set_colcount(self, colcount):
+        self.colcount = colcount
 
     def add(self, item, rowspan=1, colspan=1):
         self.items += [item]
         sizer = self.GetSizer()
         sizer.Add(item, pos=(self.row, self.col), span=(rowspan, colspan))
-        if self.orientation == Template.ORI_VERTICAL:
+        if self.orientation in (Template.ORI_VERTICAL, Template.ORI_GRID):
             # verticaal is steeds een label en een invoerveld naast elkaar
             self.col += colspan
-            if self.col == 2:
+            if self.col == self.colcount:
                 self.col = 0
-                self.row += 1
+                self.row += rowspan
         else:
             # horizontaal is steeds een label en een invoerveld boven elkaar
             self.row += rowspan
             if self.row == 2:
                 self.row = 0
-                self.col += 1
+                self.col += colspan
 
     def remove(self, item):
         if item in self.items:

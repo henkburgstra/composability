@@ -9,7 +9,7 @@ class Template(object):
     ORI_GRID = "GRID"
 
     def __init__(self, kind, name="", value=None, title="", orientation=None, display=None,
-                 background_colour=None):
+                 colcount=-1, background_colour=None):
         self.parent = None
         self.kind = kind
         self.name = name
@@ -19,6 +19,7 @@ class Template(object):
         self.orientation = Template.ORI_HORIZONTAL if orientation is None else orientation
         self.display = Template.DISP_INLINE if display is None else display
         self.background_colour = background_colour
+        self.colcount = colcount
         self.items = []  #  child views
         self.items_dict = {}
 
