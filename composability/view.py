@@ -7,7 +7,7 @@ class View(object):
     """
     __metaclass__ = abc.ABCMeta
     # view kinds
-    VK_UNDEFINED = "UNDEFINED"
+    VK_PLACEHOLDER = "PLACEHOLDER"
     VK_CONTAINER = "CONTAINER"
     VK_LABEL = "LABEL"
     VK_HYPERLINK = "HYPERLINK"

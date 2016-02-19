@@ -56,7 +56,7 @@ class Registry(object):
         display = d.get("display")
         if include is None:
             template = Template(
-                d.get("kind", View.VK_TEXT),
+                d.get("kind", View.VK_PLACEHOLDER),
                 name,
                 title=title,
                 orientation=d.get("orientation"),
