@@ -45,9 +45,13 @@ class WxView(wx.Panel):
         label = None
         widget = None
 
-        if template.kind not in [View.VK_BUTTON, View.VK_LABEL]:
+        if template.kind in [View.VK_PLACEHOLDER, View.VK_BUTTON, View.VK_LABEL]:
+            label = wx.Panel(parent, wx.ID_ANY, name=template.name)
+        else:
             label = wx.StaticText(parent, wx.ID_ANY, template.title, name="label-%s" % template.name)
 
+        if template.kind == View.VK_PLACEHOLDER:
+            widget = wx.Panel(parent, wx.ID_ANY, name=template.name)
         if template.kind == View.VK_LABEL:
             widget = wx.StaticText(parent, wx.ID_ANY, template.title, name=template.name)
         elif template.kind == View.VK_BUTTON:
@@ -189,10 +193,8 @@ class BoxPanel(WxView):
             return  #  TODO: exception
         colspan = 1
         label, widget = self.create_widget(panel, template)
-        if label and template.kind not in (View.VK_LABEL, View.VK_BUTTON):
+        if label:
             panel.add(label)
-        if template.kind == View.VK_LABEL:
-            colspan = 2
         if widget:
             panel.add(widget, colspan=colspan)
 

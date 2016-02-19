@@ -21,6 +21,12 @@
           "kind": "TEXT",
           "name": "geboortedaum",
           "title": "Geboortedatum"
+        },
+        {},
+        {
+          "kind": "TEXT",
+          "name": "test",
+          "title": "Test"
         }
 
       ]
