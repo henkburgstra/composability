@@ -8,7 +8,7 @@
   "items": [
     {
       "kind": "CONTAINER",
-      "orientation": "GRID",
+      "orientation": "HORIZONTAL",
       "colcount": 4,
       "display": "INLINE",
       "items": [
