@@ -17,4 +17,4 @@
 [ ] verwijder orientatie GRID, deze is niet nodig. colcount volstaat
 [ ] implementeer select
 [x] leeg item {} in template definitie is placeholder (VK_PLACEHOLDER)
-[ ] placeholders moeten transparant zijn.
+[x] placeholders moeten transparant zijn.

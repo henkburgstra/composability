@@ -148,7 +148,7 @@
       "title": "Pager",
       "orientation": "VERTICAL",
       "display": "RIGHT",
-      "background_colour": "#ffffff",
+      "background_colour": "#c8e6be",
       "items": [
         {
           "kind": "BUTTON",
