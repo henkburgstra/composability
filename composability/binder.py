@@ -16,6 +16,9 @@ class Binder(object):
         self.buffers = BufferList()
         self.binders = dict()  # sub binders
 
+    def select(self, selection):
+        self.selection = selection
+
     def get_template(self, name=None):
         if name is None:
             return self.template

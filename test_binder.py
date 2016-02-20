@@ -98,6 +98,10 @@ mb = MockMetingBinder(r.get_template("meting"))
 controller = PatientController(b, view=view)
 m_controller = MetingController(mb)
 controller.register_controller("patient/behandelingen/metingen", m_controller)
+key = Select("patient/key")
+# naam = Select("patient/naam")
+# selection = Or(key.Eq("ACTB-T123456"), naam.Gte("Burg"))
+controller.select(key.Eq("ACTB-T123456"))
 controller.load_view()
 ######################################################################
 
