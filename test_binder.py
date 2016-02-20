@@ -99,9 +99,9 @@ controller = PatientController(b, view=view)
 m_controller = MetingController(mb)
 controller.register_controller("patient/behandelingen/metingen", m_controller)
 key = Select("patient/key")
-# naam = Select("patient/naam")
+naam = Select("patient/naam")
 # selection = Or(key.Eq("ACTB-T123456"), naam.Gte("Burg"))
-controller.select(key.Eq("ACTB-T123456"))
+controller.select(Or(key.Eq("ACTB-T123456"), naam.Gte("Burg")))
 controller.load_view()
 ######################################################################
 
