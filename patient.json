@@ -54,17 +54,11 @@
     },
     {},
     {
-      "kind": "CONTAINER",
-      "orientation": "VERTICAL",
-      "display": "INLINE",
-      "items": [
-        {
-          "kind": "COMBO",
-          "name": "huisarts",
-          "title": "Huisarts",
-          "placeholder": "Selecteer een huisarts"
-        }
-      ]
+      "kind": "COMBO",
+      "name": "huisarts",
+      "title": "Huisarts",
+      "placeholder": "Selecteer een huisarts",
+      "colspan": 3
     },
     {
       "kind": "CONTAINER",
