@@ -41,14 +41,15 @@ class WxView(wx.Panel):
     def add_container(self, parent, template):
         pass
 
-    def create_widget(self, parent, template):
+    def create_widget(self, parent, template, with_label=True):
         label = None
         widget = None
 
-        if template.kind in [View.VK_PLACEHOLDER, View.VK_BUTTON, View.VK_LABEL]:
-            label = wx.Panel(parent, wx.ID_ANY, style=wx.TRANSPARENT_WINDOW, name=template.name)
-        else:
-            label = wx.StaticText(parent, wx.ID_ANY, template.title, name="label-%s" % template.name)
+        if with_label:
+            if template.kind in [View.VK_PLACEHOLDER, View.VK_BUTTON, View.VK_LABEL]:
+                label = wx.Panel(parent, wx.ID_ANY, style=wx.TRANSPARENT_WINDOW, name=template.name)
+            else:
+                label = wx.StaticText(parent, wx.ID_ANY, template.title, name="label-%s" % template.name)
 
         if template.kind == View.VK_PLACEHOLDER:
             widget = wx.Panel(parent, wx.ID_ANY, style=wx.TRANSPARENT_WINDOW, name=template.name)
@@ -193,9 +194,10 @@ class BoxPanel(WxView):
         else:
             return  #  TODO: exception
         colspan = 1
-        label, widget = self.create_widget(panel, template)
+        label, widget = self.create_widget(panel, template, with_label=panel.with_label(template))
         if label:
             panel.add(label)
+
         if widget:
             panel.add(widget, colspan=colspan)
 
@@ -220,6 +222,12 @@ class ItemPanel(wx.Panel):
 
     def set_label_position(self, position):
         self.label_position = position
+
+    def with_label(self, template):
+        if (template.kind == View.VK_PLACEHOLDER and self.orientation == Template.ORI_HORIZONTAL
+            and self.label_position == Template.POS_LEFT):
+            return False
+        return True
 
     def add(self, item, rowspan=1, colspan=1):
         self.items += [item]
