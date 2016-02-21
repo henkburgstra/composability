@@ -15,7 +15,7 @@
     },
     {
       "kind": "TEXT",
-      "name": "geboortedaum",
+      "name": "geboortedatum",
       "title": "Geboortedatum"
     },
     {},

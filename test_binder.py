@@ -13,8 +13,11 @@ class MockPatientBinder(Binder):
         if template.name == "patient":
             return dict(
                 key="1",
-                naam="Burgstra",
+                naam="Henk Burgstra",
+                geboortedatum="1965-08-22",
+                geslacht="M",
                 voornaam="Henk",
+                eigen_naam="Burgstra",
                 huisarts="2",
                 opmerkingen="Geen",
                 postcode="1000 AA",
@@ -31,6 +34,8 @@ class MockPatientBinder(Binder):
         return []
 
     def load_combo_options(self, template, data):
+        if template.name.endswith("geslacht"):
+            return [("0", "Onbekend"), ("M", "Mannelijk"), ("V", "Vrouwelijk")]
         if template.name.endswith("huisarts"):
             return [("1", "Jansen"), ("2", "Pietersen"), ("3", "Klaasen")]
         elif template.name.endswith("sjabloon"):
