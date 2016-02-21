@@ -234,7 +234,7 @@ class ItemPanel(wx.Panel):
     def add(self, item, rowspan=1, colspan=1):
         self.items += [item]
         sizer = self.GetSizer()
-        sizer.Add(item, pos=(self.row, self.col), span=(rowspan, colspan))
+        sizer.Add(item, pos=(self.row, self.col), span=(rowspan, colspan), flag=wx.EXPAND)
         if self.orientation == Template.ORI_VERTICAL:
             # verticaal is steeds een label en een invoerveld naast elkaar
             self.col += colspan

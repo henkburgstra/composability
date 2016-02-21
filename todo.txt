@@ -23,4 +23,4 @@
                     horizontal orientation en label position left: geen label = geen placeholder
                     vertical orientation en label position top: geen label = geen placeholder
                     vertical orientation en label position left: geen label = placeholder
-[ ] widget moet naar de volledige breedte van de cell uitgroeien.
+[x] widget moet naar de volledige breedte van de cell uitgroeien.
