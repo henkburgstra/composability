@@ -18,11 +18,9 @@
 [ ] implementeer select
 [x] leeg item {} in template definitie is placeholder (VK_PLACEHOLDER)
 [x] placeholders moeten transparant zijn.
-[ ] implementeer colspan en rowspan voor elementen
+[x] implementeer colspan en rowspan voor elementen
 [x] label position: horizontal orientation en label position top: geen label = placeholder
                     horizontal orientation en label position left: geen label = geen placeholder
                     vertical orientation en label position top: geen label = geen placeholder
                     vertical orientation en label position left: geen label = placeholder
-[ ] Het moet mogelijk zijn om title weg te laten, dan wordt deze gelijk aan de naam waarbij de eerste
-    letter een hoofdletter is en underscores vervangen zijn door een spatie.
 [ ] widget moet naar de volledige breedte van de cell uitgroeien.

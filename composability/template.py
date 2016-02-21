@@ -11,7 +11,7 @@ class Template(object):
     POS_LEFT = "LEFT"
 
     def __init__(self, kind, name="", value=None, title="", orientation=None, display=None,
-                 colcount=-1, label_position=POS_ABOVE, background_colour=None):
+                 colcount=-1, colspan=1, rowspan=1, label_position=POS_ABOVE, background_colour=None):
         self.parent = None
         self.kind = kind
         self.name = name
@@ -22,6 +22,8 @@ class Template(object):
         self.display = Template.DISP_INLINE if display is None else display
         self.background_colour = background_colour
         self.colcount = colcount
+        self.colspan = colspan
+        self.rowspan = rowspan
         self.label_position = label_position
         self.items = []  #  child views
         self.items_dict = {}

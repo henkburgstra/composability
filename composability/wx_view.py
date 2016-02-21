@@ -193,13 +193,13 @@ class BoxPanel(WxView):
             panel = parent.item_panel
         else:
             return  #  TODO: exception
-        colspan = 1
+
         label, widget = self.create_widget(panel, template, with_label=panel.with_label(template))
         if label:
             panel.add(label)
 
         if widget:
-            panel.add(widget, colspan=colspan)
+            panel.add(widget, rowspan=template.rowspan, colspan=template.colspan)
 
 
 class ItemPanel(wx.Panel):
@@ -226,6 +226,8 @@ class ItemPanel(wx.Panel):
     def with_label(self, template):
         if (template.kind == View.VK_PLACEHOLDER and self.orientation == Template.ORI_HORIZONTAL
             and self.label_position == Template.POS_LEFT):
+            return False
+        if self.orientation == Template.ORI_HORIZONTAL and not template.title:
             return False
         return True
 

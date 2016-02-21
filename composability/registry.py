@@ -62,6 +62,8 @@ class Registry(object):
                 orientation=d.get("orientation"),
                 display=display,
                 colcount=d.get("colcount", -1),
+                colspan=d.get("colspan", 1),
+                rowspan=d.get("rowspan", 1),
                 label_position=d.get("label_position", Template.POS_ABOVE),
                 background_colour=d.get("background_colour")
             )
