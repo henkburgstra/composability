@@ -2,105 +2,68 @@
   "kind": "CONTAINER",
   "name": "patient",
   "title": "patient {key}",
-  "orientation": "VERTICAL",
+  "orientation": "HORIZONTAL",
   "display": "INLINE",
   "background_colour": "#e6e5a8",
+  "colcount": 5,
   "items": [
     {
-      "kind": "CONTAINER",
-      "orientation": "HORIZONTAL",
-      "colcount": 4,
-      "display": "INLINE",
-      "items": [
-        {
-          "kind": "TEXT",
-          "name": "naam",
-          "title": "Naam"
-        },
-        {
-          "kind": "TEXT",
-          "name": "geboortedaum",
-          "title": "Geboortedatum"
-        },
-        {},
-        {
-          "kind": "TEXT",
-          "name": "test",
-          "title": "Test"
-        }
-
-      ]
+      "kind": "TEXT",
+      "name": "naam",
+      "title": "Naam"
     },
     {
       "kind": "TEXT",
-      "name": "geslacht",
-      "title": "Geslacht",
-      "value": ""
+      "name": "geboortedaum",
+      "title": "Geboortedatum"
     },
-    {
-      "kind": "TEXT",
-      "name": "voornaam",
-      "title": "Voornaam"
-    },
+    {},
     {
       "kind": "COMBO",
-      "name": "huisarts",
-      "title": "Huisarts",
-      "placeholder": "Selecteer een huisarts"
+      "name": "geslacht",
+      "title": "Geslacht",
+      "placeholder": "Selecteer een geslacht"
     },
+    {
+      "kind": "TEXT",
+      "name": "titels",
+      "title": "Titels"
+    },
+    {},
+    {
+      "kind": "TEXT",
+      "name": "eigen_naam",
+      "title": "Eigen naam",
+      "colspan": 2
+    },
+    {
+      "kind": "TEXT",
+      "name": "voorzetsels"
+    },
+    {},
+    {
+      "kind": "TEXT",
+      "name": "naam_partner",
+      "title": "Naam partner",
+      "colspan": 2
+    },
+    {
+      "kind": "TEXT",
+      "name": "voorzetsels_partner"
+    },
+    {},
     {
       "kind": "CONTAINER",
       "orientation": "VERTICAL",
       "display": "INLINE",
-      "title": "Bestanden",
       "items": [
-        {
-          "kind": "CONTAINER",
-          "orientation": "VERTICAL",
-          "display": "INLINE",
-          "name": "bestanden",
-          "items": [
-            {
-              "kind": "LABEL",
-              "name": "naam"
-            }
-          ]
-        },
         {
           "kind": "COMBO",
-          "name": "sjabloon",
-          "title": "Sjabloon",
-          "placeholder": "Selecteer een sjabloon"
+          "name": "huisarts",
+          "title": "Huisarts",
+          "placeholder": "Selecteer een huisarts"
         }
       ]
-    },
-    {
-      "kind": "LABEL",
-      "name": "opmerkingen",
-      "title": "Opmerkingen"
-    },
-    {
-      "kind": "CONTAINER",
-      "orientation": "HORIZONTAL",
-      "display": "INLINE",
-      "title": "Adres",
-      "items": [
-        {
-          "kind": "TEXT",
-          "name": "postcode",
-          "title": "Postcode"
-        },
-        {
-          "kind": "TEXT",
-          "name": "woonplaats",
-          "title": "Woonplaats"
-        }
-      ]
-    },
-    {
-      "kind": "BUTTON",
-      "name": "opslaan",
-      "title": "Opslaan"
     },
     {
       "kind": "CONTAINER",
@@ -159,3 +122,4 @@
     }
   ]
 }
+
