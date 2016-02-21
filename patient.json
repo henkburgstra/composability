@@ -6,6 +6,7 @@
   "display": "INLINE",
   "background_colour": "#e6e5a8",
   "colcount": 5,
+  "label_position": "LEFT",
   "items": [
     {
       "kind": "TEXT",

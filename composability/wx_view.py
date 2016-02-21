@@ -167,6 +167,7 @@ class BoxPanel(WxView):
         self.item_panel.set_orientation(self.orientation)
         if template.colcount != -1:
             self.item_panel.set_colcount(template.colcount)
+        self.item_panel.set_label_position(template.label_position)
         self.item_panel.SetBackgroundColour(template.background_colour)
 
     def add_container(self, parent, template):
@@ -206,6 +207,7 @@ class ItemPanel(wx.Panel):
         self.row = 0
         self.col = 0
         self.colcount = -1
+        self.label_position = Template.POS_ABOVE
         self.items = []
 
     def set_orientation(self, orientation):
@@ -215,6 +217,9 @@ class ItemPanel(wx.Panel):
 
     def set_colcount(self, colcount):
         self.colcount = colcount
+
+    def set_label_position(self, position):
+        self.label_position = position
 
     def add(self, item, rowspan=1, colspan=1):
         self.items += [item]
@@ -227,11 +232,21 @@ class ItemPanel(wx.Panel):
                 self.col = 0
                 self.row += rowspan
         else:
-            # horizontaal is steeds een label en een invoerveld boven elkaar
-            self.row += rowspan
-            if self.row == 2:
-                self.row = 0
+            if self.label_position == Template.POS_ABOVE:
+                # steeds een label en een invoerveld boven elkaar
+                self.row += rowspan
+                if self.row  % 2 == 0:
+                    self.row -= 2
+                    self.col += colspan
+                if self.col == self.colcount:
+                    self.col = 0
+                    self.row += 2
+            else:
+                # steeds een label en een invoerveld naast elkaar
                 self.col += colspan
+                if self.col == self.colcount:
+                    self.col = 0
+                    self.row += 1
 
     def remove(self, item):
         if item in self.items:
