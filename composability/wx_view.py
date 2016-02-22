@@ -84,6 +84,12 @@ class WxView(wx.Panel):
         sibling = wx.FindWindowByName(sibling_name)
         if not sibling:
             return  # TODO; foutmelding
+        parent = sibling.GetParent()
+        sizer = parent.GetSizer()
+        children = []
+        for child in parent.GetChildren():
+            children += [child]
+            parent.Remove(child)
 
     def add(self, template):
         if not template.visible:
