@@ -80,6 +80,11 @@ class WxView(wx.Panel):
     def add_widget(self, parent, template):
         pass
 
+    def insert(self, sibling_name, pos, template):
+        sibling = wx.FindWindowByName(sibling_name)
+        if not sibling:
+            return  # TODO; foutmelding
+
     def add(self, template):
         if not template.visible:
             return

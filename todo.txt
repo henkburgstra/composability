@@ -15,7 +15,7 @@
 [x] refactoring wx view implementatie
 [ ] wx view implementatie moet voldoen aan de interface van de abstract base class View
 [x] verwijder orientatie GRID, deze is niet nodig. colcount volstaat
-[ ] implementeer select
+[-] implementeer select
 [x] leeg item {} in template definitie is placeholder (VK_PLACEHOLDER)
 [x] placeholders moeten transparant zijn.
 [x] implementeer colspan en rowspan voor elementen

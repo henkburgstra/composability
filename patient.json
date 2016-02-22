@@ -61,6 +61,11 @@
       "colspan": 3
     },
     {
+      "kind": "BUTTON",
+      "name": "invoegen",
+      "title": "Invoegen"
+    },
+    {
       "kind": "CONTAINER",
       "name": "behandelingen",
       "title": "Zorgtraject",
