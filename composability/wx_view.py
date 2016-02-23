@@ -91,6 +91,9 @@ class WxView(wx.Panel):
             children += [child]
             parent.Remove(child)
 
+        for child in children:
+            if
+
     def add(self, template):
         if not template.visible:
             return
