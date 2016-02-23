@@ -9,6 +9,8 @@ class Template(object):
 
     POS_ABOVE = "ABOVE"
     POS_LEFT = "LEFT"
+    POS_BEFORE = "BEFORE"
+    POS_AFTER = "AFTER"
 
     def __init__(self, kind, name="", value=None, title="", orientation=None, display=None,
                  colcount=-1, colspan=1, rowspan=1, label_position=POS_ABOVE, background_colour=None):
@@ -44,7 +46,7 @@ class Template(object):
         self.items_dict = {}
         for item in items:
             if item.name == sibling_name:
-                if pos == self.POS_ABOVE:
+                if pos == self.POS_BEFORE:
                     self.add(template)
                     self.add(item)
                 else:

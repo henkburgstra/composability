@@ -6,6 +6,7 @@ from composability.registry import Registry
 from composability.util import strip_key
 from composability.select import Or, Select
 from composability.template import Template
+from composability.view import View
 from composability.wx_view import BoxPanel
 
 class MockPatientBinder(Binder):
@@ -51,6 +52,8 @@ class PatientController(Controller):
         a_path = strip_key(src)
         if a_path == "patient/opslaan":
             pass
+        elif a_path == "patient/invoegen":
+            self.invoegen()
         elif a_path == "patient/pager/bijladen":
             self.load_behandelingen()
         elif a_path == "patient/behandelingen/verwijderen":
@@ -60,6 +63,10 @@ class PatientController(Controller):
         super(PatientController, self).view_changed(src, msg)
         if src.endswith(")/huisarts"):
             print(msg.data.get("value"))
+
+    def invoegen(self):
+        button = Template(kind=View.VK_BUTTON, name="ingevoegd", title="Ingevoegd")
+        self.view.insert("patient(1)/invoegen", Template.POS_AFTER, button)
 
     def load_behandelingen(self):
         behandelingen_t = self.binder.get_template("behandelingen")
