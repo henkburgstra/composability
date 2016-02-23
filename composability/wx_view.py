@@ -37,6 +37,8 @@ class WxView(wx.Panel):
         orientation = template.orientation if template.orientation else Template.ORI_VERTICAL
         self.orientation = orientation
         self.template = template
+        if template.name:
+            self.SetName(template.name)
 
     def add_container(self, parent, template):
         pass
@@ -84,13 +86,17 @@ class WxView(wx.Panel):
         parent_name = template.get_parent_name()
         if not parent_name:
             return  # TODO: foutmelding
-        parent = wx.FindWindowByName(parent_name)
-        if not parent:
-            return  # TODO: foutmelding
-        parent_template = getattr(parent, "template", None)
-        if not parent_template:
-            return  # TODO: foutmelding
-        self.remove(parent_name)
+        if parent_name == self.Name:
+            parent_template = self.template
+            self.clear()
+        else:
+            parent = wx.FindWindowByName(parent_name)
+            if not parent:
+                return  # TODO: foutmelding
+            parent_template = getattr(parent, "template", None)
+            if not parent_template:
+                return  # TODO: foutmelding
+            self.remove(parent_name)
         parent_template.insert(sibling_name, pos, template)
         self.add(parent_template)
 
@@ -114,6 +120,9 @@ class WxView(wx.Panel):
         sizer.Layout()
         sizer.Fit(parent)
         self.Thaw()
+
+    def clear(self):
+        pass
 
     def remove(self, name):
         widget = wx.FindWindowByName(name)
@@ -215,6 +224,9 @@ class BoxPanel(WxView):
         if widget:
             panel.add(widget, rowspan=template.rowspan, colspan=template.colspan)
 
+    def clear(self):
+        self.item_panel.clear()
+
 
 class ItemPanel(wx.Panel):
     def __init__(self, parent):
@@ -271,6 +283,12 @@ class ItemPanel(wx.Panel):
                 if self.col == self.colcount:
                     self.col = 0
                     self.row += 1
+
+    def clear(self):
+        sizer = self.GetSizer()
+        for item in self.items:
+            sizer.Detach(item)
+            item.Destroy()
 
     def remove(self, item):
         if item in self.items:
