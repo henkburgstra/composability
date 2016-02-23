@@ -81,18 +81,18 @@ class WxView(wx.Panel):
         pass
 
     def insert(self, sibling_name, pos, template):
-        sibling = wx.FindWindowByName(sibling_name)
-        if not sibling:
-            return  # TODO; foutmelding
-        parent = sibling.GetParent()
-        sizer = parent.GetSizer()
-        children = []
-        for child in parent.GetChildren():
-            children += [child]
-            parent.Remove(child)
-
-        for child in children:
-            if
+        parent_name = template.get_parent_name()
+        if not parent_name:
+            return  # TODO: foutmelding
+        parent = wx.FindWindowByName(parent_name)
+        if not parent:
+            return  # TODO: foutmelding
+        parent_template = getattr(parent, "template", None)
+        if not parent_template:
+            return  # TODO: foutmelding
+        self.remove(parent_name)
+        parent_template.insert(sibling_name, pos, template)
+        self.add(parent_template)
 
     def add(self, template):
         if not template.visible:

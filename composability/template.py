@@ -38,8 +38,30 @@ class Template(object):
         self.items += [template]
         self.items_dict[template.name] = template
 
+    def insert(self, sibling_name, pos, template):
+        items = self.items
+        self.items = []
+        self.items_dict = {}
+        for item in items:
+            if item.name == sibling_name:
+                if pos == self.POS_ABOVE:
+                    self.add(template)
+                    self.add(item)
+                else:
+                    self.add(item)
+                    self.add(template)
+            else:
+                self.add(item)
+
     def get(self, name):
         return self.items_dict.get(name)
+
+    def get_parent_name(self):
+        if self.parent:
+            return self.parent.name
+        if self.name is None:
+            return ""
+        return "/".join(self.name.split("/")[:-1])
 
     def delete(self, template):
         if template.name in self.items_dict.keys():
