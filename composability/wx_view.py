@@ -89,9 +89,11 @@ class WxView(wx.Panel):
         if parent_name == self.Name:
             parent_template = self.template
             parent_template.insert(sibling_name, pos, template)
-            self.clear()
-            self.set_template(parent_template)
-            self.render()
+            # self.clear()
+            # self.set_template(parent_template)
+            # self.render()
+            template.parent = parent_template
+            self.add(template)
         else:
             parent = wx.FindWindowByName(parent_name)
             if not parent:
