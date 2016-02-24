@@ -88,7 +88,10 @@ class WxView(wx.Panel):
             return  # TODO: foutmelding
         if parent_name == self.Name:
             parent_template = self.template
+            parent_template.insert(sibling_name, pos, template)
             self.clear()
+            self.set_template(parent_template)
+            self.render()
         else:
             parent = wx.FindWindowByName(parent_name)
             if not parent:
@@ -97,8 +100,8 @@ class WxView(wx.Panel):
             if not parent_template:
                 return  # TODO: foutmelding
             self.remove(parent_name)
-        parent_template.insert(sibling_name, pos, template)
-        self.add(parent_template)
+            parent_template.insert(sibling_name, pos, template)
+            self.add(parent_template)
 
     def add(self, template):
         if not template.visible:
