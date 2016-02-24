@@ -293,6 +293,9 @@ class ItemPanel(wx.Panel):
         for item in self.items:
             sizer.Detach(item)
             item.Destroy()
+        self.items = []
+        # sizer.Layout()
+        # sizer.Fit(self)
 
     def remove(self, item):
         if item in self.items:
@@ -320,6 +323,9 @@ class SubBoxPanel(wx.Panel):
         for item in self.items:
             sizer.Detach(item)
             item.Destroy()
+        self.items = []
+        # sizer.Layout()
+        # sizer.Fit(self)
 
     def remove(self, item):
         if item in self.items:
