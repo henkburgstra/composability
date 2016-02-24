@@ -226,6 +226,7 @@ class BoxPanel(WxView):
 
     def clear(self):
         self.item_panel.clear()
+        self.right_panel.clear()
 
 
 class ItemPanel(wx.Panel):
@@ -310,6 +311,12 @@ class SubBoxPanel(wx.Panel):
         self.items += [box]
         sizer = self.GetSizer()
         sizer.Add(box, 0, wx.ALL | wx.EXPAND, 2)
+
+    def clear(self):
+        sizer = self.GetSizer()
+        for item in self.items:
+            sizer.Detach(item)
+            item.Destroy()
 
     def remove(self, item):
         if item in self.items:
