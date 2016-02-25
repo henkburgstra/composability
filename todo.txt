@@ -11,7 +11,7 @@
 [ ] model voor many-to-many relaties zoals patient.bestanden, behandeldag.verrichtingen. Dit lijkt denk
     ik erg op het combobox model: hernoem combo "values" naar "options", dan zijn values van many-to-many
     de geselecteerde items en options de te selecteren items.
-[ ] adresseren van een enkel view element om er iets naast te plaatsen o.i.d.
+[x] adresseren van een enkel view element om er iets naast te plaatsen o.i.d.
 [x] refactoring wx view implementatie
 [ ] wx view implementatie moet voldoen aan de interface van de abstract base class View
 [x] verwijder orientatie GRID, deze is niet nodig. colcount volstaat
@@ -24,3 +24,7 @@
                     vertical orientation en label position top: geen label = geen placeholder
                     vertical orientation en label position left: geen label = placeholder
 [x] widget moet naar de volledige breedte van de cell uitgroeien.
+[ ] bij insert moet niet de hele template opnieuw worden geladen. In plaats daarvan moet een (label en) widget
+    worden aangemaakt (zie BoxPanel.add_widget()). De bestaande widgets moeten uit de sizer gehaald worden (Detach()),
+    de nieuwe widget moet op de juiste plaats in de widgets worden gezet en vervolgens moeten alle widgets aan
+    de sizer worden toegevoegd. Voor eigenschappen zoals colspan moet de template van het widget worden opgehaald.
