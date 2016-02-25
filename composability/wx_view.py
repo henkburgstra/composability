@@ -243,6 +243,9 @@ class ItemPanel(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent, wx.ID_ANY)
         self.SetSizer(wx.GridBagSizer())
+        self.init()
+
+    def init(self):
         self.row = 0
         self.col = 0
         self.colcount = -1
@@ -300,9 +303,7 @@ class ItemPanel(wx.Panel):
         for item in self.items:
             sizer.Detach(item)
             item.Destroy()
-        self.items = []
-        # sizer.Layout()
-        # sizer.Fit(self)
+        self.init()
 
     def remove(self, item):
         if item in self.items:
@@ -331,8 +332,8 @@ class SubBoxPanel(wx.Panel):
             sizer.Detach(item)
             item.Destroy()
         self.items = []
-        # sizer.Layout()
-        # sizer.Fit(self)
+        sizer.Layout()
+        sizer.Fit(self)
 
     def remove(self, item):
         if item in self.items:
@@ -340,5 +341,3 @@ class SubBoxPanel(wx.Panel):
             sizer = self.GetSizer()
             sizer.Detach(item)
             item.Destroy()
-            sizer.Layout()
-            sizer.Fit(self)
