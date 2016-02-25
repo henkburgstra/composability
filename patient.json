@@ -66,6 +66,11 @@
       "title": "Invoegen"
     },
     {
+      "kind": "BUTTON",
+      "name": "test",
+      "title": "Test"
+    },
+    {
       "kind": "CONTAINER",
       "name": "behandelingen",
       "title": "Zorgtraject",
