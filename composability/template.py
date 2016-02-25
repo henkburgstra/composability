@@ -12,6 +12,8 @@ class Template(object):
     POS_BEFORE = "BEFORE"
     POS_AFTER = "AFTER"
 
+    _id_counter = dict()
+
     def __init__(self, kind, name="", value=None, title="", orientation=None, display=None,
                  colcount=-1, colspan=1, rowspan=1, label_position=POS_ABOVE, background_colour=None):
         self.parent = None
@@ -32,6 +34,12 @@ class Template(object):
 
     def __str__(self):
         return "%s: %s <%s>" % (self.kind, self.name, "Empty" if self.value == "" else self.value)
+
+    def id_counter(self):
+        counter = self._id_counter.get(self.kind, 0)
+        counter += 1
+        self._id_counter[self.kind] = counter
+        return counter
 
     def add(self, template):
         if template.background_colour is None:

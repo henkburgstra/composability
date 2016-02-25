@@ -59,7 +59,7 @@
       "title": "Huisarts",
       "placeholder": "Selecteer een huisarts",
       "colspan": 3
-    },
+    },{},
     {
       "kind": "BUTTON",
       "name": "invoegen",

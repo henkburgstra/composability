@@ -65,8 +65,8 @@ class PatientController(Controller):
             print(msg.data.get("value"))
 
     def invoegen(self):
-        button = Template(kind=View.VK_BUTTON, name="patient(1)/ingevoegd", title="Ingevoegd")
-        self.view.insert("patient(1)/invoegen", Template.POS_AFTER, button)
+        text = Template(kind=View.VK_TEXT, name="patient(1)/ingevoegd", title="Ingevoegd")
+        self.view.insert("patient(1)/invoegen", Template.POS_AFTER, text)
 
     def load_behandelingen(self):
         behandelingen_t = self.binder.get_template("behandelingen")
