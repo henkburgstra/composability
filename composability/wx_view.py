@@ -229,6 +229,11 @@ class BoxPanel(WxView):
         if widget:
             panel.add(widget, rowspan=template.rowspan, colspan=template.colspan)
 
+        sizer = panel.GetSizer()
+        sizer.Layout()
+        sizer.Fit(panel)
+
+
     def clear(self):
         self.item_panel.clear()
         self.right_panel.clear()
