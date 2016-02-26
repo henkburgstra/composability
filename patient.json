@@ -34,23 +34,23 @@
     {
       "kind": "TEXT",
       "name": "eigen_naam",
-      "title": "Eigen naam",
-      "colspan": 2
+      "title": "Eigen naam"
     },
     {
       "kind": "TEXT",
-      "name": "voorzetsels"
+      "name": "voorzetsels",
+      "title": "Voorzetsels"
     },
     {},
     {
       "kind": "TEXT",
       "name": "naam_partner",
-      "title": "Naam partner",
-      "colspan": 2
+      "title": "Naam partner"
     },
     {
       "kind": "TEXT",
-      "name": "voorzetsels_partner"
+      "name": "voorzetsels_partner",
+      "title": "Voorzetsels partner"
     },
     {},
     {

@@ -248,12 +248,13 @@ class BoxPanel(WxView):
         if not sibling:
             return  # TODO: foutmelding
         parent = sibling.GetParent()   # TODO: dit moet een ItemPanel instantie zijn, anders foutmelding
+        self.Freeze()
         label, widget = self.create_widget(parent, template, with_label=parent.with_label(template))
         sizer = parent.GetSizer()
         items = []
         for item in parent.items:
             sizer.Detach(item)
-            if sibling_name == item.name:
+            if sibling_name == item.Name:
                 if pos == Template.POS_BEFORE:
                     if label:
                         items += [label]
@@ -264,17 +265,23 @@ class BoxPanel(WxView):
                     if label:
                         items += [label]
                     items += [widget]
-        parent.items = items
+            else:
+                items += [item]
+        parent.init()
         for item in items:
             colspan = 1
             rowspan = 1
-            t = self.template.get(item.name)
+            t = self.template.get(item.Name)
             if t:
-                colspan = t.get("colspan", colspan)
-                rowspan = t.get("rowspan", rowspan)
+                colspan = t.colspan
+                rowspan = t.rowspan
             parent.add(item, colspan=colspan, rowspan=rowspan)
         sizer.Layout()
         sizer.Fit(parent)
+        s = self.GetSizer()
+        s.Layout()
+        s.Fit(self)
+        self.Thaw()
 
 
     def clear(self):
@@ -286,13 +293,13 @@ class ItemPanel(wx.Panel):
     def __init__(self, parent):
         wx.Panel.__init__(self, parent, wx.ID_ANY)
         self.SetSizer(wx.GridBagSizer())
+        self.colcount = -1
+        self.label_position = Template.POS_ABOVE
         self.init()
 
     def init(self):
         self.row = 0
         self.col = 0
-        self.colcount = -1
-        self.label_position = Template.POS_ABOVE
         self.items = []
 
     def set_orientation(self, orientation):
