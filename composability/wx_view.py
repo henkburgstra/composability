@@ -247,8 +247,34 @@ class BoxPanel(WxView):
         sibling = wx.FindWindowByName(sibling_name)
         if not sibling:
             return  # TODO: foutmelding
-        parent = sibling.GetParent()
-        # TODO: dit moet een ItemPanel instantie zijn, anders foutmelding
+        parent = sibling.GetParent()   # TODO: dit moet een ItemPanel instantie zijn, anders foutmelding
+        label, widget = self.create_widget(parent, template, with_label=parent.with_label(template))
+        sizer = parent.GetSizer()
+        items = []
+        for item in parent.items:
+            sizer.Detach(item)
+            if sibling_name == item.name:
+                if pos == Template.POS_BEFORE:
+                    if label:
+                        items += [label]
+                    items += [widget]
+                    items += [item]
+                else:
+                    items += [item]
+                    if label:
+                        items += [label]
+                    items += [widget]
+        parent.items = items
+        for item in items:
+            colspan = 1
+            rowspan = 1
+            t = self.template.get(item.name)
+            if t:
+                colspan = t.get("colspan", colspan)
+                rowspan = t.get("rowspan", rowspan)
+            parent.add(item, colspan=colspan, rowspan=rowspan)
+        sizer.Layout()
+        sizer.Fit(parent)
 
 
     def clear(self):
