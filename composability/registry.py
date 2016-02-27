@@ -61,6 +61,7 @@ class Registry(object):
                 title=title,
                 orientation=d.get("orientation"),
                 display=display,
+                readonly=d.get("readonly", False),
                 colcount=d.get("colcount", -1),
                 colspan=d.get("colspan", 1),
                 rowspan=d.get("rowspan", 1),

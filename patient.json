@@ -34,23 +34,27 @@
     {
       "kind": "TEXT",
       "name": "eigen_naam",
-      "title": "Eigen naam"
+      "title": "Eigen naam",
+      "colspan": 2,
+      "readonly": true
     },
     {
       "kind": "TEXT",
       "name": "voorzetsels",
-      "title": "Voorzetsels"
+      "readonly": true
     },
     {},
     {
       "kind": "TEXT",
       "name": "naam_partner",
-      "title": "Naam partner"
+      "title": "Naam partner",
+      "colspan": 2,
+      "readonly": true
     },
     {
       "kind": "TEXT",
       "name": "voorzetsels_partner",
-      "title": "Voorzetsels partner"
+      "readonly": true
     },
     {},
     {

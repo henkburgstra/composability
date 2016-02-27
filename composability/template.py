@@ -15,7 +15,7 @@ class Template(object):
     _id_counter = dict()
 
     def __init__(self, kind, name="", value=None, title="", orientation=None, display=None,
-                 colcount=-1, colspan=1, rowspan=1, label_position=POS_ABOVE, background_colour=None):
+                 readonly=False, colcount=-1, colspan=1, rowspan=1, label_position=POS_ABOVE, background_colour=None):
         self.parent = None
         self.kind = kind
         self.name = name
@@ -24,6 +24,7 @@ class Template(object):
         self.visible = True
         self.orientation = Template.ORI_HORIZONTAL if orientation is None else orientation
         self.display = Template.DISP_INLINE if display is None else display
+        self.readonly = readonly
         self.background_colour = background_colour
         self.colcount = colcount
         self.colspan = colspan

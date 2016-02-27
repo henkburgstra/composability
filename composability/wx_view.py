@@ -55,6 +55,7 @@ class WxView(wx.Panel):
 
         if template.kind == View.VK_PLACEHOLDER:
             widget = wx.Panel(parent, wx.ID_ANY, style=wx.TRANSPARENT_WINDOW, name=template.name)
+            widget.SetBackgroundColour(parent.GetBackgroundColour())
         if template.kind == View.VK_LABEL:
             widget = wx.StaticText(parent, wx.ID_ANY, template.title, name=template.name)
         elif template.kind == View.VK_BUTTON:
@@ -76,6 +77,10 @@ class WxView(wx.Panel):
             if selected != -1:
                 widget.SetSelection(selected)
             widget.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=widget)
+
+        if template.readonly:
+            widget.Enable(False)
+            widget.SetBackgroundColour(parent.GetBackgroundColour())
 
         return label, widget
 
