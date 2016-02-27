@@ -107,6 +107,7 @@ r = Registry(".")
 view = BoxPanel(frame, name="patient")
 b = MockPatientBinder(r.get_template("patient"))
 mb = MockMetingBinder(r.get_template("meting"))
+mb.buffers = b.buffers  # zorg dat patient.behandelingen.metingen beschikbaar komt.
 controller = PatientController(b, view=view)
 m_controller = MetingController(mb)
 controller.register_controller("patient/behandelingen/metingen", m_controller)
@@ -118,10 +119,6 @@ controller.load_view()
 ######################################################################
 
 patient = controller.patient
-for behandeling in patient.behandelingen.values():
-    for behandeldag in behandeling.behandeldagen.values():
-        print(behandeldag.datum.get_display())
-        print(behandeldag.datum)  # bij gratie van __str__
 
 sizer.Add(view)
 frame.Show()
@@ -131,3 +128,5 @@ for behandeling in patient.behandelingen.values():
     for behandeldag in behandeling.behandeldagen.values():
         print(behandeldag.datum.get_display())
         print(behandeldag.datum)  # bij gratie van __str__
+    for meting in behandeling.metingen.values():
+        print(meting.datum.get_display())

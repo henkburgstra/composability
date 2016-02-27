@@ -84,7 +84,6 @@ class WxView(wx.Panel):
         # if template.readonly:
         #     widget.Enable(False)
         #     widget.SetBackgroundColour(parent.GetBackgroundColour())
-
         return label, widget
 
     def add_widget(self, parent, template):
@@ -338,7 +337,7 @@ class ItemPanel(wx.Panel):
     def add(self, item, rowspan=1, colspan=1):
         self.items += [item]
         sizer = self.GetSizer()
-        sizer.Add(item, pos=(self.row, self.col), span=(rowspan, colspan), flag=wx.EXPAND)
+        sizer.Add(item, pos=(self.row, self.col), span=(rowspan, colspan), flag=wx.EXPAND | wx.ALIGN_CENTER)
         if self.orientation == Template.ORI_VERTICAL:
             # verticaal is steeds een label en een invoerveld naast elkaar
             self.col += colspan
