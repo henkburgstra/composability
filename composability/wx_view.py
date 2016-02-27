@@ -51,7 +51,7 @@ class WxView(wx.Panel):
             if template.kind in [View.VK_PLACEHOLDER, View.VK_BUTTON, View.VK_LABEL]:
                 label = wx.Panel(parent, wx.ID_ANY, style=wx.TRANSPARENT_WINDOW, name="placeholder-%s" % template.name)
             else:
-                label = wx.StaticText(parent, wx.ID_ANY, template.title, name="label-%s" % template.name)
+                label = wx.StaticText(parent, wx.ID_ANY, " %s " % template.title, name="label-%s" % template.name)
 
         if template.kind == View.VK_PLACEHOLDER:
             widget = wx.Panel(parent, wx.ID_ANY, style=wx.TRANSPARENT_WINDOW, name=template.name)
