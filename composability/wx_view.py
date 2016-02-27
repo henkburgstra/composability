@@ -64,6 +64,9 @@ class WxView(wx.Panel):
         elif template.kind == View.VK_TEXT:
             widget = wx.TextCtrl(parent, wx.ID_ANY,
                 template.value if template.value is not None else "", name=template.name)
+            if template.readonly:
+                widget.SetEditable(False)
+                widget.SetBackgroundColour(parent.GetBackgroundColour())
             widget.Bind(wx.EVT_TEXT, self.on_text, source=widget)
         elif template.kind == View.VK_COMBO:
             widget = wx.ComboBox(parent, wx.ID_ANY, name=template.name)
@@ -78,9 +81,9 @@ class WxView(wx.Panel):
                 widget.SetSelection(selected)
             widget.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=widget)
 
-        if template.readonly:
-            widget.Enable(False)
-            widget.SetBackgroundColour(parent.GetBackgroundColour())
+        # if template.readonly:
+        #     widget.Enable(False)
+        #     widget.SetBackgroundColour(parent.GetBackgroundColour())
 
         return label, widget
 
