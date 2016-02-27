@@ -61,6 +61,7 @@ class PatientController(Controller):
 
     def view_changed(self, src, msg):
         super(PatientController, self).view_changed(src, msg)
+        print (msg.data.get("value"))
         if src.endswith(")/huisarts"):
             print(msg.data.get("value"))
 
@@ -98,7 +99,8 @@ class MetingController(Controller):
 
 
 app = wx.App(redirect=False)
-frame = wx.Frame(None, title="Template Test", size=(800, 600))
+locale = wx.Locale(wx.LANGUAGE_DUTCH)  # belangrijk voor o.a. DatePickerCtrl
+frame = wx.Frame(None, title="Template Test", size=(900, 600))
 sizer = wx.BoxSizer()
 frame.SetSizer(sizer)
 

@@ -7,7 +7,7 @@
   "background_colour": "#d6bfcf",
   "items": [
     {
-      "kind": "TEXT",
+      "kind": "DATE",
       "name": "datum",
       "title": "Datum meting"
     }

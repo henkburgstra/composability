@@ -61,6 +61,13 @@ class WxView(wx.Panel):
         elif template.kind == View.VK_BUTTON:
             widget = wx.Button(parent, wx.ID_ANY, template.title, name=template.name)
             widget.Bind(wx.EVT_BUTTON, self.on_button, source=widget)
+        elif template.kind == View.VK_DATE:
+            dt = wx.DateTimeFromDMY(22, 8 - 1, 1965)
+            widget = wx.DatePickerCtrl(parent, wx.ID_ANY, dt=dt, name=template.name)
+            if template.readonly:
+                widget.Enable(False)
+                widget.SetBackgroundColour(parent.GetBackgroundColour())
+            widget.Bind(wx.EVT_DATE_CHANGED, self.on_date, source=widget)
         elif template.kind == View.VK_TEXT:
             widget = wx.TextCtrl(parent, wx.ID_ANY,
                 template.value if template.value is not None else "", name=template.name)
@@ -157,6 +164,13 @@ class WxView(wx.Panel):
         vw_msg = Message(Message.CLICK)
         vw_msg.set("view", self)
         ctrl = msg.GetEventObject()
+        self.controller.view_message(ctrl.GetName(), vw_msg)
+
+    def on_date(self, msg):
+        vw_msg = Message(Message.CHANGE)
+        vw_msg.set("view", self)
+        ctrl = msg.GetEventObject()
+        vw_msg.set("value", ctrl.GetValue().Format("%d-%m-%Y"))
         self.controller.view_message(ctrl.GetName(), vw_msg)
 
     def on_text(self, msg):

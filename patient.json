@@ -14,7 +14,7 @@
       "title": "Naam"
     },
     {
-      "kind": "TEXT",
+      "kind": "DATE",
       "name": "geboortedatum",
       "title": "Geboortedatum"
     },
@@ -70,11 +70,6 @@
       "title": "Invoegen"
     },
     {
-      "kind": "TEXT",
-      "name": "test",
-      "title": "Test"
-    },
-    {
       "kind": "CONTAINER",
       "name": "behandelingen",
       "title": "Zorgtraject",
@@ -101,7 +96,7 @@
           "background_colour": "#d6bfcf",
           "items": [
             {
-              "kind": "TEXT",
+              "kind": "DATE",
               "name": "datum",
               "title": "Datum"
             }
