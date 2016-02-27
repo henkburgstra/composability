@@ -36,7 +36,7 @@ class TransformDate(Transform):
             if m is not None:
                 self._y = int(m.group(1))
                 self._m = int(m.group(3))
-                self._y = int(m.group(5))
+                self._d = int(m.group(5))
                 return
 
     def __str__(self):
@@ -45,6 +45,15 @@ class TransformDate(Transform):
     @classmethod
     def fromYMD(cls, y, m, d):
         return cls("%04d-%02d-%02d" % (y, m, d), y=y, m=m, d=d)
+
+    def d(self):
+        return self._d
+
+    def m(self):
+        return self._m
+
+    def y(self):
+        return self._y
 
     def display(self):
         return "-".join(["%02d" % self._d, "%02d" % self._m, "%04d" % self._y])

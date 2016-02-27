@@ -4,6 +4,7 @@
 import wx
 from composability.template import Template
 from composability.controller import Message
+from composability.transformers import TransformDate
 from composability.view import View
 
 
@@ -62,8 +63,9 @@ class WxView(wx.Panel):
             widget = wx.Button(parent, wx.ID_ANY, template.title, name=template.name)
             widget.Bind(wx.EVT_BUTTON, self.on_button, source=widget)
         elif template.kind == View.VK_DATE:
-            dt = wx.DateTimeFromDMY(22, 8 - 1, 1965)
-            widget = wx.DatePickerCtrl(parent, wx.ID_ANY, dt=dt, name=template.name)
+            td = TransformDate(template.value)
+            widget = wx.DatePickerCtrl(parent, wx.ID_ANY, dt=wx.DateTimeFromDMY(td.d(), td.m() - 1, td.y()),
+                                       name=template.name)
             if template.readonly:
                 widget.Enable(False)
                 widget.SetBackgroundColour(parent.GetBackgroundColour())
