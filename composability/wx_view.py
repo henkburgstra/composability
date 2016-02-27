@@ -236,7 +236,6 @@ class BoxPanel(WxView):
         sizer.Layout()
         sizer.Fit(panel)
 
-
     def insert(self, sibling_name, pos, template):
         # nieuwe implementatie van WxView.insert()
         parent_name = template.get_parent_name()
@@ -249,40 +248,11 @@ class BoxPanel(WxView):
             return  # TODO: foutmelding
         parent = sibling.GetParent()   # TODO: dit moet een ItemPanel instantie zijn, anders foutmelding
         self.Freeze()
-        label, widget = self.create_widget(parent, template, with_label=parent.with_label(template))
-        sizer = parent.GetSizer()
-        items = []
-        for item in parent.items:
-            sizer.Detach(item)
-            if sibling_name == item.Name:
-                if pos == Template.POS_BEFORE:
-                    if label:
-                        items += [label]
-                    items += [widget]
-                    items += [item]
-                else:
-                    items += [item]
-                    if label:
-                        items += [label]
-                    items += [widget]
-            else:
-                items += [item]
-        parent.init()
-        for item in items:
-            colspan = 1
-            rowspan = 1
-            t = self.template.get(item.Name)
-            if t:
-                colspan = t.colspan
-                rowspan = t.rowspan
-            parent.add(item, colspan=colspan, rowspan=rowspan)
+        parent.insert(sibling_name, pos, template)
+        sizer = self.GetSizer()
         sizer.Layout()
-        sizer.Fit(parent)
-        s = self.GetSizer()
-        s.Layout()
-        s.Fit(self)
+        sizer.Fit(self)
         self.Thaw()
-
 
     def clear(self):
         self.item_panel.clear()
@@ -315,11 +285,47 @@ class ItemPanel(wx.Panel):
 
     def with_label(self, template):
         if (template.kind == View.VK_PLACEHOLDER and self.orientation == Template.ORI_HORIZONTAL
-            and self.label_position == Template.POS_LEFT):
+                and self.label_position == Template.POS_LEFT):
             return False
         if self.orientation == Template.ORI_HORIZONTAL and not template.title:
             return False
         return True
+
+    def insert(self, sibling_name, pos, template):
+        parent = self.GetParent()
+        label, widget = parent.create_widget(self, template, with_label=self.with_label(template))
+        sizer = self.GetSizer()
+        items = []
+
+        for item in self.items:
+            sizer.Detach(item)
+            if sibling_name == item.Name:
+                if pos == Template.POS_BEFORE:
+                    if label:
+                        items += [label]
+                    items += [widget]
+                    items += [item]
+                else:
+                    items += [item]
+                    if label:
+                        items += [label]
+                    items += [widget]
+            else:
+                items += [item]
+
+        self.init()
+
+        for item in items:
+            colspan = 1
+            rowspan = 1
+            t = parent.template.get(item.Name)
+            if t:
+                colspan = t.colspan
+                rowspan = t.rowspan
+            self.add(item, colspan=colspan, rowspan=rowspan)
+
+        sizer.Layout()
+        sizer.Fit(self)
 
     def add(self, item, rowspan=1, colspan=1):
         self.items += [item]

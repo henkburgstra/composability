@@ -38,4 +38,4 @@
         - voor elke element uit de items list:
             * haal de bijbehorende template op voor o.a. colspan en rowspan
             * voeg de widgets toe met ItemPanel.add()
-[ ] refactor insert
+[x] refactor insert
