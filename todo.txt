@@ -24,7 +24,7 @@
                     vertical orientation en label position top: geen label = geen placeholder
                     vertical orientation en label position left: geen label = placeholder
 [x] widget moet naar de volledige breedte van de cell uitgroeien.
-[ ] bij insert moet niet de hele template opnieuw worden geladen. In plaats daarvan moet een (label en) widget
+[x] bij insert moet niet de hele template opnieuw worden geladen. In plaats daarvan moet een (label en) widget
     worden aangemaakt (zie BoxPanel.add_widget()). De bestaande widgets moeten uit de sizer gehaald worden (Detach()),
     de nieuwe widget moet op de juiste plaats in de widgets worden gezet en vervolgens moeten alle widgets aan
     de sizer worden toegevoegd. Voor eigenschappen zoals colspan moet de template van het widget worden opgehaald.
@@ -38,3 +38,4 @@
         - voor elke element uit de items list:
             * haal de bijbehorende template op voor o.a. colspan en rowspan
             * voeg de widgets toe met ItemPanel.add()
+[ ] refactor insert
