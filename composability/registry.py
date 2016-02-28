@@ -51,12 +51,12 @@ class Registry(object):
         if extended is not None:
             return extended
         include = self.include_def_item(d)
-        name = d.get("name", "")  # TODO: UID
-        title = d.get("title", "")
+        name = str(d.get("name", ""))  # TODO: UID
+        title = str(d.get("title", ""))
         display = d.get("display")
         if include is None:
             template = Template(
-                d.get("kind", View.VK_PLACEHOLDER),
+                str(d.get("kind", View.VK_PLACEHOLDER)),
                 name,
                 title=title,
                 orientation=d.get("orientation"),

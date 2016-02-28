@@ -65,7 +65,7 @@ class WxView(wx.Panel):
             widget.Bind(wx.EVT_BUTTON, self.on_button, source=widget)
         elif template.kind == View.VK_DATE:
             td = TransformDate(template.value)
-            widget = masked.TextCtrl(parent, wx.ID_ANY, td.display(), mask="##-##-####")
+            widget = masked.TextCtrl(parent, wx.ID_ANY, td.display(), name=template.name, mask="##-##-####")
             if template.readonly:
                 widget.SetEditable(False)
                 widget.SetBackgroundColour(parent.GetBackgroundColour())
