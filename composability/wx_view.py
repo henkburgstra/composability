@@ -66,6 +66,7 @@ class WxView(wx.Panel):
         elif template.kind == View.VK_DATE:
             td = TransformDate(template.value)
             widget = masked.TextCtrl(parent, wx.ID_ANY, td.display(), name=template.name, mask="##-##-####")
+            widget.SetFont(self.GetFont())
             if template.readonly:
                 widget.SetEditable(False)
                 widget.SetBackgroundColour(parent.GetBackgroundColour())
