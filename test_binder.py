@@ -126,6 +126,7 @@ sizer.Add(view)
 frame.Show()
 app.MainLoop()
 
+print("------------")
 for behandeling in patient.behandelingen.values():
     for behandeldag in behandeling.behandeldagen.values():
         print(behandeldag.datum.get_display())

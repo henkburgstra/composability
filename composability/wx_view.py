@@ -65,7 +65,7 @@ class WxView(wx.Panel):
         elif template.kind == View.VK_DATE:
             td = TransformDate(template.value)
             widget = wx.DatePickerCtrl(parent, wx.ID_ANY, dt=wx.DateTimeFromDMY(td.d(), td.m() - 1, td.y()),
-                                       name=template.name)
+                                       name=template.name, style=wx.TAB_TRAVERSAL|wx.DP_SHOWCENTURY)
             if template.readonly:
                 widget.Enable(False)
                 widget.SetBackgroundColour(parent.GetBackgroundColour())
