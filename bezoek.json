@@ -1,0 +1,127 @@
+{
+  "kind": "CONTAINER",
+  "name": "bezoek",
+  "title": "bezoek {key}",
+  "orientation": "HORIZONTAL",
+  "display": "INLINE",
+  "background_colour": "#e6e5a8",
+  "colcount": 5,
+  "label_position": "LEFT",
+  "items": [
+    {
+      "kind": "DATE",
+      "name": "datum",
+      "title": "Datum"
+    },
+    {},{},{},
+    {
+      "kind": "CONTAINER"
+    },
+    {
+      "kind": "COMBO",
+      "name": "verrichting_selectie",
+      "title": "",
+      "placeholder": "Selecteer een verrichting"
+    },
+    {
+      "kind": "TEXT",
+      "name": "titels",
+      "title": "Titels"
+    },
+    {},
+    {
+      "kind": "TEXT",
+      "name": "eigen_naam",
+      "title": "Eigen naam",
+      "colspan": 2,
+      "readonly": true
+    },
+    {
+      "kind": "TEXT",
+      "name": "voorzetsels",
+      "readonly": true
+    },
+    {},
+    {
+      "kind": "TEXT",
+      "name": "naam_partner",
+      "title": "Naam partner",
+      "colspan": 2,
+      "readonly": true
+    },
+    {
+      "kind": "TEXT",
+      "name": "voorzetsels_partner",
+      "readonly": true
+    },
+    {},
+    {
+      "kind": "COMBO",
+      "name": "huisarts",
+      "title": "Huisarts",
+      "placeholder": "Selecteer een huisarts",
+      "colspan": 3
+    },{},
+    {
+      "kind": "BUTTON",
+      "name": "invoegen",
+      "title": "Invoegen"
+    },
+    {
+      "kind": "CONTAINER",
+      "name": "behandelingen",
+      "title": "Zorgtraject",
+      "orientation": "VERTICAL",
+      "display": "RIGHT",
+      "background_colour": "#c8e6be",
+      "items": [
+        {
+          "kind": "TEXT",
+          "name": "verwijzer",
+          "title": "Verwijzer"
+        },
+        {
+          "kind": "BUTTON",
+          "name": "verwijderen",
+          "title": "Verwijderen"
+        },
+        {
+          "kind": "CONTAINER",
+          "name": "behandeldagen",
+          "title": "Bezoek",
+          "orientation": "VERTICAL",
+          "display": "RIGHT",
+          "background_colour": "#d6bfcf",
+          "items": [
+            {
+              "kind": "DATE",
+              "name": "datum",
+              "title": "Datum"
+            }
+          ]
+        },
+        {
+          "include": "meting",
+          "name": "metingen",
+          "display": "RIGHT"
+        }
+      ]
+    },
+    {
+      "kind": "CONTAINER",
+      "name": "pager",
+      "title": "Pager",
+      "orientation": "VERTICAL",
+      "display": "RIGHT",
+      "background_colour": "#c8e6be",
+      "items": [
+        {
+          "kind": "BUTTON",
+          "name": "bijladen",
+          "title": "Bijladen"
+        }
+      ]
+    }
+  ]
+}
+
