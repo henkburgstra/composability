@@ -2,6 +2,7 @@
 #  -*- coding: utf-8 -*-
 
 import wx
+from wx.lib import masked
 from composability.template import Template
 from composability.controller import Message
 from composability.transformers import TransformDate
@@ -64,12 +65,11 @@ class WxView(wx.Panel):
             widget.Bind(wx.EVT_BUTTON, self.on_button, source=widget)
         elif template.kind == View.VK_DATE:
             td = TransformDate(template.value)
-            widget = wx.DatePickerCtrl(parent, wx.ID_ANY, dt=wx.DateTimeFromDMY(td.d(), td.m() - 1, td.y()),
-                                       name=template.name, style=wx.TAB_TRAVERSAL|wx.DP_SHOWCENTURY)
+            widget = masked.TextCtrl(parent, wx.ID_ANY, td.display(), mask="##-##-####")
             if template.readonly:
-                widget.Enable(False)
+                widget.SetEditable(False)
                 widget.SetBackgroundColour(parent.GetBackgroundColour())
-            widget.Bind(wx.EVT_DATE_CHANGED, self.on_date, source=widget)
+            widget.Bind(wx.EVT_TEXT, self.on_text, source=widget)
         elif template.kind == View.VK_TEXT:
             widget = wx.TextCtrl(parent, wx.ID_ANY,
                 template.value if template.value is not None else "", name=template.name)
@@ -166,13 +166,6 @@ class WxView(wx.Panel):
         vw_msg = Message(Message.CLICK)
         vw_msg.set("view", self)
         ctrl = msg.GetEventObject()
-        self.controller.view_message(ctrl.GetName(), vw_msg)
-
-    def on_date(self, msg):
-        vw_msg = Message(Message.CHANGE)
-        vw_msg.set("view", self)
-        ctrl = msg.GetEventObject()
-        vw_msg.set("value", ctrl.GetValue().Format("%d-%m-%Y"))
         self.controller.view_message(ctrl.GetName(), vw_msg)
 
     def on_text(self, msg):
