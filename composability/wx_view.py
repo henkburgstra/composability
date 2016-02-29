@@ -99,7 +99,7 @@ class WxView(wx.Panel):
     def add_widget(self, parent, template):
         pass
 
-    def insert(self, sibling_name, pos, template):
+    def insert(self,template, pos, sibling_name):
         # onderstaande code werkt, maar heeft als nadeel dat het hele scherm
         # opnieuw wordt opgebouwd en de waarde van de widgets opnieuw
         # moet worden ingesteld.
@@ -110,7 +110,7 @@ class WxView(wx.Panel):
             return  # TODO: foutmelding
         if parent_name == self.Name:
             parent_template = self.template
-            parent_template.insert(sibling_name, pos, template)
+            parent_template.insert(template, pos, sibling_name)
             self.clear()
             self.set_template(parent_template)
             self.render()
@@ -122,7 +122,7 @@ class WxView(wx.Panel):
             if not parent_template:
                 return  # TODO: foutmelding
             self.remove(parent_name)
-            parent_template.insert(sibling_name, pos, template)
+            parent_template.insert(template, pos, sibling_name)
             self.add(parent_template)
 
     def add(self, template):
@@ -253,19 +253,19 @@ class BoxPanel(WxView):
         sizer.Layout()
         sizer.Fit(panel)
 
-    def insert(self, sibling_name, pos, template):
+    def insert(self, template, pos, sibling_name):
         # nieuwe implementatie van WxView.insert()
         parent_name = template.get_parent_name()
         if not parent_name:
             return  # TODO: foutmelding
         parent_template = self.template
-        parent_template.insert(sibling_name, pos, template)
+        parent_template.insert(template, pos, sibling_name)
         sibling = wx.FindWindowByName(sibling_name)
         if not sibling:
             return  # TODO: foutmelding
         parent = sibling.GetParent()   # TODO: dit moet een ItemPanel instantie zijn, anders foutmelding
         self.Freeze()
-        parent.insert(sibling_name, pos, template)
+        parent.insert(template, pos, sibling_name)
         sizer = self.GetSizer()
         sizer.Layout()
         sizer.Fit(self)
@@ -308,7 +308,7 @@ class ItemPanel(wx.Panel):
             return False
         return True
 
-    def insert(self, sibling_name, pos, template):
+    def insert(self, template, pos, sibling_name):
         parent = self.GetParent()
         label, widget = parent.create_widget(self, template, with_label=self.with_label(template))
         sizer = self.GetSizer()

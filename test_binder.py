@@ -67,7 +67,7 @@ class PatientController(Controller):
 
     def invoegen(self):
         text = Template(kind=View.VK_TEXT, name="patient(1)/ingevoegd", title="Ingevoegd")
-        self.view.insert("patient(1)/invoegen", Template.POS_AFTER, text)
+        self.view.insert(text, Template.POS_AFTER, "patient(1)/invoegen")
 
     def load_behandelingen(self):
         behandelingen_t = self.binder.get_template("behandelingen")
