@@ -100,30 +100,7 @@ class WxView(wx.Panel):
         pass
 
     def insert(self,template, pos, sibling_name):
-        # onderstaande code werkt, maar heeft als nadeel dat het hele scherm
-        # opnieuw wordt opgebouwd en de waarde van de widgets opnieuw
-        # moet worden ingesteld.
-        #
-        # Zie BoxPanel.insert() voor nieuwe implementatie.
-        parent_name = template.get_parent_name()
-        if not parent_name:
-            return  # TODO: foutmelding
-        if parent_name == self.Name:
-            parent_template = self.template
-            parent_template.insert(template, pos, sibling_name)
-            self.clear()
-            self.set_template(parent_template)
-            self.render()
-        else:
-            parent = wx.FindWindowByName(parent_name)
-            if not parent:
-                return  # TODO: foutmelding
-            parent_template = getattr(parent, "template", None)
-            if not parent_template:
-                return  # TODO: foutmelding
-            self.remove(parent_name)
-            parent_template.insert(template, pos, sibling_name)
-            self.add(parent_template)
+        pass
 
     def add(self, template):
         if not template.visible:

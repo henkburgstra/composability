@@ -19,7 +19,13 @@ class MockBezoekBinder(Binder):
 
     def load_relationship_data(self, template, parent_data):
         if template.name == "verrichtingen":
-            return [dict(key=str(uuid.uuid1()), verrichting="verrichting #1"), dict(key=str(uuid.uuid1()), verrichting="verrichting #2")]
+            return [dict
+                (
+                    key=str(uuid.uuid1()), verrichting="verrichting #1"
+                ), dict(
+                    key=str(uuid.uuid1()), verrichting="verrichting #2"
+                )
+            ]
         return []
 
     def load_combo_options(self, template, data):
