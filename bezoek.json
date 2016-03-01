@@ -18,6 +18,7 @@
       "title": "Verrichtingen",
       "display": "INLINE",
       "orientation": "HORIZONTAL",
+      "background_colour": "#28A9E1",
       "colcount": 1,
       "items": [
         {
