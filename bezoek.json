@@ -17,13 +17,15 @@
       "kind": "CONTAINER",
       "title": "Verrichtingen",
       "display": "INLINE",
-      "orientation": "VERTICAL",
+      "orientation": "HORIZONTAL",
+      "colcount": 1,
       "items": [
         {
           "kind": "CONTAINER",
           "name": "verrichtingen",
           "display": "INLINE",
-          "orientation": "VERTICAL",
+          "orientation": "HORIZONTAL",
+          "colcount": 1,
           "items": [
             {
               "kind": "TEXT",
