@@ -199,8 +199,8 @@ class BoxPanel(WxView):
     def add_container(self, parent, template):
         super(BoxPanel, self).add_container(parent, template)
         if template.display == Template.DISP_INLINE:
-            box = BoxPanel(parent.item_panel, name=template.name)
-            parent.item_panel.add(box, colspan=2)
+            self.add_widget(parent.item_panel, template)
+            return
         elif template.display == Template.DISP_RIGHT:
             box = BoxPanel(parent.right_panel, name=template.name)
             parent.right_panel.add(box)
@@ -210,6 +210,18 @@ class BoxPanel(WxView):
         box.set_template(template)
         box.set_controller(self.controller)
         box.render()
+
+    def create_widget(self, parent, template, with_label=True):
+        label, widget = super(BoxPanel, self).create_widget(parent, template, with_label=with_label)
+
+        if template.kind == View.VK_CONTAINER:
+            box = BoxPanel(parent, name=template.name)
+            box.set_template(template)
+            box.set_controller(self.controller)
+            box.render()
+            widget = box
+
+        return label, widget
 
     def add_widget(self, parent, template):
         if isinstance(parent, ItemPanel):
