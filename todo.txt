@@ -39,3 +39,5 @@
             * haal de bijbehorende template op voor o.a. colspan en rowspan
             * voeg de widgets toe met ItemPanel.add()
 [x] refactor insert
+[ ] implementeer min-width en max-width: na Layout() van de parent alle kinderen controleren en
+    zo nodig width of height aanpassen met SetSize().
