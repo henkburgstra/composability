@@ -185,8 +185,8 @@ class BoxPanel(WxView):
         self.item_panel.SetBackgroundColour(self.GetParent().GetBackgroundColour())
         self.item_sizer.Add(self.item_panel, 0, wx.ALL | wx.EXPAND, 2)
         self.right_panel = SubBoxPanel(self)
-        sizer.Add(self.item_sizer, pos=(0, 0))
-        sizer.Add(self.right_panel, pos=(0, 1))
+        sizer.Add(self.item_sizer, pos=(0, 0), flag=wx.EXPAND)
+        sizer.Add(self.right_panel, pos=(0, 1), flag=wx.EXPAND)
 
     def set_template(self, template):
         super(BoxPanel, self).set_template(template)
@@ -336,7 +336,7 @@ class ItemPanel(wx.Panel):
     def add(self, item, rowspan=1, colspan=1):
         self.items += [item]
         sizer = self.GetSizer()
-        sizer.Add(item, pos=(self.row, self.col), span=(rowspan, colspan), flag=wx.EXPAND | wx.ALIGN_CENTER)
+        sizer.Add(item, pos=(self.row, self.col), span=(rowspan, colspan), flag=wx.EXPAND)
         if self.orientation == Template.ORI_VERTICAL:
             # verticaal is steeds een label en een invoerveld naast elkaar
             self.col += colspan
