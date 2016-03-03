@@ -16,15 +16,31 @@ class View(object):
     VK_BUTTON = "BUTTON"
     VK_COMBO = "COMBO"
 
-    # def on_change(self):
-    #     self.controller.view_changed(self)
-    #
-    # def on_focus(self):
-    #     self.controller.view_focused(self)
-    #
-    # def on_click(self):
-    #     self.controller.view_clicked(self)
+    @abc.abstractmethod
     def add(self, template):
         pass
+
+    @abc.abstractmethod
+    def get_value(self, name):
+        pass
+
+    @abc.abstractmethod
+    def insert(self,template, pos, sibling_name):
+        pass
+
+    @abc.abstractmethod
+    def remove(self, name):
+        pass
+
+    @abc.abstractmethod
+    def set_controller(self, controller):
+        pass
+
+    @abc.abstractmethod
+    def set_value(self, name, value):
+        pass
+
+
+
 
 

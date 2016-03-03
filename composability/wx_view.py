@@ -9,7 +9,7 @@ from composability.transformers import TransformDate
 from composability.view import View
 
 
-class WxView(wx.Panel):
+class WxView(wx.Panel, View):
     """
     WxView implements the View interface.
     """
@@ -403,3 +403,4 @@ class SubBoxPanel(wx.Panel):
             sizer = self.GetSizer()
             sizer.Detach(item)
             item.Destroy()
+
