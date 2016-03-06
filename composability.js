@@ -24,7 +24,12 @@ View.prototype.createWidget = function(parent, template, withLabel) {
     label = null;
     widget = null;
 
-    if with_label:
+    withLabel = typeof withLabel == 'undefined' ? false : withLabel;
+
+    if withLabel {
+        if [VK.PLACEHOLDER, VK.BUTTON, VK.LABEL].indexOf(template.kind) != -1 {
+        }
+    }
         if template.kind in [View.VK_PLACEHOLDER, View.VK_BUTTON, View.VK_LABEL]:
             label = wx.Panel(parent, wx.ID_ANY, style=wx.TRANSPARENT_WINDOW, name="placeholder-%s" % template.name)
         else:
