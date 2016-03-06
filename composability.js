@@ -13,10 +13,17 @@ var View = function(parent, name) {
     this.setTemplate = function(template) {
         this.template = template;
     };
+    this.inheritanceTest = function() {
+        console.log('View');
+    };
 
 };
 
 var BoxPanel = function(parent, name) {
     this.prototype = new View(parent, name);
     this.ancestor = View.prototype;
+    this.inheritanceTest = function() {
+        this.ancestor.test();
+        console.log('BoxPanel');
+    }
 };
