@@ -18,28 +18,40 @@ var View = function(parent, name) {
     this.parent = parent;
     this.name = name;
     this.template = null;
+    this.element = null;
 };
 
 View.prototype.createWidget = function(parent, template, withLabel) {
-    label = null;
-    widget = null;
+    var label = null;
+    var widget = null;
 
     withLabel = typeof withLabel == 'undefined' ? false : withLabel;
 
     if withLabel {
+        label = document.createElement('div');
         if [VK.PLACEHOLDER, VK.BUTTON, VK.LABEL].indexOf(template.kind) != -1 {
+            label.id = "placeholder-" + template.name;
+        } else {
+            label.id = "label-" + template.name;
+            label.appendChild(document.createTextNode(template.title));
         }
     }
-        if template.kind in [View.VK_PLACEHOLDER, View.VK_BUTTON, View.VK_LABEL]:
-            label = wx.Panel(parent, wx.ID_ANY, style=wx.TRANSPARENT_WINDOW, name="placeholder-%s" % template.name)
-        else:
-            label = wx.StaticText(parent, wx.ID_ANY, " %s " % template.title, name="label-%s" % template.name)
 
-    if template.kind == View.VK_PLACEHOLDER:
-        widget = wx.Panel(parent, wx.ID_ANY, style=wx.TRANSPARENT_WINDOW, name=template.name)
-        widget.SetBackgroundColour(parent.GetBackgroundColour())
-    if template.kind == View.VK_LABEL:
-        widget = wx.StaticText(parent, wx.ID_ANY, template.title, name=template.name)
+    switch (template.kind) {
+    case VK.PLACEHOLDER:
+        widget = document.createElement('div');
+        widget.id = template.name;
+        widget.style.backgroundColor = parent.style.backgroundColor;
+    case VK.LABEL:
+        widget = document.createElement('div');
+        widget.id = template.name;
+        widget.appendChild(document.createTextNode(template.title));
+    default:
+        widget = document.createElement('div');
+        widget.id = template.name;
+        widget.appendChild(document.createTextNode(template.title));
+    }
+
     elif template.kind == View.VK_BUTTON:
         widget = wx.Button(parent, wx.ID_ANY, template.title, name=template.name)
         widget.Bind(wx.EVT_BUTTON, self.on_button, source=widget)
@@ -71,9 +83,6 @@ View.prototype.createWidget = function(parent, template, withLabel) {
             widget.SetSelection(selected)
         widget.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=widget)
 
-    // if template.readonly:
-    //     widget.Enable(False)
-    //     widget.SetBackgroundColour(parent.GetBackgroundColour())
     return [label, widget];
 };
 
@@ -94,7 +103,7 @@ View.prototype.add = function(template) {
     if template.parent:
         parent = document.getElementById(template.parent.name);
     if parent is None:
-        parent = this;  // TODO: dit is verkeerd. recursief add aanroepen met template.parent
+        parent = this.element;  // TODO: dit is verkeerd. recursief add aanroepen met template.parent
 
     if template.kind == VK.CONTAINER {
         this.addContainer(parent, template);
@@ -108,6 +117,9 @@ View.prototype.inheritanceTest = function() {
 }
 
 View.prototype.render = function() {
+    this.element = document.createElement('div');
+    this.element.id = this.name;
+    this.parent.appendChild(this.element);
     for (var i = 0; i < this.template.items.length; i++) {
         this.add(this.template.items[i]);
     }
