@@ -45,6 +45,9 @@ class WxView(wx.Panel, View):
     def add_container(self, parent, template):
         pass
 
+    def add_widget(self, parent, template):
+        pass
+
     def create_widget(self, parent, template, with_label=True):
         label = None
         widget = None
@@ -95,9 +98,6 @@ class WxView(wx.Panel, View):
         #     widget.Enable(False)
         #     widget.SetBackgroundColour(parent.GetBackgroundColour())
         return label, widget
-
-    def add_widget(self, parent, template):
-        pass
 
     def insert(self,template, pos, sibling_name):
         pass
