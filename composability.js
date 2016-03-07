@@ -46,42 +46,37 @@ View.prototype.createWidget = function(parent, template, withLabel) {
         widget = document.createElement('div');
         widget.id = template.name;
         widget.appendChild(document.createTextNode(template.title));
+    case VK.BUTTON:
+        widget = document.createElement('button');
+        widget.id = template.name;
+        widget.appendChild(document.createTextNode(template.title));
+    case VK.DATE:
+        widget = document.createElement('input');
+        widget.type = 'date';
+        widget.id = template.name;
+    case VK.TEXT:
+        widget = document.createElement('input');
+        widget.type = 'text';
+        widget.id = template.name;
+    case VK.COMBO:
+        widget = document.createElement('select');
+        widget.id = template.name;
+        for (var i = 0; i < template.options; i++) {
+            var o = document.createElement('option');
+            var v = template.options[i][0];
+            var l = template.options[i][1];
+            o.value = v;
+            if (v == template.value) {
+                // TODO: selected
+            }
+            o.appendChild(document.createTextNode(l));
+            widget.appendChild(o);
+        }
     default:
         widget = document.createElement('div');
         widget.id = template.name;
         widget.appendChild(document.createTextNode(template.title));
     }
-
-    elif template.kind == View.VK_BUTTON:
-        widget = wx.Button(parent, wx.ID_ANY, template.title, name=template.name)
-        widget.Bind(wx.EVT_BUTTON, self.on_button, source=widget)
-    elif template.kind == View.VK_DATE:
-        td = TransformDate(template.value)
-        widget = masked.TextCtrl(parent, wx.ID_ANY, td.display(), name=template.name, mask="##-##-####")
-        widget.SetFont(self.GetFont())
-        if template.readonly:
-            widget.SetEditable(False)
-            widget.SetBackgroundColour(parent.GetBackgroundColour())
-        widget.Bind(wx.EVT_TEXT, self.on_text, source=widget)
-    elif template.kind == View.VK_TEXT:
-        widget = wx.TextCtrl(parent, wx.ID_ANY,
-            template.value if template.value is not None else "", name=template.name)
-        if template.readonly:
-            widget.SetEditable(False)
-            widget.SetBackgroundColour(parent.GetBackgroundColour())
-        widget.Bind(wx.EVT_TEXT, self.on_text, source=widget)
-    elif template.kind == View.VK_COMBO:
-        widget = wx.ComboBox(parent, wx.ID_ANY, name=template.name)
-        i = 0
-        selected = -1
-        for key, option in template.options:
-            widget.Append(option, key)
-            if key == template.value:
-                selected = i
-            i += 1
-        if selected != -1:
-            widget.SetSelection(selected)
-        widget.Bind(wx.EVT_COMBOBOX, self.on_combobox, source=widget)
 
     return [label, widget];
 };
@@ -97,13 +92,14 @@ View.prototype.add = function(template) {
     if not template.visible {
         return;
     }
-    self.Freeze()
-    parent = None
+    parent = null;
 
-    if template.parent:
+    if (template.parent) {
         parent = document.getElementById(template.parent.name);
-    if parent is None:
+    }
+    if parent == null {
         parent = this.element;  // TODO: dit is verkeerd. recursief add aanroepen met template.parent
+    }
 
     if template.kind == VK.CONTAINER {
         this.addContainer(parent, template);
