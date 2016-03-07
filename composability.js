@@ -141,10 +141,21 @@ BoxPanel.prototype.inheritanceTest = function() {
     console.log('BoxPanel');
 }
 
+BoxPanel.prototype.createPanels = function() {
+    if (this.itemPanel == null && this.element != null) {
+        this.itemPanel = document.createElement('div');
+    }
+    if (this.rightPanel == null && this.element != null) {
+        this.rightPanel = document.createElement('div');
+    }
+};
+
 BoxPanel.prototype.addContainer = function(parent, template) {
+    this.createPanels();
 };
 
 BoxPanel.prototype.addWidget = function(parent, template) {
+    this.createPanels();
 };
 
 var TestPanel = function(parent, name) {
