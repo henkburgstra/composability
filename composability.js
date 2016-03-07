@@ -125,7 +125,12 @@ View.prototype.setTemplate = function(template) {
     this.template = template;
 };
 
+/*
+    BoxPanel
+*/
 var BoxPanel = function(parent, name) {
+    this.itemPanel = null;
+    this.rightPanel = null;
 };
 
 BoxPanel.prototype = new View(parent, name);
@@ -136,10 +141,10 @@ BoxPanel.prototype.inheritanceTest = function() {
     console.log('BoxPanel');
 }
 
-View.prototype.addContainer = function(parent, template) {
+BoxPanel.prototype.addContainer = function(parent, template) {
 };
 
-View.prototype.addWidget = function(parent, template) {
+BoxPanel.prototype.addWidget = function(parent, template) {
 };
 
 var TestPanel = function(parent, name) {
