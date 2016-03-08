@@ -112,9 +112,14 @@ View.prototype.inheritanceTest = function() {
     console.log('View');
 }
 
+View.prototype.createDOM = function() {
+    var element = document.createElement('div');
+    element.id = this.name;
+    return element;
+}
+
 View.prototype.render = function() {
-    this.element = document.createElement('div');
-    this.element.id = this.name;
+    this.element = this.createDOM();
     this.parent.appendChild(this.element);
     for (var i = 0; i < this.template.items.length; i++) {
         this.add(this.template.items[i]);
@@ -141,21 +146,24 @@ BoxPanel.prototype.inheritanceTest = function() {
     console.log('BoxPanel');
 }
 
-BoxPanel.prototype.createPanels = function() {
-    if (this.itemPanel == null && this.element != null) {
+BoxPanel.prototype.createDOM = function () {
+    var element = this.ancestor.createDOM();
+    if (this.itemPanel == null && element != null) {
         this.itemPanel = document.createElement('div');
     }
-    if (this.rightPanel == null && this.element != null) {
+    if (this.rightPanel == null && element != null) {
         this.rightPanel = document.createElement('div');
     }
+    return element;
+}
+
+BoxPanel.prototype.createPanels = function() {
 };
 
 BoxPanel.prototype.addContainer = function(parent, template) {
-    this.createPanels();
 };
 
 BoxPanel.prototype.addWidget = function(parent, template) {
-    this.createPanels();
 };
 
 var TestPanel = function(parent, name) {
