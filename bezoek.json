@@ -1,44 +1,56 @@
 {
   "kind": "CONTAINER",
   "name": "bezoek",
-  "title": "bezoek {key}",
-  "orientation": "HORIZONTAL",
-  "display": "INLINE",
-  "background_colour": "#e6e5a8",
-  "colcount": 2,
-  "label_position": "LEFT",
+  "attributes": {
+    "title": "bezoek {key}",
+    "orientation": "HORIZONTAL",
+    "display": "INLINE",
+    "background_colour": "#e6e5a8",
+    "colcount": 2,
+    "label_position": "LEFT"
+  },
   "items": [
     {
       "kind": "DATE",
       "name": "datum",
-      "title": "Datum"
+      "attributes": {
+        "title": "Datum"
+      }
     },
     {
       "kind": "CONTAINER",
       "title": "Verrichtingen",
-      "display": "INLINE",
-      "orientation": "HORIZONTAL",
-      "background_colour": "#28A9E1",
-      "colcount": 1,
+      "attributes": {
+        "display": "INLINE",
+        "orientation": "HORIZONTAL",
+        "background_colour": "#28A9E1",
+        "colcount": 1
+      },
       "items": [
         {
           "kind": "CONTAINER",
           "name": "verrichtingen",
-          "display": "INLINE",
-          "orientation": "HORIZONTAL",
-          "colcount": 1,
+          "attributes": {
+            "display": "INLINE",
+            "orientation": "HORIZONTAL",
+            "colcount": 1
+          },
           "items": [
             {
               "kind": "TEXT",
               "name": "verrichting",
-              "readonly": true
+              "attributes": {
+                "readonly": true
+              }
             }
           ]
         },
         {
           "kind": "COMBO",
           "name": "verrichting_selectie",
-          "placeholder": "Selecteer een verrichting"
+          "attributes": {
+            "placeholder": "Selecteer een verrichting"
+          }
         }
       ]
     }
