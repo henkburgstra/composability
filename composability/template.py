@@ -14,12 +14,14 @@ class Template(object):
 
     _id_counter = dict()
 
-    def __init__(self, kind, name="", value=None, title="", orientation=None, display=None,
-                 readonly=False, colcount=-1, colspan=1, rowspan=1, label_position=POS_ABOVE, background_colour=None):
+    def __init__(self, kind, name="", value=None, attributes=None):
+        # title="", orientation=None, display=None,
+        #          readonly=False, colcount=-1, colspan=1, rowspan=1, label_position=POS_ABOVE, background_colour=None):
         self.parent = None
         self.kind = kind
         self.name = name
         self.value = value
+        self.attributes = dict() if attributes is None else attributes
         self.title = title
         self.visible = True
         self.orientation = Template.ORI_HORIZONTAL if orientation is None else orientation
@@ -41,6 +43,9 @@ class Template(object):
         counter += 1
         self._id_counter[self.kind] = counter
         return counter
+
+    def attribute(self, name):
+        return self.attributes.get(name)
 
     def add(self, template):
         if template.background_colour is None:
