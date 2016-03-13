@@ -2,11 +2,13 @@
   "kind": "CONTAINER",
   "name": "patient",
   "title": "patient {key}",
-  "orientation": "HORIZONTAL",
-  "display": "INLINE",
-  "background_colour": "#e6e5a8",
-  "colcount": 5,
-  "label_position": "LEFT",
+  "attributes": {
+    "orientation": "HORIZONTAL",
+    "display": "INLINE",
+    "background_colour": "#e6e5a8",
+    "colcount": 5,
+    "label_position": "LEFT",
+  },
   "items": [
     {
       "kind": "TEXT",
@@ -23,7 +25,9 @@
       "kind": "COMBO",
       "name": "geslacht",
       "title": "Geslacht",
-      "placeholder": "Selecteer een geslacht"
+      "attributes": {
+        "placeholder": "Selecteer een geslacht"
+      }
     },
     {
       "kind": "TEXT",
@@ -35,8 +39,10 @@
       "kind": "TEXT",
       "name": "eigen_naam",
       "title": "Eigen naam",
-      "colspan": 2,
-      "readonly": true
+      "readonly": true,
+      "attributes": {
+        "colspan": 2
+      }
     },
     {
       "kind": "TEXT",
@@ -48,8 +54,11 @@
       "kind": "TEXT",
       "name": "naam_partner",
       "title": "Naam partner",
-      "colspan": 2,
-      "readonly": true
+      "readonly": true,
+      "attributes": {
+        "colspan": 2
+
+      }
     },
     {
       "kind": "TEXT",
@@ -61,8 +70,10 @@
       "kind": "COMBO",
       "name": "huisarts",
       "title": "Huisarts",
-      "placeholder": "Selecteer een huisarts",
-      "colspan": 3
+      "attributes": {
+        "placeholder": "Selecteer een huisarts",
+        "colspan": 3
+      }
     },{},
     {
       "kind": "BUTTON",
@@ -73,9 +84,11 @@
       "kind": "CONTAINER",
       "name": "behandelingen",
       "title": "Zorgtraject",
-      "orientation": "VERTICAL",
-      "display": "RIGHT",
-      "background_colour": "#c8e6be",
+      "attributes": {
+        "orientation": "VERTICAL",
+        "display": "RIGHT",
+        "background_colour": "#c8e6be"
+      },
       "items": [
         {
           "kind": "TEXT",
@@ -91,9 +104,11 @@
           "kind": "CONTAINER",
           "name": "behandeldagen",
           "title": "Bezoek",
-          "orientation": "VERTICAL",
-          "display": "RIGHT",
-          "background_colour": "#d6bfcf",
+          "attributes": {
+            "orientation": "VERTICAL",
+            "display": "RIGHT",
+            "background_colour": "#d6bfcf"
+          },
           "items": [
             {
               "kind": "DATE",
@@ -105,7 +120,9 @@
         {
           "include": "meting",
           "name": "metingen",
-          "display": "RIGHT"
+          "attributes": {
+            "display": "RIGHT"
+          }
         }
       ]
     },
@@ -114,8 +131,10 @@
       "name": "pager",
       "title": "Pager",
       "orientation": "VERTICAL",
-      "display": "RIGHT",
-      "background_colour": "#c8e6be",
+      "attributes": {
+        "display": "RIGHT",
+        "background_colour": "#c8e6be",
+      },
       "items": [
         {
           "kind": "BUTTON",
