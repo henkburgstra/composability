@@ -13,7 +13,7 @@ class Template(object):
     POS_AFTER = "AFTER"
 
     _attribute_defaults = dict(
-        backgroun_colour="white",
+        background_colour="white",
         colcount=-1,
         colspan=1,
         rowspan=1,
