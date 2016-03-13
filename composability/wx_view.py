@@ -36,7 +36,8 @@ class WxView(wx.Panel, View):
             widget.SetValue(value)
 
     def set_template(self, template):
-        orientation = template.orientation if template.orientation else Template.ORI_VERTICAL
+        template_orientation = template.attr("orientation")
+        orientation = template_orientation if template_orientation else Template.ORI_VERTICAL
         self.orientation = orientation
         self.template = template
         if template.name:
@@ -191,17 +192,17 @@ class BoxPanel(WxView):
     def set_template(self, template):
         super(BoxPanel, self).set_template(template)
         self.item_panel.set_orientation(self.orientation)
-        if template.colcount != -1:
-            self.item_panel.set_colcount(template.colcount)
-        self.item_panel.set_label_position(template.label_position)
-        self.item_panel.SetBackgroundColour(template.background_colour)
+        if template.attr("colcount") != -1:
+            self.item_panel.set_colcount(template.attr("colcount"))
+        self.item_panel.set_label_position(template.attr("label_position"))
+        self.item_panel.SetBackgroundColour(template.attr("background_colour"))
 
     def add_container(self, parent, template):
         super(BoxPanel, self).add_container(parent, template)
-        if template.display == Template.DISP_INLINE:
+        if template.attr("display") == Template.DISP_INLINE:
             self.add_widget(parent.item_panel, template)
             return
-        elif template.display == Template.DISP_RIGHT:
+        elif template.attr("display") == Template.DISP_RIGHT:
             box = BoxPanel(parent.right_panel, name=template.name)
             parent.right_panel.add(box)
         else:
@@ -236,7 +237,7 @@ class BoxPanel(WxView):
             panel.add(label)
 
         if widget:
-            panel.add(widget, rowspan=template.rowspan, colspan=template.colspan)
+            panel.add(widget, rowspan=template.attr("rowspan"), colspan=template.attr("colspan"))
 
         sizer = panel.GetSizer()
         sizer.Layout()
@@ -326,8 +327,8 @@ class ItemPanel(wx.Panel):
             rowspan = 1
             t = parent.template.get(item.Name)
             if t:
-                colspan = t.colspan
-                rowspan = t.rowspan
+                colspan = t.attr("colspan")
+                rowspan = t.attr("rowspan")
             self.add(item, colspan=colspan, rowspan=rowspan)
 
         sizer.Layout()

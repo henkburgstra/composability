@@ -12,26 +12,27 @@ class Template(object):
     POS_BEFORE = "BEFORE"
     POS_AFTER = "AFTER"
 
+    _attribute_defaults = dict(
+        backgroun_colour="white",
+        colcount=-1,
+        colspan=1,
+        rowspan=1,
+        orientation=ORI_HORIZONTAL,
+        display=DISP_INLINE,
+        label_position=POS_ABOVE
+    )
+
     _id_counter = dict()
 
-    def __init__(self, kind, name="", value=None, attributes=None):
-        # title="", orientation=None, display=None,
-        #          readonly=False, colcount=-1, colspan=1, rowspan=1, label_position=POS_ABOVE, background_colour=None):
+    def __init__(self, kind, name="", title="", value=None, readonly=False, visible=True, attributes=None):
         self.parent = None
         self.kind = kind
         self.name = name
-        self.value = value
-        self.attributes = dict() if attributes is None else attributes
         self.title = title
-        self.visible = True
-        self.orientation = Template.ORI_HORIZONTAL if orientation is None else orientation
-        self.display = Template.DISP_INLINE if display is None else display
+        self.value = value
         self.readonly = readonly
-        self.background_colour = background_colour
-        self.colcount = colcount
-        self.colspan = colspan
-        self.rowspan = rowspan
-        self.label_position = label_position
+        self.visible = True
+        self.attributes = dict() if attributes is None else attributes
         self.items = []  #  child views
         self.items_dict = {}
 
@@ -44,12 +45,15 @@ class Template(object):
         self._id_counter[self.kind] = counter
         return counter
 
-    def attribute(self, name):
-        return self.attributes.get(name)
+    def attr(self, name):
+        return self.attributes.get(name, self._attribute_defaults.get(name))
+
+    def set_attr(self, name, value):
+        self.attributes[name] = value
 
     def add(self, template):
-        if template.background_colour is None:
-            template.background_colour = self.background_colour
+        if template.attr("background_colour") is None:
+            template.set_attr("background_colour", self.attr("background_colour"))
         template.parent = self
         self.items += [template]
         self.items_dict[template.name] = template
@@ -87,6 +91,3 @@ class Template(object):
     def clear(self):
         self.items = []
         self.items_dict = {}
-
-    def set_orientation(self, orientation):
-        self.orientation = orientation
