@@ -1,8 +1,8 @@
 {
   "kind": "CONTAINER",
   "name": "bezoek",
+  "title": "bezoek {key}",
   "attributes": {
-    "title": "bezoek {key}",
     "orientation": "HORIZONTAL",
     "display": "INLINE",
     "background_colour": "#e6e5a8",
@@ -13,9 +13,7 @@
     {
       "kind": "DATE",
       "name": "datum",
-      "attributes": {
-        "title": "Datum"
-      }
+      "title": "Datum"
     },
     {
       "kind": "CONTAINER",
