@@ -178,7 +178,7 @@ class BoxPanel(WxView):
     """
     def __init__(self, parent, **kwargs):
         WxView.__init__(self, parent, **kwargs)
-        sizer = wx.GridBagSizer()
+        sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.SetSizer(sizer)
         self.orientation = Template.ORI_VERTICAL
         self.item_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -186,8 +186,8 @@ class BoxPanel(WxView):
         self.item_panel.SetBackgroundColour(self.GetParent().GetBackgroundColour())
         self.item_sizer.Add(self.item_panel, 0, wx.ALL | wx.EXPAND, 2)
         self.right_panel = SubBoxPanel(self)
-        sizer.Add(self.item_sizer, pos=(0, 0), flag=wx.EXPAND)
-        sizer.Add(self.right_panel, pos=(0, 1), flag=wx.EXPAND)
+        sizer.Add(self.item_sizer, flag=wx.EXPAND)
+        sizer.Add(self.right_panel, flag=wx.EXPAND)
 
     def set_template(self, template):
         super(BoxPanel, self).set_template(template)
