@@ -8,9 +8,23 @@ var VK = {
     "BUTTON": "BUTTON",
     "COMBO": "COMBO"
 }
+var templateProperties = ["parent", "kind", "name", "title", "value", "readonly", "visible"];
 
-var Template = function(kind) {
+var Template = function(kind, attributes) {
+    this.parent = null;
     this.kind = kind;
+    this.attributes = {};
+    if (attributes != 'undefined') {
+        for (var key in attributes) {
+            if (attributes.hasOwnProperty(key)) {
+                if (templateProperties.indexOf(key) == -1) {
+                    this[key] = attributes[key];
+                } else {
+                    this.attributes[key] = attributes[key];
+                }
+            }
+        }
+    }
     this.items = [];
 };
 
