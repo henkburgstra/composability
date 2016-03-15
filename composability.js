@@ -29,10 +29,6 @@ var Template = function(kind, attributes) {
 };
 
 var View = function(parent, name) {
-    this.init(parent, name);
-};
-
-View.prototype.init = function(parent, name) {
     this.parent = parent;
     this.name = name;
     this.template = null;
@@ -152,21 +148,17 @@ View.prototype.setTemplate = function(template) {
     BoxPanel
 */
 var BoxPanel = function(parent, name) {
-    this.init(parent, name);
+    this.ancestor.constructor.call(this, parent, name);
+    this.itemPanel = null;
+    this.rightPanel = null;
 };
 
 BoxPanel.prototype = new View(parent, name);
 BoxPanel.prototype.constructor = BoxPanel;
 BoxPanel.prototype.ancestor = View.prototype
 
-BoxPanel.prototype.init = function(parent, name) {
-    this.ancestor.init(parent, name);
-    this.itemPanel = null;
-    this.rightPanel = null;
-};
-
 BoxPanel.prototype.createDOM = function () {
-    var element = this.ancestor.createDOM();
+    var element = this.ancestor.createDOM.call(this);
     if (this.itemPanel == null && element != null) {
         this.itemPanel = document.createElement('div');
     }
