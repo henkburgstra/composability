@@ -14,7 +14,7 @@ var Template = function(kind, attributes) {
     this.parent = null;
     this.kind = kind;
     this.attributes = {};
-    if (attributes != 'undefined') {
+    if (attributes != undefined) {
         for (var key in attributes) {
             if (attributes.hasOwnProperty(key)) {
                 if (templateProperties.indexOf(key) == -1) {
@@ -29,6 +29,10 @@ var Template = function(kind, attributes) {
 };
 
 var View = function(parent, name) {
+    this.init(parent, name);
+};
+
+View.prototype.init = function(parent, name) {
     this.parent = parent;
     this.name = name;
     this.template = null;
@@ -41,9 +45,9 @@ View.prototype.createWidget = function(parent, template, withLabel) {
 
     withLabel = typeof withLabel == 'undefined' ? false : withLabel;
 
-    if withLabel {
+    if (withLabel) {
         label = document.createElement('div');
-        if [VK.PLACEHOLDER, VK.BUTTON, VK.LABEL].indexOf(template.kind) != -1 {
+        if ([VK.PLACEHOLDER, VK.BUTTON, VK.LABEL].indexOf(template.kind) != -1) {
             label.id = "placeholder-" + template.name;
         } else {
             label.id = "label-" + template.name;
@@ -103,7 +107,7 @@ View.prototype.addWidget = function(parent, template) {
 };
 
 View.prototype.add = function(template) {
-    if not template.visible {
+    if (!template.visible) {
         return;
     }
     parent = null;
@@ -111,11 +115,11 @@ View.prototype.add = function(template) {
     if (template.parent) {
         parent = document.getElementById(template.parent.name);
     }
-    if parent == null {
+    if (parent == null) {
         parent = this.element;  // TODO: dit is verkeerd. recursief add aanroepen met template.parent
     }
 
-    if template.kind == VK.CONTAINER {
+    if (template.kind == VK.CONTAINER) {
         this.addContainer(parent, template);
     } else {
         this.addWidget(parent, template);
@@ -148,17 +152,18 @@ View.prototype.setTemplate = function(template) {
     BoxPanel
 */
 var BoxPanel = function(parent, name) {
-    this.itemPanel = null;
-    this.rightPanel = null;
+    this.init(parent, name);
 };
 
 BoxPanel.prototype = new View(parent, name);
 BoxPanel.prototype.constructor = BoxPanel;
 BoxPanel.prototype.ancestor = View.prototype
-BoxPanel.prototype.inheritanceTest = function() {
-    this.ancestor.inheritanceTest();
-    console.log('BoxPanel');
-}
+
+BoxPanel.prototype.init = function(parent, name) {
+    this.ancestor.init(parent, name);
+    this.itemPanel = null;
+    this.rightPanel = null;
+};
 
 BoxPanel.prototype.createDOM = function () {
     var element = this.ancestor.createDOM();
@@ -179,14 +184,3 @@ BoxPanel.prototype.addContainer = function(parent, template) {
 
 BoxPanel.prototype.addWidget = function(parent, template) {
 };
-
-var TestPanel = function(parent, name) {
-}
-
-TestPanel.prototype = new BoxPanel(parent, name);
-TestPanel.prototype.constructor = TestPanel;
-TestPanel.prototype.ancestor = BoxPanel.prototype
-TestPanel.prototype.inheritanceTest = function() {
-    this.ancestor.inheritanceTest();
-    console.log('TestPanel');
-}
