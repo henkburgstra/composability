@@ -44,7 +44,7 @@ var Template = function(kind, attributes) {
         }
         for (var i = 0; i < o.items.length; i++) {
             var item = o.items[i];
-            var t = Template();
+            var t = new Template();
             t.loadObject(item);
             this.items.push(t);
         }
