@@ -8,7 +8,7 @@ var VK = {
     "BUTTON": "BUTTON",
     "COMBO": "COMBO"
 }
-var templateProperties = ["parent", "kind", "name", "title", "value", "readonly", "visible"];
+var templateProperties = ["kind", "name", "title", "value", "readonly", "visible"];
 
 var Template = function(kind, attributes) {
     this.parent = null;
@@ -26,6 +26,29 @@ var Template = function(kind, attributes) {
         }
     }
     this.items = [];
+
+    this.loadString = function(s) {
+        this.loadObject(JSON.parse(s));
+    };
+
+    this.loadObject = function(o) {
+        for (var i = 0; i < templateProperties.length; i++) {
+            var name = templateProperties[i];
+            var v = o[name];
+            if (v != undefined) {
+                this[name] = v;
+            }
+        }
+        if (o.items == undefined) {
+            return
+        }
+        for (var i = 0; i < o.items.length; i++) {
+            var item = o.items[i];
+            var t = Template();
+            t.loadObject(item);
+            this.items.push(t);
+        }
+    };
 };
 
 var View = function(parent, name) {
