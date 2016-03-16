@@ -13,6 +13,8 @@ var templateProperties = ["kind", "name", "title", "value", "readonly", "visible
 var Template = function(kind, attributes) {
     this.parent = null;
     this.kind = kind;
+    this.visible = true;
+    this.readonly = false;
     this.attributes = {};
     if (attributes != undefined) {
         for (var key in attributes) {
