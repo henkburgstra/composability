@@ -190,6 +190,9 @@ BoxPanel.prototype.createDOM = function () {
     if (this.rightPanel == null && element != null) {
         this.rightPanel = document.createElement('div');
     }
+    // TODO: itemPanel en rightPanel moeten naast elkaar komen te staan.
+    element.appendChild(this.itemPanel);
+    element.appendChild(this.rightPanel);
     return element;
 }
 
@@ -197,6 +200,20 @@ BoxPanel.prototype.createPanels = function() {
 };
 
 BoxPanel.prototype.addContainer = function(parent, template) {
+    this.ancestor.add_container.call(this, parent, template);
+    if (template.display == Template.DISP_INLINE) {
+        self.addWidget(parent.itemPanel, template);
+        return;
+    } else if (template.display == Template.DISP_RIGHT) {
+        box = new BoxPanel(parent.rightPanel, template.name);
+        parent.rightPanel.add(box);
+    }
+    else {
+        box = new BoxPanel(parent, template.name);
+        parent.item_sizer.Add(box, 0, wx.BOTTOM | wx.EXPAND, 2);
+    }
+    box.setTemplate(template);
+    box.render();
 };
 
 BoxPanel.prototype.addWidget = function(parent, template) {
