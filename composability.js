@@ -200,9 +200,9 @@ BoxPanel.prototype.createPanels = function() {
 };
 
 BoxPanel.prototype.addContainer = function(parent, template) {
-    this.ancestor.add_container.call(this, parent, template);
+    this.ancestor.addContainer.call(this, parent, template);
     if (template.display == Template.DISP_INLINE) {
-        self.addWidget(parent.itemPanel, template);
+        this.addWidget(parent.itemPanel, template);
         return;
     } else if (template.display == Template.DISP_RIGHT) {
         box = new BoxPanel(parent.rightPanel, template.name);
