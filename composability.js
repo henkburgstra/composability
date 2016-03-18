@@ -17,6 +17,11 @@ var Template = function(kind, attributes) {
     this.readonly = false;
     this.attributes = {};
     if (attributes != undefined) {
+        this.loadAttributes(attributes);
+    }
+    this.items = [];
+
+    this.loadAttributes = function(attributes) {
         for (var key in attributes) {
             if (attributes.hasOwnProperty(key)) {
                 if (templateProperties.indexOf(key) == -1) {
@@ -26,8 +31,7 @@ var Template = function(kind, attributes) {
                 }
             }
         }
-    }
-    this.items = [];
+    };
 
     this.loadString = function(s) {
         this.loadObject(JSON.parse(s));
@@ -38,7 +42,11 @@ var Template = function(kind, attributes) {
             var name = templateProperties[i];
             var v = o[name];
             if (v != undefined) {
-                this[name] = v;
+                if (name == 'attributes') {
+                    this.loadAttributes(v);
+                } else {
+                    this[name] = v;
+                }
             }
         }
         if (o.items == undefined) {
