@@ -25,9 +25,9 @@ var Template = function(kind, attributes) {
         for (var key in attributes) {
             if (attributes.hasOwnProperty(key)) {
                 if (templateProperties.indexOf(key) == -1) {
-                    this[key] = attributes[key];
-                } else {
                     this.attributes[key] = attributes[key];
+                } else {
+                    this[key] = attributes[key];
                 }
             }
         }
@@ -38,15 +38,14 @@ var Template = function(kind, attributes) {
     };
 
     this.loadObject = function(o) {
-        for (var i = 0; i < templateProperties.length; i++) {
-            var name = templateProperties[i];
-            var v = o[name];
-            if (v != undefined) {
-                if (name == 'attributes') {
-                    this.loadAttributes(v);
-                } else {
-                    this[name] = v;
-                }
+        for (var key in o) {
+            if (!o.hasOwnProperty(key)) {
+                continue;
+            }
+            if (templateProperties.indexOf(key) == -1) {
+                this.attributes[key] = o[key];
+            } else {
+                this[key] = o[key];
             }
         }
         if (o.items == undefined) {
