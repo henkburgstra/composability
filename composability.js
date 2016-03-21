@@ -8,7 +8,7 @@ var VK = {
     "BUTTON": "BUTTON",
     "COMBO": "COMBO"
 }
-var templateProperties = ["kind", "name", "title", "value", "readonly", "visible"];
+var templateProperties = ["kind", "name", "title", "value", "readonly", "visible", "attributes", "items"];
 
 var Template = function(kind, attributes) {
     this.parent = null;
