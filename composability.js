@@ -45,6 +45,9 @@ var Template = function(kind, attributes) {
             if (templateProperties.indexOf(key) == -1) {
                 this.attributes[key] = o[key];
             } else {
+                if (key == "items") {
+                    continue;
+                }
                 this[key] = o[key];
             }
         }
@@ -224,4 +227,8 @@ BoxPanel.prototype.addContainer = function(parent, template) {
 };
 
 BoxPanel.prototype.addWidget = function(parent, template) {
+    // TODO: bepaal echte parent, bepaal label of niet
+    var widgets = this.createWidget(parent, template, true);
+    var label = widgets[0];
+    var widget = widgets[1];
 };
