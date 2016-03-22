@@ -91,22 +91,27 @@ View.prototype.createWidget = function(parent, template, withLabel) {
         widget = document.createElement('div');
         widget.id = template.name;
         widget.style.backgroundColor = parent.style.backgroundColor;
+        break;
     case VK.LABEL:
         widget = document.createElement('div');
         widget.id = template.name;
         widget.appendChild(document.createTextNode(template.title));
+        break;
     case VK.BUTTON:
         widget = document.createElement('button');
         widget.id = template.name;
         widget.appendChild(document.createTextNode(template.title));
+        break;
     case VK.DATE:
         widget = document.createElement('input');
         widget.type = 'date';
         widget.id = template.name;
+        break;
     case VK.TEXT:
         widget = document.createElement('input');
         widget.type = 'text';
         widget.id = template.name;
+        break;
     case VK.COMBO:
         widget = document.createElement('select');
         widget.id = template.name;
@@ -121,6 +126,7 @@ View.prototype.createWidget = function(parent, template, withLabel) {
             o.appendChild(document.createTextNode(l));
             widget.appendChild(o);
         }
+        break;
     default:
         widget = document.createElement('div');
         widget.id = template.name;
