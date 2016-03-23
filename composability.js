@@ -142,29 +142,29 @@ View.prototype.createWidget = function(parent, template, withLabel) {
 };
 
 
-View.prototype.addContainer = function(parent, template) {
+View.prototype.addContainer = function(parentView, template) {
 };
 
-View.prototype.addWidget = function(parent, template) {
+View.prototype.addWidget = function(parentView, template) {
 };
 
 View.prototype.add = function(template) {
     if (!template.visible) {
         return;
     }
-    parent = null;
+    var parentView = null;
 
     if (template.parent) {
-        parent = document.getElementById(template.parent.name);
+        parentView = views[template.parent.name];
     }
     if (parent == null) {
-        parent = this.element;  // TODO: dit is verkeerd. recursief add aanroepen met template.parent
+        parentView = this;  // TODO: dit is verkeerd. recursief add aanroepen met template.parent
     }
 
     if (template.kind == VK.CONTAINER) {
-        this.addContainer(parent, template);
+        this.addContainer(parentView, template);
     } else {
-        this.addWidget(parent, template);
+        this.addWidget(parentView, template);
     }
 };
 
@@ -220,24 +220,26 @@ BoxPanel.prototype.createDOM = function () {
 BoxPanel.prototype.createPanels = function() {
 };
 
-BoxPanel.prototype.addContainer = function(parent, template) {
-    this.ancestor.addContainer.call(this, parent, template);
+BoxPanel.prototype.addContainer = function(parentView, template) {
+    this.ancestor.addContainer.call(this, parentView, template);
     if (template.display == Template.DISP_INLINE) {
-        this.addWidget(parent.itemPanel, template);
+        // TODO: itemPanel moet een javascript object zijn i.p.v. een dom node
+        this.addWidget(parentView.itemPanel, template);
         return;
     } else if (template.display == Template.DISP_RIGHT) {
-        box = new BoxPanel(parent.rightPanel, template.name);
+        // TODO: rightPanel moet een javascript object zijn i.p.v. een dom node
+        box = new BoxPanel(parentView.rightPanel, template.name);
         parent.rightPanel.add(box);
     }
     else {
-        box = new BoxPanel(parent, template.name);
+        box = new BoxPanel(parentView, template.name);
         parent.item_sizer.Add(box, 0, wx.BOTTOM | wx.EXPAND, 2);
     }
     box.setTemplate(template);
     box.render();
 };
 
-BoxPanel.prototype.addWidget = function(parent, template) {
+BoxPanel.prototype.addWidget = function(parentView, template) {
     // TODO: bepaal echte parent, bepaal label of niet
     var widgets = this.createWidget(parent, template, true);
     var label = widgets[0];
