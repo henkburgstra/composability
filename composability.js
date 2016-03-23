@@ -9,6 +9,10 @@ var VK = {
     "COMBO": "COMBO"
 }
 var templateProperties = ["kind", "name", "title", "value", "readonly", "visible", "attributes", "items"];
+var views = {};
+var deleteView = function(name) {
+    delete views[name];
+}
 
 var Template = function(kind, attributes) {
     this.parent = null;
@@ -66,6 +70,7 @@ var Template = function(kind, attributes) {
 var View = function(parent, name) {
     this.parent = parent;
     this.name = name;
+    views[name] = this;
     this.template = null;
     this.element = null;
 };
