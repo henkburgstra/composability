@@ -70,6 +70,7 @@ var Template = function(kind, attributes) {
 var View = function(parent, name) {
     this.parent = parent;
     this.name = name;
+    this.type = 'View';
     views[name] = this;
     this.template = null;
     this.element = null;
@@ -194,6 +195,7 @@ View.prototype.setTemplate = function(template) {
 */
 var BoxPanel = function(parent, name) {
     this.ancestor.constructor.call(this, parent, name);
+    this.type = 'BoxPanel';
     this.itemPanel = new ItemPanel(this);
     this.rightPanel = new SubBoxPanel(this);
 };
@@ -231,13 +233,29 @@ BoxPanel.prototype.addContainer = function(parentView, template) {
 };
 
 BoxPanel.prototype.addWidget = function(parentView, template) {
-    // TODO: bepaal echte parent, bepaal label of niet
-    var widgets = this.createWidget(parent, template, true);
+    if (parentView == null) {
+        // TODO: foutmelding
+        return;
+    }
+    var widgetParent = null;
+    if (parentView.type == 'ItemPanel') {
+        widgetParent = parentView;
+    } else if (parentView.type == 'BoxPanel') {
+        widgetParent = parentView.itemPanel
+    } else {
+        // TODO: foutmelding
+        return;
+    }
+    // TODO: bepaal label of niet
+    var widgets = this.createWidget(widgetParent, template, true);
     var label = widgets[0];
     var widget = widgets[1];
+
+
 };
 
 var ItemPanel = function(parentView) {
+    this.type = 'ItemPanel';
     this.parentView = parentView;
     this.element = null;
     this.createDOM = function() {
@@ -247,6 +265,7 @@ var ItemPanel = function(parentView) {
 };
 
 var SubBoxPanel = function(parentView) {
+    this.type = 'SubBoxPanel';
     this.parentView = parentView;
     this.element = null;
     this.createDOM = function() {
