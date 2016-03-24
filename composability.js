@@ -157,7 +157,7 @@ View.prototype.add = function(template) {
     if (template.parent) {
         parentView = views[template.parent.name];
     }
-    if (parent == null) {
+    if (parentView == null) {
         parentView = this;  // TODO: dit is verkeerd. recursief add aanroepen met template.parent
     }
 
@@ -173,13 +173,12 @@ View.prototype.inheritanceTest = function() {
 }
 
 View.prototype.createDOM = function() {
-    var element = document.createElement('div');
-    element.id = this.name;
-    return element;
+    this.element = document.createElement('div');
+    this.element.id = this.name;
 }
 
 View.prototype.render = function() {
-    this.element = this.createDOM();
+    this.createDOM();
     this.parent.appendChild(this.element);
     for (var i = 0; i < this.template.items.length; i++) {
         this.add(this.template.items[i]);
@@ -195,8 +194,8 @@ View.prototype.setTemplate = function(template) {
 */
 var BoxPanel = function(parent, name) {
     this.ancestor.constructor.call(this, parent, name);
-    this.itemPanel = null;
-    this.rightPanel = null;
+    this.itemPanel = new ItemPanel(this);
+    this.rightPanel = new SubBoxPanel(this);
 };
 
 BoxPanel.prototype = new View(parent, name);
@@ -204,17 +203,11 @@ BoxPanel.prototype.constructor = BoxPanel;
 BoxPanel.prototype.ancestor = View.prototype
 
 BoxPanel.prototype.createDOM = function () {
-    var element = this.ancestor.createDOM.call(this);
-    if (this.itemPanel == null && element != null) {
-        this.itemPanel = document.createElement('div');
+    this.ancestor.createDOM.call(this);
+    if (this.element != null) {
+        this.itemPanel.createDOM();
+        this.rightPanel.createDOM();
     }
-    if (this.rightPanel == null && element != null) {
-        this.rightPanel = document.createElement('div');
-    }
-    // TODO: itemPanel en rightPanel moeten naast elkaar komen te staan.
-    element.appendChild(this.itemPanel);
-    element.appendChild(this.rightPanel);
-    return element;
 }
 
 BoxPanel.prototype.createPanels = function() {
@@ -223,11 +216,9 @@ BoxPanel.prototype.createPanels = function() {
 BoxPanel.prototype.addContainer = function(parentView, template) {
     this.ancestor.addContainer.call(this, parentView, template);
     if (template.display == Template.DISP_INLINE) {
-        // TODO: itemPanel moet een javascript object zijn i.p.v. een dom node
         this.addWidget(parentView.itemPanel, template);
         return;
     } else if (template.display == Template.DISP_RIGHT) {
-        // TODO: rightPanel moet een javascript object zijn i.p.v. een dom node
         box = new BoxPanel(parentView.rightPanel, template.name);
         parent.rightPanel.add(box);
     }
@@ -244,4 +235,22 @@ BoxPanel.prototype.addWidget = function(parentView, template) {
     var widgets = this.createWidget(parent, template, true);
     var label = widgets[0];
     var widget = widgets[1];
+};
+
+var ItemPanel = function(parentView) {
+    this.parentView = parentView;
+    this.element = null;
+    this.createDOM = function() {
+        this.element = document.createElement('div');
+        this.parentView.element.appendChild(this.element);
+    }
+};
+
+var SubBoxPanel = function(parentView) {
+    this.parentView = parentView;
+    this.element = null;
+    this.createDOM = function() {
+        this.element = document.createElement('div');
+        this.parentView.element.appendChild(this.element);
+    }
 };
