@@ -251,17 +251,27 @@ BoxPanel.prototype.addWidget = function(parentView, template) {
     var label = widgets[0];
     var widget = widgets[1];
 
-
+    if (label) {
+        widgetParent.add(label);
+    }
+    if (widget) {
+        widgetParent.add(widget);
+    }
 };
 
 var ItemPanel = function(parentView) {
     this.type = 'ItemPanel';
     this.parentView = parentView;
     this.element = null;
+    this.items = [];
     this.createDOM = function() {
         this.element = document.createElement('div');
         this.parentView.element.appendChild(this.element);
     }
+    this.add = function(item) {
+        this.items.push(item);
+        this.element.appendChild(item);
+    };
 };
 
 var SubBoxPanel = function(parentView) {
