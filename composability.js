@@ -217,7 +217,7 @@ BoxPanel.prototype.createPanels = function() {
 
 BoxPanel.prototype.createWidget = function(parent, template, withLabel) {
     var widgets = this.ancestor.createWidget.call(this, parent, template, withLabel);
-    if (template.kind == VK.TEMPLATE) {
+    if (template.kind == VK.CONTAINER) {
         var box = BoxPanel(this.element, template.name);
         box.setTemplate(template);
         widgets[1] = box;
