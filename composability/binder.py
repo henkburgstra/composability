@@ -2,7 +2,7 @@ import copy
 import uuid
 
 from .view import View
-from composability.util import strip_key
+from composability.util import DotDict, strip_key
 from composability.viewbuffer import BufferList
 
 
@@ -10,10 +10,10 @@ class Binder(object):
     """
     Binder binds data to a template
     """
-    def __init__(self, template):
+    def __init__(self, template, model_cls=DotDict):
         self.template = template
         self.selection = None
-        self.buffers = BufferList()
+        self.buffers = BufferList(data_cls=model_cls)
         self.binders = dict()  # sub binders
 
     def select(self, selection):

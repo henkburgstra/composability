@@ -36,9 +36,9 @@ class ViewBuffer(object):
 
 
 class BufferList(object):
-    def __init__(self):
+    def __init__(self, data_cls=DotDict):
         self._buffers = dict()
-        self.data = DotDict()
+        self.data = data_cls()
 
     def pathinfo_to_dict(self, p):
         d = self.data
