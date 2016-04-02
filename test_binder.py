@@ -3,11 +3,15 @@ import wx
 from composability.binder import Binder
 from composability.controller import Controller
 from composability.registry import Registry
-from composability.util import strip_key
+from composability.util import strip_key, DotDict
 from composability.select import Or, Select
 from composability.template import Template
 from composability.view import View
 from composability.wx_view import BoxPanel
+
+class PatientModel(DotDict):
+    def displaynaam(self):
+        return "%s, %s, %s" % (self.naam, self.geslacht, self.geboortedatum)
 
 class MockPatientBinder(Binder):
     def load_data(self, template, selection=None):
@@ -107,7 +111,7 @@ frame.SetSizer(sizer)
 ######################################################################
 r = Registry(".")
 view = BoxPanel(frame, name="patient")
-b = MockPatientBinder(r.get_template("patient"))
+b = MockPatientBinder(r.get_template("patient"), model_cls=PatientModel)
 mb = MockMetingBinder(r.get_template("meting"))
 mb.buffers = b.buffers  # zorg dat patient.behandelingen.metingen beschikbaar komt.
 controller = PatientController(b, view=view)
@@ -121,6 +125,7 @@ controller.load_view()
 ######################################################################
 
 patient = controller.patient
+print(patient.displaynaam())
 
 sizer.Add(view)
 frame.Show()
