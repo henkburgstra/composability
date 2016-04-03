@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{f9ba42d6-a511-4a3a-8598-4f06f56e8383}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>test_binder.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>{4c8142f7-cda4-4ae8-ab5d-e662413b7e7b}</InterpreterId>
+    <InterpreterVersion>2.7</InterpreterVersion>
+    <IsWindowsApplication>False</IsWindowsApplication>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="app.js" />
+    <Content Include="composability.js" />
+    <Content Include="composability_test.html" />
+    <Content Include="css\bootstrap-theme.min.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\theme.css" />
+    <Content Include="img\ascii-logo.gif" />
+    <Content Include="img\bootflat-ui-kit.jpg" />
+    <Content Include="img\design.png" />
+    <Content Include="img\divider.png" />
+    <Content Include="img\fast.png" />
+    <Content Include="img\feature-bootstrap.png" />
+    <Content Include="img\feature-css.png" />
+    <Content Include="img\feature-lightweight.png" />
+    <Content Include="img\feature-mobile.png" />
+    <Content Include="img\footer-logo.png" />
+    <Content Include="img\github.png" />
+    <Content Include="img\gradient.png" />
+    <Content Include="img\index.png" />
+    <Content Include="img\Jumbotron.jpg" />
+    <Content Include="img\logo-index.png" />
+    <Content Include="img\logo.png" />
+    <Content Include="img\photo-1.jpg" />
+    <Content Include="img\photo-2.jpg" />
+    <Content Include="img\photo-3.jpg" />
+    <Content Include="img\photo-4.jpg" />
+    <Content Include="img\prototyping.png" />
+    <Content Include="img\px_by_gre3g.png" />
+    <Content Include="img\share.gif" />
+    <Content Include="img\slider1.jpg" />
+    <Content Include="img\slider2.jpg" />
+    <Content Include="img\slider3.jpg" />
+    <Content Include="img\thumbnail-1.jpg" />
+    <Content Include="img\thumbnail-2.jpg" />
+    <Content Include="img\thumbnail-3.jpg" />
+    <Content Include="img\thumbnail-4.jpg" />
+    <Content Include="img\together.png" />
+    <Content Include="img\wild_flowers.png" />
+    <Content Include="plan.txt" />
+    <Content Include="todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="composability\binder.py" />
+    <Compile Include="composability\binder_unittests.py" />
+    <Compile Include="composability\controller.py" />
+    <Compile Include="composability\registry.py" />
+    <Compile Include="composability\select.py" />
+    <Compile Include="composability\template.py" />
+    <Compile Include="composability\transformers.py" />
+    <Compile Include="composability\util.py" />
+    <Compile Include="composability\util_unittests.py" />
+    <Compile Include="composability\view.py" />
+    <Compile Include="composability\viewbuffer.py" />
+    <Compile Include="composability\viewbuffer_unittests.py" />
+    <Compile Include="composability\wx_view.py" />
+    <Compile Include="composability\__init__.py" />
+    <Compile Include="demo.py" />
+    <Compile Include="test.py" />
+    <Compile Include="test2.py" />
+    <Compile Include="test_bezoek.py" />
+    <Compile Include="test_binder.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="composability" />
+    <Folder Include="css" />
+    <Folder Include="img" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{4c8142f7-cda4-4ae8-ab5d-e662413b7e7b}\2.7" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>
