@@ -41,5 +41,5 @@
 [x] refactor insert
 [ ] implementeer min-width en max-width: na Layout() van de parent alle kinderen controleren en
     zo nodig width of height aanpassen met SetSize().
-[ ] Refactoring om Template eigenschappen vast te leggen in een Attributes dictionary
+[x] Refactoring om Template eigenschappen vast te leggen in een Attributes dictionary
 [ ] Moet er een nieuwe klasse TemplateAttribute komen met een type en default value?
