@@ -99,27 +99,28 @@ func (a *Attribute) UnmarshalJSON(b []byte) (err error) {
 	return
 }
 
-func (a *Attribute) Default(name string) interface{} {
+func (a *Attribute) SetDefault(name string) interface{} {
 	switch name {
 	case "background_colour":
-		return "white"
+		a.value = "white"
 	case "colcount":
-		return 1
+		a.value = 1
 	case "colspan":
-		return 1
+		a.value = 1
 	case "rowspan":
-		return 1
+		a.value = 1
 	case "orientation":
-		return ORI_HORIZONTAL
+		a.value = ORI_HORIZONTAL
 	case "display":
-		return DISP_INLINE
+		a.value = DISP_INLINE
 	case "label_position":
-		return POS_ABOVE
+		a.value = POS_ABOVE
 	}
-	return nil
+	return a.value
 }
 
 type Template struct {
+	Parent     *Template
 	Kind       string                `json:"kind"`
 	Name       string                `json:"name"`
 	Title      string                `json:"title"`
@@ -137,4 +138,27 @@ func NewTemplate(kind string) *Template {
 	t.Items = make([]*Template, 0, 0)
 	t.items_map = make(map[string]*Template)
 	return t
+}
+
+func (t *Template) Attr(name string) *Attribute {
+	var attr *Attribute
+	if attr, ok := t.Attributes[name]; !ok {
+		attr = new(Attribute)
+		attr.SetDefault(name)
+	}
+	return attr
+}
+
+func (t *Template) SetAttr(name string, value interface{}) {
+	attr := new(Attribute)
+	attr.value = value
+}
+
+func (t *Template) Add(template *Template) {
+	if template.Attr("background_colour").String() == "" {
+		template.SetAttr("background_colour", t.Attr("background_colour").String())
+	}
+	template.Parent = t
+	t.Items = append(t.Items, template)
+	t.items_map[template.Name] = template
 }
