@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 type Display string
@@ -212,14 +213,12 @@ func (t *Template) Get(name string) *Template {
 	return t.items_map[name]
 }
 
-//    def get_parent_name(self):
-//        if self.parent:
-//            return self.parent.name
-//        if self.name is None:
-//            return ""
-//        return "/".join(self.name.split("/")[:-1])
 func (t *Template) GetParentName() string {
-	if t.Parent {
+	if t.Parent != nil {
 		return t.Parent.Name
 	}
+	if t.Name == "" {
+		return ""
+	}
+	return strings.Join(strings.Split(t.Name, "/"), "/")
 }
