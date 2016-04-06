@@ -167,24 +167,9 @@ func (t *Template) Add(template *Template) {
 	t.items_map[template.Name] = template
 }
 
-//    def insert(self, sibling_name, pos, template):
-//        items = self.items
-//        self.items = []
-//        self.items_dict = {}
-//        for item in items:
-//            if item.name == sibling_name:
-//                if pos == self.POS_BEFORE:
-//                    self.add(template)
-//                    self.add(item)
-//                else:
-//                    self.add(item)
-//                    self.add(template)
-//            else:
-//                self.add(item)
-
 func (t *Template) Insert(siblingName string, pos Position, template *Template) {
-	items := t.items
-	t.items = make([]*Template, 0, 0)
+	items := t.Items
+	t.Items = make([]*Template, 0, 0)
 	t.items_map = make(map[string]*Template)
 
 	for _, item := range items {
@@ -199,5 +184,42 @@ func (t *Template) Insert(siblingName string, pos Position, template *Template) 
 		} else {
 			t.Add(item)
 		}
+	}
+}
+
+func (t *Template) Delete(template *Template) {
+	if _, ok := t.items_map[template.Name]; ok {
+		delete(t.items_map, template.Name)
+		index := -1
+		for i, item := range t.Items {
+			if item.Name == template.Name {
+				index = i
+				break
+			}
+		}
+		if index != -1 {
+			t.Items = append(t.Items[:index], t.Items[index+1:]...)
+		}
+	}
+}
+
+func (t *Template) Clear() {
+	t.Items = make([]*Template, 0, 0)
+	t.items_map = make(map[string]*Template)
+}
+
+func (t *Template) Get(name string) *Template {
+	return t.items_map[name]
+}
+
+//    def get_parent_name(self):
+//        if self.parent:
+//            return self.parent.name
+//        if self.name is None:
+//            return ""
+//        return "/".join(self.name.split("/")[:-1])
+func (t *Template) GetParentName() string {
+	if t.Parent {
+		return t.Parent.Name
 	}
 }
