@@ -6,19 +6,23 @@ import (
 	"strconv"
 )
 
+type Display string
+type Orientation string
+type Position string
+
 const (
-	DISP_GROUP  = "GROUP"
-	DISP_INLINE = "INLINE"
-	DISP_UNDER  = "UNDER"
-	DISP_RIGHT  = "RIGHT"
+	DISP_GROUP  Display = "GROUP"
+	DISP_INLINE Display = "INLINE"
+	DISP_UNDER  Display = "UNDER"
+	DISP_RIGHT  Display = "RIGHT"
 
-	ORI_HORIZONTAL = "HORIZONTAL"
-	ORI_VERTICAL   = "VERTICAL"
+	ORI_HORIZONTAL Orientation = "HORIZONTAL"
+	ORI_VERTICAL   Orientation = "VERTICAL"
 
-	POS_ABOVE  = "ABOVE"
-	POS_LEFT   = "LEFT"
-	POS_BEFORE = "BEFORE"
-	POS_AFTER  = "AFTER"
+	POS_ABOVE  Position = "ABOVE"
+	POS_LEFT   Position = "LEFT"
+	POS_BEFORE Position = "BEFORE"
+	POS_AFTER  Position = "AFTER"
 )
 
 func StrToInt(s string) int64 {
@@ -161,4 +165,39 @@ func (t *Template) Add(template *Template) {
 	template.Parent = t
 	t.Items = append(t.Items, template)
 	t.items_map[template.Name] = template
+}
+
+//    def insert(self, sibling_name, pos, template):
+//        items = self.items
+//        self.items = []
+//        self.items_dict = {}
+//        for item in items:
+//            if item.name == sibling_name:
+//                if pos == self.POS_BEFORE:
+//                    self.add(template)
+//                    self.add(item)
+//                else:
+//                    self.add(item)
+//                    self.add(template)
+//            else:
+//                self.add(item)
+
+func (t *Template) Insert(siblingName string, pos Position, template *Template) {
+	items := t.items
+	t.items = make([]*Template, 0, 0)
+	t.items_map = make(map[string]*Template)
+
+	for _, item := range items {
+		if item.Name == siblingName {
+			if pos == POS_BEFORE {
+				t.Add(template)
+				t.Add(item)
+			} else {
+				t.Add(item)
+				t.Add(template)
+			}
+		} else {
+			t.Add(item)
+		}
+	}
 }
