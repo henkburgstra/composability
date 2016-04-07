@@ -19,23 +19,53 @@ func NewRegistry(defPath string) *Registry {
 	return r
 }
 
-func (r *Registry) LoadDefItem(def *Template) *Template {
-	return def
+func (r *Registry) IncludeDef(parent *Template) *Template {
+	return nil
 }
 
-func ReadError(filename string) {
-	panic(fmt.Sprintf("Can't open template %s", filename))
+func (r *Registry) ExtendDef(parent *Template) *Template {
+	return nil
 }
+
+func (r *Registry) LoadDef(def *Template) *Template {
+	extended := r.ExtendDef(def)
+	if extended != nil {
+		return extended
+	}
+	include := r.IncludeDef(def)
+	var template *Template
+	if include == nil {
+		template = NewTemplate(def.Kind)
+		template.Name = def.Name
+		template.Title = def.Title
+		template.Readonly = def.Readonly
+		template.Visible = def.Visible
+		for _, item := range def.Items {
+			template.Add(item)
+		}
+	} else {
+		template = include
+		template.Name = def.Name
+		template.Title = def.Title
+	}
+
+	for key, value := range def.Attributes {
+		template.Attributes[key] = value
+	}
+
+	return template
+}
+
 func (r *Registry) LoadTemplate(name string) *Template {
 	filename := path.Join(r.defPath, name)
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
-		ReadError(filename)
+		panic(fmt.Sprintf("Can't open template %s", filename))
 	}
-	var t Template
-	err = json.Unmarshal(data, &t)
+	t := new(Template)
+	err = json.Unmarshal(data, t)
 	if err != nil {
 		panic(fmt.Sprintf("Can't unmarshal %s: %s", filename, err.Error()))
 	}
-	return r.LoadDefItem(&t)
+	return r.LoadDef(t)
 }
