@@ -101,6 +101,9 @@ func (a *Attribute) String() string {
 
 func (a *Attribute) UnmarshalJSON(b []byte) (err error) {
 	err = json.Unmarshal(b, a.value)
+	if err != nil {
+		fmt.Println("** Attribute.UnmarshalJSON fout: ", err.Error())
+	}
 	return
 }
 

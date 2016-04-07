@@ -32,10 +32,10 @@ func (r *Registry) LoadTemplate(name string) *Template {
 	if err != nil {
 		ReadError(filename)
 	}
-	t := new(Template)
-	err = json.Unmarshal(data, t)
+	var t Template
+	err = json.Unmarshal(data, &t)
 	if err != nil {
-		ReadError(filename)
+		panic(fmt.Sprintf("Can't unmarshal %s: %s", filename, err.Error()))
 	}
-	return r.LoadDefItem(t)
+	return r.LoadDefItem(&t)
 }
