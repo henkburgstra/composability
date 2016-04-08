@@ -132,6 +132,7 @@ type Template struct {
 	Value      interface{}           `json:"value"`
 	Readonly   bool                  `json:"readonly"`
 	Visible    bool                  `json:"visible"`
+	Include    string                `json:"include"`
 	Attributes map[string]*Attribute `json:"attributes"`
 	Items      []*Template
 	items_map  map[string]*Template

@@ -19,8 +19,23 @@ func NewRegistry(defPath string) *Registry {
 	return r
 }
 
+func (r *Registry) GetTemplate(name string) *Template {
+	template := r.templates[name]
+	if template != nil {
+		return template
+	}
+	template = r.LoadTemplate(name)
+	if template != nil {
+		r.templates[name] = template
+	}
+	return template
+}
+
 func (r *Registry) IncludeDef(parent *Template) *Template {
-	return nil
+	if parent.Include == "" {
+		return nil
+	}
+	return r.GetTemplate(parent.Include)
 }
 
 func (r *Registry) ExtendDef(parent *Template) *Template {
