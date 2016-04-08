@@ -42,4 +42,4 @@
 [ ] implementeer min-width en max-width: na Layout() van de parent alle kinderen controleren en
     zo nodig width of height aanpassen met SetSize().
 [x] Refactoring om Template eigenschappen vast te leggen in een Attributes dictionary
-[x] Moet er een nieuwe klasse TemplateAttribute komen met een type en default value?
+[ ] Moet er een nieuwe klasse TemplateAttribute komen met een type en default value?
