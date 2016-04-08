@@ -140,6 +140,7 @@ type Template struct {
 func NewTemplate(kind string) *Template {
 	t := new(Template)
 	t.Kind = kind
+	t.Attributes = make(map[string]*Attribute)
 	t.Items = make([]*Template, 0, 0)
 	t.items_map = make(map[string]*Template)
 	return t
@@ -147,7 +148,9 @@ func NewTemplate(kind string) *Template {
 
 func (t *Template) Attr(name string) *Attribute {
 	var attr *Attribute
-	if attr, ok := t.Attributes[name]; !ok {
+	if _, ok := t.Attributes[name]; ok {
+		attr = t.Attributes[name]
+	} else {
 		attr = new(Attribute)
 		attr.SetDefault(name)
 	}

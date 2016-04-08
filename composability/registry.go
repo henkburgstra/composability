@@ -62,7 +62,7 @@ func (r *Registry) LoadTemplate(name string) *Template {
 	if err != nil {
 		panic(fmt.Sprintf("Can't open template %s", filename))
 	}
-	t := new(Template)
+	t := NewTemplate("container")
 	err = json.Unmarshal(data, t)
 	if err != nil {
 		panic(fmt.Sprintf("Can't unmarshal %s: %s", filename, err.Error()))
