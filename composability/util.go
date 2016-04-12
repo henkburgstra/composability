@@ -25,12 +25,12 @@ type PathInfo struct {
 	Keys  map[string]string
 }
 
-func NewPathInfo(path string) {
+func NewPathInfo(path string) *PathInfo {
 	pi := new(PathInfo)
 	pi.Items = make([]string, 0, 0)
 	pi.Keys = make(map[string]string)
 
-	parts := strings.Split("/")
+	parts := strings.Split(path, "/")
 	tail, parts := parts[len(parts)-1], parts[:len(parts)-1]
 
 	if tail != "" {
@@ -41,4 +41,19 @@ func NewPathInfo(path string) {
 		}
 	}
 
+	parts = Reverse(parts)
+	part := ""
+
+	for len(parts) > 0 {
+		part, parts = parts[len(parts)-1], parts[:len(parts)-1]
+		m := reItemKey.FindStringSubmatch(part)
+		if m != nil {
+			item := m[1]
+			key := m[3]
+			pi.Items = append(pi.Items, item)
+			pi.Keys[item] = key
+		}
+	}
+
+	return pi
 }
