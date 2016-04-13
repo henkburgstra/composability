@@ -1,6 +1,7 @@
 package composability
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -51,6 +52,7 @@ func NewPathInfo(path string) *PathInfo {
 	for len(parts) > 0 {
 		part, parts = parts[len(parts)-1], parts[:len(parts)-1]
 		m := reItemKey.FindStringSubmatch(part)
+		fmt.Println(m)
 		if m != nil {
 			item := m[1]
 			key := m[3]
