@@ -19,6 +19,10 @@ func Reverse(l []string) []string {
 	return l
 }
 
+func StripKey(path string) string {
+	return reItemKey.ReplaceAllString(path, "")
+}
+
 type PathInfo struct {
 	Field string
 	Items []string
