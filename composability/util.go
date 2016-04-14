@@ -1,13 +1,13 @@
 package composability
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 )
 
 var (
-	reItemKey  = regexp.MustCompile("\\([a-zA-Z0-9-]+\\)")
+	reItemKey  = regexp.MustCompile("(.+)(\\()([a-zA-Z0-9-]+)(\\))")
+	rePathKey  = regexp.MustCompile("\\([a-zA-Z0-9-]+\\)")
 	rePathInfo = regexp.MustCompile("(.+)(\\()([a-zA-Z0-9-]+)(\\))")
 	rePath     = regexp.MustCompile("([\\w-]*)(/|$)(.*)")
 )
@@ -21,7 +21,7 @@ func Reverse(l []string) []string {
 }
 
 func StripKey(path string) string {
-	return reItemKey.ReplaceAllString(path, "")
+	return rePathKey.ReplaceAllString(path, "")
 }
 
 type PathInfo struct {
@@ -52,8 +52,6 @@ func NewPathInfo(path string) *PathInfo {
 	for len(parts) > 0 {
 		part, parts = parts[len(parts)-1], parts[:len(parts)-1]
 		m := reItemKey.FindStringSubmatch(part)
-		fmt.Println(part)
-		fmt.Println(m)
 		if m != nil {
 			item := m[1]
 			key := m[3]
