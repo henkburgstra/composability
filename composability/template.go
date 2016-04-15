@@ -37,6 +37,12 @@ type Attribute struct {
 	value interface{}
 }
 
+func NewAttribute(value interface{}) *Attribute {
+	a := new(Attribute)
+	a.value = value
+	return a
+}
+
 func (a *Attribute) Int() int64 {
 	switch value := a.value.(type) {
 	case int:
