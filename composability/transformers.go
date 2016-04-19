@@ -1,6 +1,7 @@
 package composability
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 )
@@ -46,18 +47,38 @@ func NewTransformDate(kwargs map[string]*Attribute) *Transform {
 	m := t.Attributes.ToInt("_m")
 	d := t.Attributes.ToInt("_d")
 	if y == 0 || m == 0 || d == 0 {
-		m := reYyyymmdd.FindStringSubmatch(t.Attributes.ToString("value"))
-		if m != nil {
-			t.Attributes["_y"], _ = NewAttribute(strconv.Atoi(m[1]))
-			t.Attributes["_m"], _ = NewAttribute(strconv.Atoi(m[3]))
-			t.Attributes["_d"], _ = NewAttribute(strconv.Atoi(m[5]))
+		match := reYyyymmdd.FindStringSubmatch(t.Attributes.ToString("value"))
+		if match != nil {
+			y, _ = strconv.ParseInt(match[1], 10, 64)
+			m, _ = strconv.ParseInt(match[3], 10, 64)
+			d, _ = strconv.ParseInt(match[5], 10, 64)
+			t.Attributes["_y"] = NewAttribute(y)
+			t.Attributes["_m"] = NewAttribute(m)
+			t.Attributes["_d"] = NewAttribute(d)
+
+		} else {
+			match = reDdmmyyyy.FindStringSubmatch(t.Attributes.ToString("value"))
+			if match != nil {
+				y, _ = strconv.ParseInt(match[1], 10, 64)
+				m, _ = strconv.ParseInt(match[3], 10, 64)
+				d, _ = strconv.ParseInt(match[5], 10, 64)
+				t.Attributes["_y"] = NewAttribute(y)
+				t.Attributes["_m"] = NewAttribute(m)
+				t.Attributes["_d"] = NewAttribute(d)
+			}
 		}
 	}
 	t.Display = func() string {
-		return ""
+		return fmt.Sprintf("%02d-%02d-%04d",
+			t.Attributes.ToInt("_d"),
+			t.Attributes.ToInt("_m"),
+			t.Attributes.ToInt("_y"))
 	}
 	t.Store = func() string {
-		return ""
+		return fmt.Sprintf("%04d-%02d-%02d",
+			t.Attributes.ToInt("_y"),
+			t.Attributes.ToInt("_m"),
+			t.Attributes.ToInt("_d"))
 	}
 	return t
 }

@@ -42,7 +42,7 @@ func (al AttributeList) ToString(name string) string {
 	return ""
 }
 
-func (al AttributeList) ToInt(name string) int {
+func (al AttributeList) ToInt(name string) int64 {
 	if attr, ok := al[name]; ok {
 		return attr.Int()
 	}
