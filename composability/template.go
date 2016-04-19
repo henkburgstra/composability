@@ -33,6 +33,22 @@ func StrToInt(s string) int64 {
 	return 0
 }
 
+type AttributeList map[string]*Attribute
+
+func (al AttributeList) ToString(name string) string {
+	if attr, ok := al[name]; ok {
+		return attr.String()
+	}
+	return ""
+}
+
+func (al AttributeList) ToInt(name string) int {
+	if attr, ok := al[name]; ok {
+		return attr.Int()
+	}
+	return 0
+}
+
 type Attribute struct {
 	value interface{}
 }
