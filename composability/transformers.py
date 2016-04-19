@@ -56,7 +56,7 @@ class TransformDate(Transform):
         return self._y
 
     def display(self):
-        return "-".join(["%02d" % self._d, "%02d" % self._m, "%04d" % self._y])
+        return "%02d-%02d-%04d" % (self._d, self._m, self._y)
 
     def store(self):
-        return "-". join(["%04d" % self._y, "%02d" % self._m, "%02d" % self._d])
+        return "%04d-%02d-%02d" % (self._y, self._m, self._d)
