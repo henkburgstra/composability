@@ -43,15 +43,15 @@ func NewTransform(kwargs AttributeList) *Transform {
 
 func NewTransformDate(kwargs map[string]*Attribute) *Transform {
 	t := NewTransform(kwargs)
-	y := t.Attributes.ToInt("_y")
-	m := t.Attributes.ToInt("_m")
-	d := t.Attributes.ToInt("_d")
+	y := int(t.Attributes.ToInt("_y"))
+	m := int(t.Attributes.ToInt("_m"))
+	d := int(t.Attributes.ToInt("_d"))
 	if y == 0 || m == 0 || d == 0 {
 		match := reYyyymmdd.FindStringSubmatch(t.Attributes.ToString("value"))
 		if match != nil {
-			y, _ = strconv.ParseInt(match[1], 10, 64)
-			m, _ = strconv.ParseInt(match[3], 10, 64)
-			d, _ = strconv.ParseInt(match[5], 10, 64)
+			y, _ = strconv.Atoi(match[1])
+			m, _ = strconv.Atoi(match[3])
+			d, _ = strconv.Atoi(match[5])
 			t.Attributes["_y"] = NewAttribute(y)
 			t.Attributes["_m"] = NewAttribute(m)
 			t.Attributes["_d"] = NewAttribute(d)
@@ -59,9 +59,9 @@ func NewTransformDate(kwargs map[string]*Attribute) *Transform {
 		} else {
 			match = reDdmmyyyy.FindStringSubmatch(t.Attributes.ToString("value"))
 			if match != nil {
-				y, _ = strconv.ParseInt(match[1], 10, 64)
-				m, _ = strconv.ParseInt(match[3], 10, 64)
-				d, _ = strconv.ParseInt(match[5], 10, 64)
+				y, _ = strconv.Atoi(match[1])
+				m, _ = strconv.Atoi(match[3])
+				d, _ = strconv.Atoi(match[5])
 				t.Attributes["_y"] = NewAttribute(y)
 				t.Attributes["_m"] = NewAttribute(m)
 				t.Attributes["_d"] = NewAttribute(d)
