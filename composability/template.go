@@ -33,16 +33,16 @@ func StrToInt(s string) int64 {
 	return 0
 }
 
-type AttributeList map[string]*Attribute
+type Attrs map[string]*Attribute
 
-func (al AttributeList) ToString(name string) string {
+func (al Attrs) ToString(name string) string {
 	if attr, ok := al[name]; ok {
 		return attr.String()
 	}
 	return ""
 }
 
-func (al AttributeList) ToInt(name string) int64 {
+func (al Attrs) ToInt(name string) int64 {
 	if attr, ok := al[name]; ok {
 		return attr.Int()
 	}
@@ -53,7 +53,7 @@ type Attribute struct {
 	value interface{}
 }
 
-func NewAttribute(value interface{}) *Attribute {
+func Attr(value interface{}) *Attribute {
 	a := new(Attribute)
 	a.value = value
 	return a

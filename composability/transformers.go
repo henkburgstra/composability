@@ -20,12 +20,12 @@ var (
 )
 
 type Transform struct {
-	Attributes AttributeList
+	Attributes Attrs
 	Display    TransformDisplay
 	Store      TransformStore
 }
 
-func NewTransform(kwargs AttributeList) *Transform {
+func NewTransform(kwargs Attrs) *Transform {
 	t := new(Transform)
 	t.Attributes = kwargs
 	t.Display = func() string {
@@ -41,20 +41,22 @@ func NewTransform(kwargs AttributeList) *Transform {
 	return t
 }
 
-func NewTransformDate(kwargs map[string]*Attribute) *Transform {
-	t := NewTransform(kwargs)
-	y := int(t.Attributes.ToInt("_y"))
-	m := int(t.Attributes.ToInt("_m"))
-	d := int(t.Attributes.ToInt("_d"))
+type TransformDate Transform
+
+func NewTransformDate(kwargs map[string]*Attribute) *TransformDate {
+	t := (*TransformDate)(NewTransform(kwargs))
+	y := int(t.Attributes.ToInt("y"))
+	m := int(t.Attributes.ToInt("m"))
+	d := int(t.Attributes.ToInt("d"))
 	if y == 0 || m == 0 || d == 0 {
 		match := reYyyymmdd.FindStringSubmatch(t.Attributes.ToString("value"))
 		if match != nil {
 			y, _ = strconv.Atoi(match[1])
 			m, _ = strconv.Atoi(match[3])
 			d, _ = strconv.Atoi(match[5])
-			t.Attributes["_y"] = NewAttribute(y)
-			t.Attributes["_m"] = NewAttribute(m)
-			t.Attributes["_d"] = NewAttribute(d)
+			t.Attributes["y"] = Attr(y)
+			t.Attributes["m"] = Attr(m)
+			t.Attributes["d"] = Attr(d)
 
 		} else {
 			match = reDdmmyyyy.FindStringSubmatch(t.Attributes.ToString("value"))
@@ -62,23 +64,35 @@ func NewTransformDate(kwargs map[string]*Attribute) *Transform {
 				y, _ = strconv.Atoi(match[1])
 				m, _ = strconv.Atoi(match[3])
 				d, _ = strconv.Atoi(match[5])
-				t.Attributes["_y"] = NewAttribute(y)
-				t.Attributes["_m"] = NewAttribute(m)
-				t.Attributes["_d"] = NewAttribute(d)
+				t.Attributes["y"] = Attr(y)
+				t.Attributes["m"] = Attr(m)
+				t.Attributes["d"] = Attr(d)
 			}
 		}
 	}
 	t.Display = func() string {
 		return fmt.Sprintf("%02d-%02d-%04d",
-			t.Attributes.ToInt("_d"),
-			t.Attributes.ToInt("_m"),
-			t.Attributes.ToInt("_y"))
+			t.Attributes.ToInt("d"),
+			t.Attributes.ToInt("m"),
+			t.Attributes.ToInt("y"))
 	}
 	t.Store = func() string {
 		return fmt.Sprintf("%04d-%02d-%02d",
-			t.Attributes.ToInt("_y"),
-			t.Attributes.ToInt("_m"),
-			t.Attributes.ToInt("_d"))
+			t.Attributes.ToInt("y"),
+			t.Attributes.ToInt("m"),
+			t.Attributes.ToInt("d"))
 	}
 	return t
+}
+
+func (t *TransformDate) d() int {
+	return int(t.Attributes.ToInt("d"))
+}
+
+func (t *TransformDate) m() int {
+	return int(t.Attributes.ToInt("m"))
+}
+
+func (t *TransformDate) y() int {
+	return int(t.Attributes.ToInt("y"))
 }
