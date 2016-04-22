@@ -121,6 +121,10 @@ func (a *Attribute) String() string {
 	return ""
 }
 
+func (a *Attribute) Value() interface{} {
+	return a.value
+}
+
 func (a *Attribute) UnmarshalJSON(b []byte) (err error) {
 	err = json.Unmarshal(b, &a.value)
 	return

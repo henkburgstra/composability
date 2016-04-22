@@ -5,11 +5,11 @@ import (
 	"testing"
 )
 
-func PassTransform(t *Transform) {
+func PassTransform(t ITransform) {
 	fmt.Printf("success")
 }
 
 func TestTransformDate(t *testing.T) {
-	x := NewTransformDate(Attrs{"y": Attr(1965), "m": Attr(8), "d": Attr(22)})
-	PassTransform((*Transform)(x))
+	x := NewTransformDate("22-08-1965")
+	PassTransform(x)
 }
