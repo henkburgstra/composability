@@ -53,9 +53,9 @@ func NewTransformDate(value interface{}) *TransformDate {
 	} else {
 		match = reDdmmyyyy.FindStringSubmatch((*Attribute)(t.Transform).String())
 		if match != nil {
-			t.y, _ = strconv.Atoi(match[1])
+			t.y, _ = strconv.Atoi(match[5])
 			t.m, _ = strconv.Atoi(match[3])
-			t.d, _ = strconv.Atoi(match[5])
+			t.d, _ = strconv.Atoi(match[1])
 		}
 	}
 	return t
